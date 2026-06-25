@@ -1,11 +1,9 @@
-// components/layout/Sidebar.tsx
-
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuUsers, LuListChecks, LuClipboardList } from "react-icons/lu";
+import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuUsers, LuListChecks, LuClipboardList, LuX } from "react-icons/lu";
 
 interface NavItem {
   label: string;
@@ -50,19 +48,19 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
 
       <aside
         className={`
-          fixed inset-y-0 left-0 z-50 w-60 transform bg-white border-r border-gray-200
+          fixed inset-y-0 left-0 z-50 w-60 transform bg-surface border-r border-border
           flex flex-col transition-transform duration-200 ease-in-out
           lg:translate-x-0 lg:static lg:z-auto
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-          <span className="text-base font-bold text-slate-900 tracking-tight">NexBank</span>
+        <div className="px-6 py-5 border-b border-border flex items-center justify-between">
+          <span className="text-base font-bold text-primary tracking-tight">NexBank</span>
           <button
             onClick={onClose}
-            className="lg:hidden text-gray-400 hover:text-gray-600 text-lg leading-none"
+            className="lg:hidden text-muted hover:text-foreground text-lg leading-none"
           >
-            ✕
+            <LuX />
           </button>
         </div>
 
@@ -78,8 +76,8 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
                   flex items-center gap-3 px-3 py-2 rounded-lg text-sm
                   font-medium transition-colors duration-100
                   ${active
-                    ? "bg-slate-900 text-white"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-slate-900"
+                    ? "bg-primary text-white"
+                    : "text-muted hover:bg-muted/10 hover:text-foreground"
                   }
                 `}
               >
@@ -90,12 +88,12 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
           })}
         </nav>
 
-        <div className="px-4 py-4 border-t border-gray-200">
-          <p className="text-xs text-gray-500 truncate mb-2">{userName}</p>
+        <div className="px-4 py-4 border-t border-border">
+          <p className="text-xs text-muted truncate mb-2">{userName}</p>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className="w-full text-left text-sm text-red-600 hover:text-red-700
-                       font-medium px-2 py-1.5 rounded-lg hover:bg-red-50
+            className="w-full text-left text-sm text-danger hover:text-danger
+                       font-medium px-2 py-1.5 rounded-lg hover:bg-danger/10
                        transition-colors duration-100"
           >
             Sign out

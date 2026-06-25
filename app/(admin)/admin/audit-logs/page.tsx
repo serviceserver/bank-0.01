@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { TopBar } from "@/components/layout/TopBar";
@@ -81,94 +81,93 @@ export default function AuditLogsPage() {
                           overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[640px]">
-              <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
-                  {["Action", "Entity", "Performed By", "Date", ""].map(
-                    (h) => (
-                      <th
-                        key={h}
-                        className="text-left px-4 py-3 text-xs font-medium
-                                   text-gray-500 uppercase tracking-wide"
-                      >
-                        {h}
-                      </th>
-                    )
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {logs.map((log) => (
-                  <>
-                    <tr
-                      key={log.id}
-                      className="border-b border-gray-100 last:border-0
-                                 hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-4 py-3">
-                        <Badge
-                          variant={actionVariant[log.action] ?? "neutral"}
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-100">
+                    {["Action", "Entity", "Performed By", "Date", ""].map(
+                      (h) => (
+                        <th
+                          key={h}
+                          className="text-left px-4 py-3 text-xs font-medium
+                                     text-gray-500 uppercase tracking-wide"
                         >
-                          {actionLabel[log.action] ?? log.action}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">
-                        <span className="font-medium text-slate-700">
-                          {log.entity}
-                        </span>
-                        <span className="text-gray-400 font-mono text-xs
-                                         ml-1.5">
-                          {log.entityId.slice(0, 8)}…
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <p className="text-slate-700 font-medium">
-                          {log.actor.fullName}
-                        </p>
-                        <p className="text-gray-400 text-xs">
-                          {log.actor.email}
-                        </p>
-                      </td>
-                      <td className="px-4 py-3 text-gray-400 text-xs">
-                        {formatDate(log.createdAt)}
-                      </td>
-                      <td className="px-4 py-3">
-                        {log.metadata && (
-                          <button
-                            onClick={() =>
-                              setExpanded(
-                                expanded === log.id ? null : log.id
-                              )
-                            }
-                            className="text-xs text-blue-600 hover:underline
-                                       font-medium"
-                          >
-                            {expanded === log.id ? "Hide" : "Details"}
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-
-                    {/* Expandable metadata row */}
-                    {expanded === log.id && log.metadata && (
+                          {h}
+                        </th>
+                      )
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {logs.map((log) => (
+                    <React.Fragment key={log.id}>
                       <tr
-                        key={`${log.id}-meta`}
-                        className="bg-gray-50 border-b border-gray-100"
+                        className="border-b border-gray-100 last:border-0
+                                   hover:bg-gray-50 transition-colors"
                       >
-                        <td colSpan={5} className="px-4 py-3">
-                          <pre
-                            className="text-xs text-slate-600 bg-white
-                                       border border-gray-200 rounded-lg
-                                       p-3 overflow-x-auto"
+                        <td className="px-4 py-3">
+                          <Badge
+                            variant={actionVariant[log.action] ?? "neutral"}
                           >
-                            {JSON.stringify(log.metadata, null, 2)}
-                          </pre>
+                            {actionLabel[log.action] ?? log.action}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3 text-gray-600">
+                          <span className="font-medium text-slate-700">
+                            {log.entity}
+                          </span>
+                          <span className="text-gray-400 font-mono text-xs
+                                           ml-1.5">
+                            {log.entityId.slice(0, 8)}…
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="text-slate-700 font-medium">
+                            {log.actor.fullName}
+                          </p>
+                          <p className="text-gray-400 text-xs">
+                            {log.actor.email}
+                          </p>
+                        </td>
+                        <td className="px-4 py-3 text-gray-400 text-xs">
+                          {formatDate(log.createdAt)}
+                        </td>
+                        <td className="px-4 py-3">
+                          {log.metadata && (
+                            <button
+                              onClick={() =>
+                                setExpanded(
+                                  expanded === log.id ? null : log.id
+                                )
+                              }
+                              className="text-xs text-blue-600 hover:underline
+                                         font-medium"
+                            >
+                              {expanded === log.id ? "Hide" : "Details"}
+                            </button>
+                          )}
                         </td>
                       </tr>
-                    )}
-                  </>
-                ))}
-              </tbody>
-            </table>
+
+                      {/* Expandable metadata row */}
+                      {expanded === log.id && log.metadata && (
+                        <tr
+                          className="bg-gray-50 border-b border-gray-100"
+                        >
+                          <td colSpan={5} className="px-4 py-3">
+                            <pre
+                              className="text-xs text-slate-600 bg-white
+                                       border border-gray-200 rounded-lg
+                                       p-3 overflow-x-auto"
+                            >
+                              {JSON.stringify(log.metadata, null, 2)}
+                            </pre>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Pagination */}

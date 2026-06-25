@@ -19,7 +19,7 @@ export function Card({ children, className = "", padding = "md" }: CardProps) {
   return (
     <div
       className={`
-        bg-white border border-gray-200 rounded-xl shadow-sm
+        bg-surface border border-border rounded-xl shadow-sm
         ${paddings[padding]} ${className}
       `}
     >

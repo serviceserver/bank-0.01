@@ -8,11 +8,11 @@ interface BadgeProps {
 }
 
 const variants: Record<BadgeVariant, string> = {
-  success: "bg-green-50 text-green-700 border-green-200",
-  danger:  "bg-red-50 text-red-700 border-red-200",
-  warning: "bg-yellow-50 text-yellow-700 border-yellow-200",
-  neutral: "bg-gray-100 text-gray-600 border-gray-200",
-  info:    "bg-blue-50 text-blue-700 border-blue-200",
+  success: "bg-success/10 text-success border-success/20",
+  danger:  "bg-danger/10 text-danger border-danger/20",
+  warning: "bg-warning/10 text-warning border-warning/20",
+  neutral: "bg-muted/10 text-muted border-border",
+  info:    "bg-accent/10 text-accent border-accent/20",
 };
 
 export function Badge({ variant = "neutral", children }: BadgeProps) {
