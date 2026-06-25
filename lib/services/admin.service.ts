@@ -26,6 +26,7 @@ export async function getAllUsers(page = 1, limit = 20) {
           select: {
             id: true,
             accountNumber: true,
+            routingNumber: true,
             type: true,
             status: true,
             balance: true,
@@ -68,6 +69,7 @@ export async function getUserById(userId: string) {
         select: {
           id: true,
           accountNumber: true,
+          routingNumber: true,
           type: true,
           status: true,
           balance: true,
