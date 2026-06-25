@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { formatDate } from "@/lib/utils/formatDate";
 import { getTransactionDirection } from "@/lib/utils/transactionMeta";
+import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 
 interface TransactionRowProps {
   transaction: {
@@ -42,22 +43,22 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
 
   return (
     <div className="flex items-center justify-between py-3.5 border-b
-                    border-gray-100 last:border-0">
+                    border-border last:border-0">
       {/* Left */}
       <div className="flex items-center gap-3">
         <div
           className={`
             w-9 h-9 rounded-full flex items-center justify-center text-sm
-            ${isCredit ? "bg-green-50 text-green-600" : "bg-red-50 text-red-600"}
+            ${isCredit ? "bg-success/10 text-success" : "bg-danger/10 text-danger"}
           `}
         >
-          {isCredit ? "↓" : "↑"}
+          {isCredit ? <FiArrowDown size={14} /> : <FiArrowUp size={14} />}
         </div>
         <div>
-          <p className="text-sm font-medium text-slate-800">
+          <p className="text-sm font-medium text-foreground">
             {typeLabel[transaction.type] ?? transaction.type}
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-muted">
             {transaction.description ?? "—"}
           </p>
         </div>
@@ -67,7 +68,7 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
       <div className="text-right flex flex-col gap-1 items-end">
         <p
           className={`text-sm font-semibold
-            ${isCredit ? "text-green-600" : "text-red-600"}`}
+            ${isCredit ? "text-success" : "text-danger"}`}
         >
           {isCredit ? "+" : "-"}{formatCurrency(transaction.amount)}
         </p>
@@ -75,7 +76,7 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
           <Badge variant={statusVariant[transaction.status] ?? "neutral"}>
             {transaction.status}
           </Badge>
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-muted">
             {formatDate(transaction.createdAt)}
           </span>
         </div>

@@ -41,6 +41,10 @@ export async function getAllUsers(page = 1, limit = 20) {
     users: users.map((u) => ({
       ...u,
       createdAt: u.createdAt.toISOString(),
+      accounts: u.accounts.map((acc) => ({
+        ...acc,
+        balance: acc.balance.toNumber(),
+      })),
     })),
     pagination: {
       total,
@@ -85,7 +89,7 @@ export async function getUserById(userId: string) {
     createdAt: user.createdAt.toISOString(),
     accounts: user.accounts.map((acc) => ({
       ...acc,
-      createdAt: acc.createdAt.toISOString(),
+      balance: acc.balance.toNumber(),
     })),
   };
 }

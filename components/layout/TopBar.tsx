@@ -2,6 +2,7 @@
 
 "use client";
 
+import { LuMenu } from "react-icons/lu";
 import { useSidebar } from "./sidebar-context";
 
 interface TopBarProps {
@@ -18,15 +19,15 @@ export function TopBar({ title, subtitle, action }: TopBarProps) {
       <div className="flex items-center gap-3">
         <button
           onClick={openSidebar}
-          className="lg:hidden p-2 -ml-2 rounded-lg text-gray-600 hover:bg-gray-100"
+          className="lg:hidden p-2 -ml-2 rounded-lg text-muted hover:bg-muted/10"
           aria-label="Open menu"
         >
-          <span className="text-xl leading-none">☰</span>
+          <LuMenu size={20} />
         </button>
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
+          <h1 className="text-xl font-semibold text-foreground">{title}</h1>
           {subtitle && (
-            <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>
+            <p className="text-sm text-muted mt-0.5">{subtitle}</p>
           )}
         </div>
       </div>

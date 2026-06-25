@@ -35,13 +35,13 @@ export function AccountCard({
     <div
       onClick={onClick}
       className={`
-        bg-white border border-gray-200 rounded-xl p-5
+        bg-surface border border-border rounded-xl p-5
         flex flex-col gap-3 shadow-sm
-        ${onClick ? "cursor-pointer hover:border-slate-400 transition-colors duration-150" : ""}
+        ${onClick ? "cursor-pointer hover:border-primary/40 transition-colors duration-150" : ""}
       `}
     >
       <div className="flex items-center justify-between">
-        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+        <p className="text-xs font-medium text-muted uppercase tracking-wide">
           {typeLabel[type] ?? type}
         </p>
         <Badge variant={statusVariant[status] ?? "neutral"}>
@@ -49,11 +49,11 @@ export function AccountCard({
         </Badge>
       </div>
 
-      <p className="text-2xl font-bold text-slate-900">
+      <p className="text-2xl font-bold text-foreground">
         {formatCurrency(balance)}
       </p>
 
-      <p className="text-sm text-gray-400 font-mono tracking-widest">
+      <p className="text-sm text-muted font-mono tracking-widest">
         {accountNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3")}
       </p>
     </div>
