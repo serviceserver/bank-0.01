@@ -149,6 +149,9 @@ export async function getAllTransactions(
     transactions: transactions.map((t) => ({
       ...t,
       createdAt: t.createdAt.toISOString(),
+      amount: t.amount.toNumber(),
+      balanceBefore: t.balanceBefore.toNumber(),
+      balanceAfter: t.balanceAfter.toNumber(),
     })),
     pagination: {
       total,

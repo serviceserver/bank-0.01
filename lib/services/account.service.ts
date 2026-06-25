@@ -30,10 +30,15 @@ export async function createAccount(userId: string, type: AccountType) {
 // ─── Get All Accounts for a User ──────────────────────────────────
 
 export async function getUserAccounts(userId: string) {
-  return prisma.account.findMany({
+  const accounts = await prisma.account.findMany({
     where: { userId },
     orderBy: { createdAt: "asc" },
   });
+
+  return accounts.map((acc) => ({
+    ...acc,
+    balance: acc.balance.toNumber(),
+  }));
 }
 
 // ─── Get Single Account (with ownership check) ────────────────────
@@ -46,7 +51,10 @@ export async function getAccountById(accountId: string, userId: string) {
   if (!account) throw new Error("Account not found.");
   if (account.userId !== userId) throw new Error("Unauthorized.");
 
-  return account;
+  return {
+    ...account,
+    balance: account.balance.toNumber(),
+  };
 }
 
 // ─── Get Account by Account Number (for transfers) ────────────────
