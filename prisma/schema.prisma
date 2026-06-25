@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum AccountType {
+  CHECKING
+  SAVINGS
+  MONEY_MARKET
+  CD
+}
+
+enum AccountStatus {
+  ACTIVE
+  FROZEN
+  CLOSED
+  DORMANT
+}
+
+enum TransactionType {
+  ACH_CREDIT
+  ACH_DEBIT
+  WIRE_INCOMING
+  WIRE_OUTGOING
+  CHECK_DEPOSIT
+  ATM_WITHDRAWAL
+  TRANSFER
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REVERSED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  fullName      String
+  email         String    @unique
+  phone         String    @unique
+  passwordHash  String
+  role          Role      @default(CUSTOMER)
+  ssn           String?   @unique
+  dob           String?
+  address       String?
+  city          String?
+  state         String?
+  zip           String?
+  isVerified    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  auditLogs     AuditLog[]
+}
+
+model Account {
+  id              String        @id @default(cuid())
+  accountNumber   String        @unique
+  routingNumber   String        @db.VarChar(9) @default("021000021")
+  type            AccountType
+  status          AccountStatus @default(ACTIVE)
+  balance         Decimal       @default(0.00) @db.Decimal(18, 2)
+  currency        String        @default("USD")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+
+  sentTransactions      Transaction[] @relation("SentTransactions")
+  receivedTransactions  Transaction[] @relation("ReceivedTransactions")
+}
+
+model Transaction {
+  id              String            @id @default(cuid())
+  reference       String            @unique @default(cuid())
+  type            TransactionType
+  status          TransactionStatus @default(PENDING)
+  amount          Decimal           @db.Decimal(18, 2)
+  balanceBefore   Decimal           @db.Decimal(18, 2)
+  balanceAfter    Decimal           @db.Decimal(18, 2)
+  description     String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  fromAccountId   String?
+  fromAccount     Account?          @relation("SentTransactions", fields: [fromAccountId], references: [id])
+
+  toAccountId     String?
+  toAccount       Account?          @relation("ReceivedTransactions", fields: [toAccountId], references: [id])
+}
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  action      String
+  entity      String
+  entityId    String
+  metadata    Json?
+  performedBy String
+  actor       User      @relation(fields: [performedBy], references: [id])
+  createdAt   DateTime  @default(now())
+}

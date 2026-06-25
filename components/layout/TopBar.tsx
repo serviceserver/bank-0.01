@@ -1,0 +1,38 @@
+// components/layout/TopBar.tsx
+
+"use client";
+
+import { useSidebar } from "./sidebar-context";
+
+interface TopBarProps {
+  title: string;
+  subtitle?: string;
+  action?: React.ReactNode;
+}
+
+export function TopBar({ title, subtitle, action }: TopBarProps) {
+  const { openSidebar } = useSidebar();
+
+  return (
+    <div className="flex items-start sm:items-center justify-between gap-4 mb-6">
+      <div className="flex items-center gap-3">
+        <button
+          onClick={openSidebar}
+          className="lg:hidden p-2 -ml-2 rounded-lg text-gray-600 hover:bg-gray-100"
+          aria-label="Open menu"
+        >
+          <span className="text-xl leading-none">☰</span>
+        </button>
+        <div>
+          <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
+          {subtitle && (
+            <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>
+          )}
+        </div>
+      </div>
+      {action && (
+        <div className="flex-shrink-0">{action}</div>
+      )}
+    </div>
+  );
+}
