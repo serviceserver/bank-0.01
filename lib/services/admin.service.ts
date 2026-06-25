@@ -37,7 +37,10 @@ export async function getAllUsers(page = 1, limit = 20) {
   ]);
 
   return {
-    users,
+    users: users.map((u) => ({
+      ...u,
+      createdAt: u.createdAt.toISOString(),
+    })),
     pagination: {
       total,
       page,
@@ -75,7 +78,14 @@ export async function getUserById(userId: string) {
   });
 
   if (!user) throw new Error("User not found.");
-  return user;
+  return {
+    ...user,
+    createdAt: user.createdAt.toISOString(),
+    accounts: user.accounts.map((acc) => ({
+      ...acc,
+      createdAt: acc.createdAt.toISOString(),
+    })),
+  };
 }
 
 // ─── Get All Transactions (system-wide) ───────────────────────────
@@ -130,7 +140,10 @@ export async function getAllTransactions(
   ]);
 
   return {
-    transactions,
+    transactions: transactions.map((t) => ({
+      ...t,
+      createdAt: t.createdAt.toISOString(),
+    })),
     pagination: {
       total,
       page,
@@ -297,7 +310,10 @@ export async function getAuditLogs(page = 1, limit = 20) {
   ]);
 
   return {
-    logs,
+    logs: logs.map((l) => ({
+      ...l,
+      createdAt: l.createdAt.toISOString(),
+    })),
     pagination: {
       total,
       page,

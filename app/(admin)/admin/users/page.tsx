@@ -31,8 +31,11 @@ interface AdminUser {
   }[];
 }
 
+import { useRouter } from "next/navigation";
+
 export default function AdminUsersPage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [page, setPage] = useState(1);
@@ -96,8 +99,9 @@ export default function AdminUsersPage() {
                   {users.map((user) => (
                     <tr
                       key={user.id}
+                      onClick={() => router.push(`/admin/users/${user.id}`)}
                       className="border-b border-gray-100 last:border-0
-                                 hover:bg-gray-50 transition-colors"
+                                 hover:bg-gray-50 transition-colors cursor-pointer"
                     >
                       <td className="px-4 py-3">
                         <p className="font-medium text-slate-700">
