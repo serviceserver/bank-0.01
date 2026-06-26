@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const parsed = registerSchema.safeParse(body);
 
     if (!parsed.success) {
-      const message = parsed.error.errors[0].message;
+      const message = parsed.error.issues[0].message;
       return fail(message);
     }
 

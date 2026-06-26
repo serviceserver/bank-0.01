@@ -86,7 +86,7 @@ export default async function AccountDetailPage({ params }: AccountDetailPagePro
             <div>
               <p className="text-xs text-gray-500 mb-1">Created</p>
               <p className="text-slate-900 font-medium">
-                {new Date(account.createdAt).toLocaleDateString("en-US", {
+                {new Date(account.createdAt!).toLocaleDateString("en-US", {
                   year: "numeric", month: "short", day: "numeric",
                 })}
               </p>

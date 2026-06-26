@@ -40,7 +40,7 @@ export default async function DashboardPage() {
             userName={session.user.name ?? session.user.email ?? ""}>
 
             <TopBar
-                title={`Good day, ${session.user.name?.split(" ")[0]} 👋`}
+                title={`Welcome ${session.user.name?.split(" ")[0]}`}
                 subtitle="Here's your financial overview"
                 action={
                     <Link href="/dashboard/transfer">
@@ -124,7 +124,7 @@ export default async function DashboardPage() {
                             description="Your transaction history will appear here."
                         />
                     ) : (
-                        recentTxns.transactions.map((txn: Transaction) => (
+                        recentTxns.transactions.map((txn) => (
                             <TransactionRow
                                 key={txn.id}
                                 transaction={txn as Transaction}

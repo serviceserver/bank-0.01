@@ -25,6 +25,7 @@ type Account = {
   routingNumber: string;
   status: "ACTIVE" | "FROZEN" | "CLOSED" | "DORMANT" | string;
   balance: number;
+  createdAt?: Date;
 };
 
 type AdminUser = {
