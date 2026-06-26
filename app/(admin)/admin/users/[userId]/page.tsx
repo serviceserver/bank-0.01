@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { PageWrapper } from "@/components/layout/PageWrapper";
@@ -13,7 +13,6 @@ import { Spinner } from "@/components/ui/Spinner";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatDate } from "@/lib/utils/formatDate";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
-import { Pagination } from "@/lib/interface";
 
 interface AdminUser {
   id: string;
@@ -45,21 +44,46 @@ export default function AdminUserDetailPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  async function fetchUser() {
-    setLoading(true);
-    setError(null);
-    const res = await fetch(`/api/admin/users/${userId}`);
-    const data = await res.json();
-    setLoading(false);
-    if (data.success) {
-      setUser(data.data);
-    } else {
-      setError(data.message ?? "Failed to load user.");
-    }
-  }
-
   useEffect(() => {
-    if (userId) fetchUser();
+    if (!userId) return;
+
+    let isActive = true;
+
+    const loadUser = async () => {
+      startTransition(() => {
+        setLoading(true);
+        setError(null);
+      });
+
+      try {
+        const res = await fetch(`/api/admin/users/${userId}`, { cache: "no-store" });
+        const data = await res.json();
+
+        if (!isActive) return;
+
+        startTransition(() => {
+          setLoading(false);
+          if (data.success) {
+            setUser(data.data);
+          } else {
+            setError(data.message ?? "Failed to load user.");
+          }
+        });
+      } catch {
+        if (!isActive) return;
+
+        startTransition(() => {
+          setLoading(false);
+          setError("Network error.");
+        });
+      }
+    };
+
+    void loadUser();
+
+    return () => {
+      isActive = false;
+    };
   }, [userId]);
 
   async function handleVerify() {
@@ -261,8 +285,7 @@ export default function AdminUserDetailPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-              <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[640px]">
+                <table className="w-full text-sm min-w-160">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-100">
                       {["Account", "Type", "Status", "Balance", "Actions"].map((h) => (
@@ -304,47 +327,47 @@ export default function AdminUserDetailPage() {
                         <td className="px-4 py-3 font-medium text-slate-700">
                           {formatCurrency(acc.balance)}
                         </td>
-                         <td className="px-4 py-3">
-                           <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                             {acc.status === "ACTIVE" ? (
-                               <Button
-                                 size="sm"
-                                 variant="secondary"
-                                 disabled={actionLoading === acc.id}
-                                 onClick={() => handleAccountStatus(acc.id, "FROZEN")}
-                               >
-                                 Freeze
-                               </Button>
-                             ) : (
-                               <Button
-                                 size="sm"
-                                 variant="secondary"
-                                 disabled={actionLoading === acc.id}
-                                 onClick={() => handleAccountStatus(acc.id, "ACTIVE")}
-                               >
-                                 Unfreeze
-                               </Button>
-                             )}
-                             <Button
-                               size="sm"
-                               variant="secondary"
-                               disabled={actionLoading === acc.id}
-                               onClick={() => handleCredit(acc.id)}
-                               className="whitespace-nowrap"
-                             >
-                               Credit
-                             </Button>
-                             <Button
-                               size="sm"
-                               variant="secondary"
-                               disabled={actionLoading === acc.id}
-                               onClick={() => handleDebit(acc.id)}
-                               className="whitespace-nowrap"
-                             >
-                               Debit
-                             </Button>
-                           </div>
-                         </td>
+                        <td className="px-4 py-3">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                            {acc.status === "ACTIVE" ? (
+                              <Button
+                                size="sm"
+                                variant="secondary"
+                                disabled={actionLoading === acc.id}
+                                onClick={() => handleAccountStatus(acc.id, "FROZEN")}
+                              >
+                                Freeze
+                              </Button>
+                            ) : (
+                              <Button
+                                size="sm"
+                                variant="secondary"
+                                disabled={actionLoading === acc.id}
+                                onClick={() => handleAccountStatus(acc.id, "ACTIVE")}
+                              >
+                                Unfreeze
+                              </Button>
+                            )}
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              disabled={actionLoading === acc.id}
+                              onClick={() => handleCredit(acc.id)}
+                              className="whitespace-nowrap"
+                            >
+                              Credit
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              disabled={actionLoading === acc.id}
+                              onClick={() => handleDebit(acc.id)}
+                              className="whitespace-nowrap"
+                            >
+                              Debit
+                            </Button>
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
