@@ -107,9 +107,9 @@ export default function AccountsPage() {
       {/* Create Account Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center
-                        justify-center z-50 px-4">
+                        justify-center z-50 px-4 py-6">
           <div className="bg-white rounded-xl border border-gray-200
-                          shadow-lg w-full max-w-sm p-6 flex flex-col gap-4">
+                          shadow-lg w-full max-w-md p-6 flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
             <h2 className="text-base font-semibold text-slate-900">
               Open New Account
             </h2>

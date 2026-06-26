@@ -53,19 +53,22 @@ export default async function AccountDetailPage({ params }: AccountDetailPagePro
         }
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-1">
-          <AccountCard
-            accountNumber={account.accountNumber}
-            type={account.type}
-            balance={account.balance.toString()}
-            status={account.status}
-          />
-        </div>
+      <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
 
-        <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5">
+        {/* Account header section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="lg:col-span-1">
+            <AccountCard
+              accountNumber={account.accountNumber}
+              type={account.type}
+              balance={account.balance.toString()}
+              status={account.status}
+            />
+          </div>
+
+          <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5">
           <h3 className="text-sm font-semibold text-slate-800 mb-3">Account Info</h3>
-          <div className="grid  grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-xs text-gray-500 mb-1">Account Number</p>
               <p className="font-mono text-slate-900 tracking-widest">
@@ -114,6 +117,8 @@ export default async function AccountDetailPage({ params }: AccountDetailPagePro
           )}
         </div>
       </div>
+      </div>
+
     </PageWrapper>
   );
 }

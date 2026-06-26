@@ -3,9 +3,9 @@
 "use client";
 
 import { useState } from "react";
-
 import { Sidebar } from "./Sidebar";
 import { SidebarContext } from "./sidebar-context";
+import { MobileNav } from "./MobileNav";
 
 interface PageWrapperProps {
   children: React.ReactNode;
@@ -18,17 +18,23 @@ export function PageWrapper({ children, role, userName }: PageWrapperProps) {
 
   return (
     <SidebarContext.Provider value={{ openSidebar: () => setSidebarOpen(true) }}>
-      <div className="flex min-h-screen bg-background">
+      <div className="flex min-h-screen bg-gray-50">
+        {/* Desktop sidebar */}
         <Sidebar
           role={role}
           userName={userName}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
         />
-        <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8 w-full min-w-0">
+
+        {/* Main content */}
+        <main className="flex-1 lg:ml-0 min-w-0 px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           {children}
         </main>
       </div>
+
+      {/* Mobile bottom nav */}
+      <MobileNav />
     </SidebarContext.Provider>
   );
 }

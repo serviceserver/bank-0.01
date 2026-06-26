@@ -172,9 +172,9 @@ export default function AdminUserDetailPage() {
     <PageWrapper role="ADMIN" userName={session.user.name ?? ""}>
       <button
         onClick={() => router.push("/admin/users")}
-        className="mb-4 text-sm text-gray-500 hover:text-gray-700"
+        className="mb-4 text-sm text-gray-500 hover:text-gray-700 inline-flex items-center gap-1"
       >
-        ← Back to Users
+        ← Back
       </button>
 
       <TopBar
@@ -211,7 +211,7 @@ export default function AdminUserDetailPage() {
                 {user.role}
               </Badge>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
               <div>
                 <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">Full Name</p>
                 <p className="text-slate-700 font-medium">{user.fullName}</p>
@@ -261,7 +261,8 @@ export default function AdminUserDetailPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+              <div className="overflow-x-auto">
+              <table className="w-full text-sm min-w-[640px]">
                   <thead>
                     <tr className="bg-gray-50 border-b border-gray-100">
                       {["Account", "Type", "Status", "Balance", "Actions"].map((h) => (
@@ -303,45 +304,47 @@ export default function AdminUserDetailPage() {
                         <td className="px-4 py-3 font-medium text-slate-700">
                           {formatCurrency(acc.balance)}
                         </td>
-                        <td className="px-4 py-3">
-                          <div className="flex flex-wrap gap-2">
-                            {acc.status === "ACTIVE" ? (
-                              <Button
-                                size="sm"
-                                variant="secondary"
-                                disabled={actionLoading === acc.id}
-                                onClick={() => handleAccountStatus(acc.id, "FROZEN")}
-                              >
-                                Freeze
-                              </Button>
-                            ) : (
-                              <Button
-                                size="sm"
-                                variant="secondary"
-                                disabled={actionLoading === acc.id}
-                                onClick={() => handleAccountStatus(acc.id, "ACTIVE")}
-                              >
-                                Unfreeze
-                              </Button>
-                            )}
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              disabled={actionLoading === acc.id}
-                              onClick={() => handleCredit(acc.id)}
-                            >
-                              Credit
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              disabled={actionLoading === acc.id}
-                              onClick={() => handleDebit(acc.id)}
-                            >
-                              Debit
-                            </Button>
-                          </div>
-                        </td>
+                         <td className="px-4 py-3">
+                           <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                             {acc.status === "ACTIVE" ? (
+                               <Button
+                                 size="sm"
+                                 variant="secondary"
+                                 disabled={actionLoading === acc.id}
+                                 onClick={() => handleAccountStatus(acc.id, "FROZEN")}
+                               >
+                                 Freeze
+                               </Button>
+                             ) : (
+                               <Button
+                                 size="sm"
+                                 variant="secondary"
+                                 disabled={actionLoading === acc.id}
+                                 onClick={() => handleAccountStatus(acc.id, "ACTIVE")}
+                               >
+                                 Unfreeze
+                               </Button>
+                             )}
+                             <Button
+                               size="sm"
+                               variant="secondary"
+                               disabled={actionLoading === acc.id}
+                               onClick={() => handleCredit(acc.id)}
+                               className="whitespace-nowrap"
+                             >
+                               Credit
+                             </Button>
+                             <Button
+                               size="sm"
+                               variant="secondary"
+                               disabled={actionLoading === acc.id}
+                               onClick={() => handleDebit(acc.id)}
+                               className="whitespace-nowrap"
+                             >
+                               Debit
+                             </Button>
+                           </div>
+                         </td>
                       </tr>
                     ))}
                   </tbody>

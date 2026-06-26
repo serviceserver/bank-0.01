@@ -42,13 +42,13 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-slate-900">NexBank</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">NexBank</h1>
           <p className="text-sm text-gray-500 mt-1">Create your account</p>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col gap-4">
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 flex flex-col gap-4">
           <Input
             label="Full Name"
             placeholder="Jane Smith"

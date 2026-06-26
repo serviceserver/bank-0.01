@@ -162,7 +162,7 @@ export default function AdminTransactionsPage() {
         <>
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-160">
+              <table className="w-full text-sm min-w-[640px]">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100">
                     {["Type", "From", "To", "Amount", "Status", "Date"].map(

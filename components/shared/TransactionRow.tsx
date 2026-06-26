@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/Badge";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { formatDate } from "@/lib/utils/formatDate";
 import { getTransactionDirection } from "@/lib/utils/transactionMeta";
-import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 
 interface TransactionRowProps {
   transaction: {
@@ -20,21 +19,11 @@ interface TransactionRowProps {
   accountId: string;
 }
 
-const statusVariant: Record<string, "success" | "danger" | "warning" | "neutral"> = {
-  SUCCESS: "success",
-  FAILED:  "danger",
-  PENDING: "warning",
-  REVERSED:"neutral",
-};
-
-const typeLabel: Record<string, string> = {
-  ACH_CREDIT:     "ACH Credit",
-  ACH_DEBIT:      "ACH Debit",
-  WIRE_INCOMING:  "Wire In",
-  WIRE_OUTGOING:  "Wire Out",
-  CHECK_DEPOSIT:  "Check Deposit",
-  ATM_WITHDRAWAL: "ATM Withdrawal",
-  TRANSFER:       "Transfer",
+const statusLabel: Record<string, string> = {
+  SUCCESS:  "Success",
+  PENDING:  "Pending",
+  FAILED:   "Failed",
+  REVERSED: "Reversed",
 };
 
 export function TransactionRow({ transaction, accountId }: TransactionRowProps) {
@@ -42,44 +31,40 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
   const isCredit = direction === "credit";
 
   return (
-    <div className="flex items-center justify-between py-3.5 border-b
-                    border-border last:border-0">
-      {/* Left */}
-      <div className="flex items-center gap-3">
-        <div
-          className={`
-            w-9 h-9 rounded-full flex items-center justify-center text-sm
-            ${isCredit ? "bg-success/10 text-success" : "bg-danger/10 text-danger"}
-          `}
-        >
-          {isCredit ? <FiArrowDown size={14} /> : <FiArrowUp size={14} />}
-        </div>
-        <div>
-          <p className="text-sm font-medium text-foreground">
-            {typeLabel[transaction.type] ?? transaction.type}
-          </p>
-          <p className="text-xs text-muted">
-            {transaction.description ?? "—"}
-          </p>
-        </div>
+    <div className="flex items-center justify-between gap-4 px-5 py-3.5 border-b border-gray-100 last:border-0 group hover:bg-gray-50/60 transition-colors cursor-default">
+      {/* Left: date + description */}
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-medium text-gray-900 truncate">
+          {transaction.description ?? transaction.type}
+        </p>
+        <p className="text-xs text-gray-500 mt-0.5">{formatDate(transaction.createdAt)}</p>
       </div>
 
-      {/* Right */}
-      <div className="text-right flex flex-col gap-1 items-end">
-        <p
-          className={`text-sm font-semibold
-            ${isCredit ? "text-success" : "text-danger"}`}
-        >
+      {/* Center: status */}
+      <div className="hidden sm:block flex-shrink-0">
+        <span className={`
+          inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium
+          ${transaction.status === "SUCCESS"
+            ? "bg-green-50 text-green-700 border border-green-200"
+            : transaction.status === "PENDING"
+            ? "bg-amber-50 text-amber-700 border border-amber-200"
+            : transaction.status === "FAILED"
+            ? "bg-red-50 text-red-700 border border-red-200"
+            : "bg-gray-100 text-gray-600 border border-gray-200"
+          }
+        `}>
+          {statusLabel[transaction.status] ?? transaction.status}
+        </span>
+      </div>
+
+      {/* Right: amount */}
+      <div className="flex-shrink-0 text-right">
+        <p className={`
+          text-sm font-semibold tabular-nums
+          ${isCredit ? "text-gray-900" : "text-gray-900"}
+        `}>
           {isCredit ? "+" : "-"}{formatCurrency(transaction.amount)}
         </p>
-        <div className="flex items-center gap-2">
-          <Badge variant={statusVariant[transaction.status] ?? "neutral"}>
-            {transaction.status}
-          </Badge>
-          <span className="text-xs text-muted">
-            {formatDate(transaction.createdAt)}
-          </span>
-        </div>
       </div>
     </div>
   );
