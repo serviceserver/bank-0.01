@@ -305,11 +305,18 @@ export default function AdminUserDetailPage() {
                         key={acc.id}
                         className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
                       >
-                        <td className="px-4 py-3">
-                          <span className="font-mono text-xs text-gray-500">
-                            {acc.accountNumber}
-                          </span>
-                        </td>
+<td className="px-4 py-3">
+                           <span
+                             className="font-mono text-xs text-blue-600 hover:underline cursor-pointer"
+                             onClick={() =>
+                               router.push(
+                                 `/admin/accounts/${acc.id}`
+                               )
+                             }
+                           >
+                             {acc.accountNumber}
+                           </span>
+                         </td>
                         <td className="px-4 py-3 text-gray-600">{acc.type}</td>
                         <td className="px-4 py-3">
                           <Badge

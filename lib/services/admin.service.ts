@@ -272,6 +272,83 @@ export async function manualDebit(
   });
 }
 
+// ─── Get Admin Account By ID ────────────────────────────────────────
+
+export async function getAdminAccountById(accountId: string) {
+  const account = await prisma.account.findUnique({
+    where: { id: accountId },
+    select: {
+      id: true,
+      accountNumber: true,
+      routingNumber: true,
+      type: true,
+      status: true,
+      balance: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          fullName: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  if (!account) throw new Error("Account not found.");
+  return {
+    ...account,
+    balance: account.balance.toNumber(),
+    createdAt: account.createdAt.toISOString(),
+  };
+}
+
+// ─── Get Account Transactions (Admin) ────────────────────────────────
+
+export async function getAccountTransactions(
+  accountId: string,
+  page = 1,
+  limit = 20
+) {
+  const skip = (page - 1) * limit;
+
+  const [transactions, total] = await prisma.$transaction([
+    prisma.transaction.findMany({
+      where: {
+        OR: [{ fromAccountId: accountId }, { toAccountId: accountId }],
+      },
+      skip,
+      take: limit,
+      orderBy: { createdAt: "desc" },
+      include: {
+        fromAccount: { select: { accountNumber: true } },
+        toAccount: { select: { accountNumber: true } },
+      },
+    }),
+    prisma.transaction.count({
+      where: {
+        OR: [{ fromAccountId: accountId }, { toAccountId: accountId }],
+      },
+    }),
+  ]);
+
+  return {
+    transactions: transactions.map((t) => ({
+      ...t,
+      createdAt: t.createdAt.toISOString(),
+      amount: t.amount.toNumber(),
+      balanceBefore: t.balanceBefore.toNumber(),
+      balanceAfter: t.balanceAfter.toNumber(),
+    })),
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+}
+
 // ─── Verify User (KYC) ─────────────────────────────────────────────
 
 export async function verifyUser(userId: string, adminId: string) {
