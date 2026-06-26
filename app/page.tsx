@@ -5,6 +5,7 @@ import { FiCheck, FiLock, FiZap, FiPieChart, FiStar } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Navbar } from "@/components/layout/Navbar";
+import Image from "next/image";
 
 const CARDS = [
   {
@@ -61,8 +62,9 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative bg-[#002a5c] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#002a5c] via-[#003d80] to-[#002a5c] opacity-90" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+        <div className="absolute inset-0 bg-linear-to-br from-[#002a5c] via-[#003d80] to-[#002a5c] opacity-90" />
+        <Image src="/banner.jpg" alt="Hero background" fill className="object-cover object-center opacity-50 z-20" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 z-30">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-xl">
               <p className="text-sm font-semibold tracking-wider text-blue-200 uppercase mb-4">
@@ -71,12 +73,12 @@ export default function Home() {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight">
                 Don&rsquo;t live life without it.
               </h1>
-              <p className="mt-6 text-lg text-blue-100 leading-relaxed">
-                Experience the financial services platform built for how you live and work — from everyday spending to long-term goals.
+              <p className="mt-6 text-lg text-white leading-relaxed">
+                Experience the financial services platform built for how you live and work - from everyday spending to long-term goals.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <Link href="/register">
-                  <Button size="lg" className="bg-white text-[#002a5c] hover:bg-blue-50 border border-white">
+                  <Button size="lg" variant="secondary" className="bg-white text-blue-900 hover:bg-blue-50 border border-white">
                     Apply now
                   </Button>
                 </Link>
@@ -91,7 +93,7 @@ export default function Home() {
             {/* Premium card mockup */}
             <div className="hidden lg:flex justify-center">
               <div className="relative w-full max-w-md aspect-[1.586/1]">
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 rounded-2xl shadow-2xl transform rotate-3 opacity-90" />
+                <div className="absolute inset-0 bg-linear-to-br from-amber-400 via-yellow-500 to-amber-600 rounded-2xl shadow-2xl transform rotate-3 opacity-90" />
                 <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 flex flex-col justify-between">
                   <div>
                     <p className="text-xs font-medium text-white/80 uppercase tracking-widest">
@@ -106,7 +108,7 @@ export default function Home() {
                       •••• •••• •••• 4289
                     </p>
                     <div className="flex items-center justify-between mt-4">
-                      <p className="text-xs text-white/80">MEMBER SINCE 2026</p>
+                      <p className="text-xs text-white/80">MEMBER SINCE 2000</p>
                       <p className="text-xs text-white/80">VALID THRU 12/28</p>
                     </div>
                   </div>
@@ -141,7 +143,7 @@ export default function Home() {
                 padding="none"
                 className="group overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className={`h-40 bg-gradient-to-br ${card.gradient} p-6 flex flex-col justify-between`}>
+                <div className={`h-40 bg-linear-to-br ${card.gradient} p-6 flex flex-col justify-between`}>
                   <p className={`text-xs font-medium uppercase tracking-widest ${card.accent}`}>
                     {card.meta}
                   </p>
