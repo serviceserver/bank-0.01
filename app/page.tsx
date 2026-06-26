@@ -11,18 +11,21 @@ const CARDS = [
   {
     title: "NexBank® Gold",
     meta: "For everyday spending",
+    image:"/gold.JPG",
     gradient: "from-amber-500 to-yellow-600",
     accent: "text-amber-100",
   },
   {
     title: "NexBank Platinum",
     meta: "Premium travel & perks",
+    image:"/primium.JPG",
     gradient: "from-slate-800 to-slate-900",
     accent: "text-slate-200",
   },
   {
     title: "NexBank Everyday",
     meta: "No annual fee",
+    image: "/everyday.JPG",
     gradient: "from-[#002a5c] to-[#004080]",
     accent: "text-blue-100",
   },
@@ -49,7 +52,7 @@ const FEATURES = [
   },
   {
     icon: FiStar,
-    title: " premium rewards",
+    title: "premium rewards",
     description:
       "Earn points on every purchase and redeem for travel, shopping, or cash back.",
   },
@@ -143,11 +146,13 @@ export default function Home() {
                 padding="none"
                 className="group overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className={`h-40 bg-linear-to-br ${card.gradient} p-6 flex flex-col justify-between`}>
-                  <p className={`text-xs font-medium uppercase tracking-widest ${card.accent}`}>
+                <div className={`h-40 relative bg-linear-to-br ${card.gradient} p-6 flex flex-col justify-between`}>
+                  <Image src={card.image} alt="Hero background" fill className="object-cover object-top z-10" />
+                  <div className="absolute inset-0 bg-black/45 z-20" />
+                  <p className={`text-xs font-medium uppercase tracking-widest z-30 ${card.accent}`}>
                     {card.meta}
                   </p>
-                  <p className={`text-3xl font-semibold ${card.accent}`}>{card.title}</p>
+                  <p className={`text-3xl font-semibold z-30 ${card.accent}`}>{card.title}</p>
                 </div>
                 <div className="p-6">
                   <p className="text-sm text-gray-600 leading-relaxed">
@@ -254,7 +259,7 @@ export default function Home() {
               <Button size="lg">Apply now</Button>
             </Link>
             <Link href="/login">
-              <Button variant="secondary" size="lg">Log in</Button>
+              <Button variant="secondary" size="lg" className="bg-white text-blue-900 hover:bg-blue-50 border border-blue-900" >Log in</Button>
             </Link>
           </div>
         </div>
