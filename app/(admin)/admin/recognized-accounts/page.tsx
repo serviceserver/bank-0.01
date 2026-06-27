@@ -41,7 +41,7 @@ export default function RecognizedAccountsPage() {
   const [showAdd, setShowAdd] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
-  const [bankName, setBankName] = useState("NexBank");
+  const [bankName, setBankName] = useState("Titan Bank");
   const [resolveInfo, setResolveInfo] = useState<{
     accountHolder: string;
     type: string;
@@ -114,7 +114,7 @@ export default function RecognizedAccountsPage() {
       if (data.success) {
         setAccountNumber("");
         setAccountHolder("");
-        setBankName("NexBank");
+        setBankName("Titan Bank");
         setResolveInfo(null);
         setShowAdd(false);
         fetchAccounts();
@@ -286,7 +286,7 @@ export default function RecognizedAccountsPage() {
                   setShowAdd(false);
                   setAccountNumber("");
                   setAccountHolder("");
-                  setBankName("NexBank");
+                  setBankName("Titan Bank");
                   setResolveInfo(null);
                   setResolveError("");
                 }}

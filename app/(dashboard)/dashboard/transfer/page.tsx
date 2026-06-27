@@ -54,7 +54,7 @@ export default function TransferPage() {
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState<{ reference: string; createdAt: string } | null>(null);
 
-  const BANK_NAME = "NexBank";
+  const BANK_NAME = "Titan Bank";
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -332,7 +332,7 @@ export default function TransferPage() {
                                </p>
                                <p className="text-xs text-muted-foreground">
                                  ....{acc.accountNumber.slice(-4)} • {acc.type.replace("_", " ")}
-                                 {acc.bankName && acc.bankName !== "NexBank" && ` • ${acc.bankName}`}
+                                 {acc.bankName && acc.bankName !== "Titan Bank" && ` • ${acc.bankName}`}
                                </p>
                              </div>
                            </button>
@@ -493,7 +493,7 @@ export default function TransferPage() {
               <Card className="p-5 bg-muted/20 border-border">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Need help?</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Transfers between NexBank accounts are instant. For external transfers, processing times may vary.
+                  Transfers between Titan Bank accounts are instant. For external transfers, processing times may vary.
                 </p>
               </Card>
             </div>

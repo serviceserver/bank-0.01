@@ -1,4 +1,4 @@
-markdown# NexBank
+Titan Bank
 
 A full-stack banking simulation built with Next.js 16, Prisma, and PostgreSQL.
 Clean architecture with service-layer isolation, atomic transactions, audit
@@ -234,8 +234,8 @@ logging, email notifications, and a complete admin panel.
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/your-username/nexbank.git
-cd nexbank
+git clone https://github.com/your-username/titanbank.git
+cd titanbank
 npm install
 ```
 
@@ -245,7 +245,7 @@ Create a `.env` file in the root:
 
 ```bash
 # Database (Neon or any PostgreSQL connection string)
-DATABASE_URL="postgresql://user:password@host/nexbank?sslmode=require"
+DATABASE_URL="postgresql://user:password@host/titanbank?sslmode=require"
 
 # NextAuth
 NEXTAUTH_SECRET="your-secret-here"   # openssl rand -base64 32
@@ -281,9 +281,9 @@ This creates the following accounts:
 
 | Role     | Email                  | Password        |
 |----------|------------------------|-----------------|
-| Admin    | admin@nexbank.com      | Admin@1234      |
-| Customer | john@nexbank.com       | Customer@1234   |
-| Customer | ada@nexbank.com        | Customer@1234   |
+| Admin    | admin@titanbank.com    | Admin@1234      |
+| Customer | john@titanbank.com     | Customer@1234   |
+| Customer | ada@titanbank.com      | Customer@1234   |
 
 ### 5. Run the development server
 

@@ -64,7 +64,7 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
               <span className="text-[#081628] font-bold text-base leading-none">N</span>
             </div>
             <div className="leading-tight">
-              <p className="text-white font-semibold text-sm tracking-wide">NexBank</p>
+              <p className="text-white font-semibold text-sm tracking-wide">TitanBank</p>
               <p className="text-blue-200/80 text-[10px] uppercase tracking-widest">Premium Banking</p>
             </div>
           </Link>

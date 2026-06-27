@@ -665,7 +665,7 @@ export async function addExternalRecognizedAccount(
     data: {
       externalAccountNumber: accountNumber,
       externalAccountHolder: accountHolder,
-      externalBankName: bankName || "NexBank",
+      externalBankName: bankName || "Titan Bank",
       addedBy: adminId,
     },
     select: {

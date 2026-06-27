@@ -9,21 +9,21 @@ import Image from "next/image";
 
 const CARDS = [
   {
-    title: "NexBank® Gold",
+    <title: "Titan Bank™ Gold",
     meta: "For everyday spending",
     image:"/gold.JPG",
     gradient: "from-amber-500 to-yellow-600",
     accent: "text-amber-100",
   },
   {
-    title: "NexBank Platinum",
+    title: "Titan Bank Platinum",
     meta: "Premium travel & perks",
     image:"/primium.JPG",
     gradient: "from-slate-800 to-slate-900",
     accent: "text-slate-200",
   },
   {
-    title: "NexBank Everyday",
+    title: "Titan Bank Everyday",
     meta: "No annual fee",
     image: "/everyday.JPG",
     gradient: "from-[#002a5c] to-[#004080]",
@@ -100,7 +100,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 flex flex-col justify-between">
                   <div>
                     <p className="text-xs font-medium text-white/80 uppercase tracking-widest">
-                      NexBank
+                      Titan Bank
                     </p>
                     <p className="text-lg font-semibold text-white mt-1">
                       Gold Card
@@ -222,12 +222,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why NexBank */}
+      {/* Why Titan Bank */}
       <section id="rewards" className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
-              The NexBank difference.
+              The Titan Bank difference.
             </h2>
             <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
               More than a bank. A partner in your financial life with tools, perks, and service you won&rsquo;t find anywhere else.
@@ -307,7 +307,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-sm text-muted-foreground">© 2026 NexBank. All rights reserved.</p>
+              <p className="text-sm text-muted-foreground">© 2026 Titan Bank. All rights reserved.</p>
               <div className="flex items-center gap-6 text-sm text-muted-foreground">
                 <Link href="/login" className="hover:text-primary">Log in</Link>
                 <Link href="/register" className="hover:text-primary">Apply now</Link>

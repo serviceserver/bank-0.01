@@ -40,7 +40,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">NexBank</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Titan Bank</h1>
           <p className="text-sm text-gray-500 mt-1">Sign in to your account</p>
         </div>
 

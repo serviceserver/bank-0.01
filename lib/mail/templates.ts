@@ -13,7 +13,7 @@ export function depositTemplate(data: {
                 padding:32px 24px;background:#fff;border:1px solid #e5e7eb;
                 border-radius:12px;">
       <h2 style="font-size:18px;font-weight:700;color:#0f172a;margin:0 0 4px">
-        NexBank
+        Titan Bank
       </h2>
       <p style="font-size:13px;color:#6b7280;margin:0 0 24px">
         Transaction Notification
@@ -88,7 +88,7 @@ export function debitTemplate(data: {
                 padding:32px 24px;background:#fff;border:1px solid #e5e7eb;
                 border-radius:12px;">
       <h2 style="font-size:18px;font-weight:700;color:#0f172a;margin:0 0 4px">
-        NexBank
+        Titan Bank
       </h2>
       <p style="font-size:13px;color:#6b7280;margin:0 0 24px">
         Transaction Notification
@@ -172,7 +172,7 @@ export function transferSentTemplate(data: {
                 padding:32px 24px;background:#fff;border:1px solid #e5e7eb;
                 border-radius:12px;">
       <h2 style="font-size:18px;font-weight:700;color:#0f172a;margin:0 0 4px">
-        NexBank
+        Titan Bank
       </h2>
       <p style="font-size:13px;color:#6b7280;margin:0 0 24px">
         Transfer Sent
@@ -246,7 +246,7 @@ export function transferReceivedTemplate(data: {
                 padding:32px 24px;background:#fff;border:1px solid #e5e7eb;
                 border-radius:12px;">
       <h2 style="font-size:18px;font-weight:700;color:#0f172a;margin:0 0 4px">
-        NexBank
+        Titan Bank
       </h2>
       <p style="font-size:13px;color:#6b7280;margin:0 0 24px">
         Transfer Received

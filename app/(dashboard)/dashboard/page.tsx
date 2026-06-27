@@ -271,8 +271,8 @@ export default async function DashboardPage() {
                 {/* ── Footer disclaimer ───────────────────────────────── */}
                 <footer className="mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-gray-200">
                     <p className="text-[11px] text-gray-400 leading-relaxed max-w-4xl">
-                        NexBank is a Division of NexFinancial. Deposit products are offered by NexBank, Member FDIC.
-                        Equal Housing Lender. All rights reserved. NexBank and the NexBank logo are registered trademarks of NexFinancial Corporation.
+                        Titan Bank is a Division of Titan Financial. Deposit products are offered by Titan Bank, Member FDIC.
+                        Equal Housing Lender. All rights reserved. Titan Bank and the Titan Bank logo are registered trademarks of Titan Financial Corporation.
                     </p>
                 </footer>
             </div>

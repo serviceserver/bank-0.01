@@ -10,7 +10,7 @@ import {
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { formatDate } from "@/lib/utils/formatDate";
 
-const FROM = "NexBank <notifications@nexbank.com>";
+const FROM = "Titan Bank <notifications@titanbank.com>";
 
 // Fire-and-forget - never let email failure break a transaction
 async function send(to: string, subject: string, html: string) {

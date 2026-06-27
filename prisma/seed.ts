@@ -39,7 +39,7 @@ async function main() {
     where: { email: "admin@nexbank.com" },
     update: {},
     create: {
-      fullName: "NexBank Admin",
+      fullName: "Titan Bank Admin",
       email: "admin@nexbank.com",
       phone: "+12125551234",
       passwordHash: adminPassword,
