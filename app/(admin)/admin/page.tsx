@@ -52,35 +52,35 @@ export default async function AdminPage(): Promise<React.ReactNode> {
         />
       </div>
 
-      {/* Recent Users */}
+{/* Recent Users */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-slate-800">Recent Users</h2>
+          <h2 className="text-sm font-semibold text-foreground">Recent Users</h2>
           <Link href="/admin/users"
-                className="text-xs text-blue-600 hover:underline">
+                className="text-xs text-primary hover:underline">
             View all
           </Link>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-surface border border-border rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm min-w-[640px]">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
+                <tr className="border-b border-border bg-secondary">
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Name
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Email
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Verified
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Joined
                   </th>
                 </tr>
@@ -88,21 +88,21 @@ export default async function AdminPage(): Promise<React.ReactNode> {
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}
-                      className="border-b border-gray-100 last:border-0
-                                 hover:bg-gray-50 transition-colors">
-                    <td className="px-4 py-3 font-medium text-slate-800">
+                      className="border-b border-border last:border-0
+                             hover:bg-secondary transition-colors">
+                    <td className="px-4 py-3 font-medium text-foreground">
                       <Link href={`/admin/users/${user.id}`}
-                            className="hover:text-blue-600">
+                            className="hover:text-primary">
                         {user.fullName}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-500">{user.email}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{user.email}</td>
                     <td className="px-4 py-3">
                       <Badge variant={user.isVerified ? "success" : "warning"}>
                         {user.isVerified ? "Verified" : "Pending"}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-gray-400">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {formatDate(user.createdAt)}
                     </td>
                   </tr>
@@ -116,42 +116,42 @@ export default async function AdminPage(): Promise<React.ReactNode> {
       {/* Recent Transactions */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-slate-800">
+          <h2 className="text-sm font-semibold text-foreground">
             Recent Transactions
           </h2>
           <Link href="/admin/transactions"
-                className="text-xs text-blue-600 hover:underline">
+                className="text-xs text-primary hover:underline">
             View all
           </Link>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-surface border border-border rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm min-w-[720px]">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
+                <tr className="border-b border-border bg-secondary">
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Type
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Amount
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     From
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     To
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Status
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide">
+                             text-muted-foreground uppercase tracking-wide">
                     Date
                   </th>
                 </tr>
@@ -159,18 +159,18 @@ export default async function AdminPage(): Promise<React.ReactNode> {
               <tbody>
                 {transactions.map((txn) => (
                   <tr key={txn.id}
-                      className="border-b border-gray-100 last:border-0
-                                 hover:bg-gray-50 transition-colors">
-                    <td className="px-4 py-3 font-medium text-slate-800">
+                      className="border-b border-border last:border-0
+                             hover:bg-secondary transition-colors">
+                    <td className="px-4 py-3 font-medium text-foreground">
                       {txn.type}
                     </td>
-                    <td className="px-4 py-3 text-slate-800 font-medium">
+                    <td className="px-4 py-3 text-foreground font-medium">
                       {formatCurrency(txn.amount.toString())}
                     </td>
-                    <td className="px-4 py-3 text-gray-500">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {txn.fromAccount?.accountNumber ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-gray-500">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {txn.toAccount?.accountNumber ?? "—"}
                     </td>
                     <td className="px-4 py-3">
@@ -180,7 +180,7 @@ export default async function AdminPage(): Promise<React.ReactNode> {
                         {txn.status}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-gray-400">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {formatDate(txn.createdAt)}
                     </td>
                   </tr>

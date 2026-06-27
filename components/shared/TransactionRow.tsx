@@ -31,13 +31,13 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
   const isCredit = direction === "credit";
 
   return (
-    <div className="flex items-center justify-between gap-4 px-5 py-3.5 border-b border-gray-100 last:border-0 group hover:bg-gray-50/60 transition-colors cursor-default">
+    <div className="flex items-center justify-between gap-4 px-5 py-3.5 border-b border-border last:border-0 group hover:bg-secondary transition-colors cursor-default">
       {/* Left: date + description */}
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-gray-900 truncate">
+        <p className="text-sm font-medium text-foreground truncate">
           {transaction.description ?? transaction.type}
         </p>
-        <p className="text-xs text-gray-500 mt-0.5">{formatDate(transaction.createdAt)}</p>
+        <p className="text-xs text-muted-foreground mt-0.5">{formatDate(transaction.createdAt)}</p>
       </div>
 
       {/* Center: status */}
@@ -45,12 +45,12 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
         <span className={`
           inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium
           ${transaction.status === "SUCCESS"
-            ? "bg-green-50 text-green-700 border border-green-200"
+            ? "bg-success/10 text-success border border-success/30"
             : transaction.status === "PENDING"
-            ? "bg-amber-50 text-amber-700 border border-amber-200"
+            ? "bg-warning/10 text-warning border border-warning/30"
             : transaction.status === "FAILED"
-            ? "bg-red-50 text-red-700 border border-red-200"
-            : "bg-gray-100 text-gray-600 border border-gray-200"
+            ? "bg-danger/10 text-danger border border-danger/30"
+            : "bg-secondary text-muted-foreground border border-border"
           }
         `}>
           {statusLabel[transaction.status] ?? transaction.status}
@@ -61,7 +61,7 @@ export function TransactionRow({ transaction, accountId }: TransactionRowProps) 
       <div className="flex-shrink-0 text-right">
         <p className={`
           text-sm font-semibold tabular-nums
-          ${isCredit ? "text-gray-900" : "text-gray-900"}
+          text-foreground
         `}>
           {isCredit ? "+" : "-"}{formatCurrency(transaction.amount)}
         </p>

@@ -108,9 +108,9 @@ export default function AccountsPage() {
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center
                         justify-center z-50 px-4 py-6">
-          <div className="bg-white rounded-xl border border-gray-200
+          <div className="bg-surface rounded-xl border border-border
                           shadow-lg w-full max-w-md p-6 flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-base font-semibold text-slate-900">
+            <h2 className="text-base font-semibold text-foreground">
               Open New Account
             </h2>
 
@@ -123,8 +123,8 @@ export default function AccountsPage() {
                     px-4 py-3 rounded-lg border text-sm font-medium text-left
                     transition-colors duration-100
                     ${selectedType === type
-                      ? "border-slate-900 bg-slate-900 text-white"
-                      : "border-gray-200 text-slate-700 hover:bg-gray-50"
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border text-foreground hover:bg-secondary"
                     }
                   `}
                 >
@@ -137,8 +137,8 @@ export default function AccountsPage() {
             </div>
 
             {error && (
-              <p className="text-xs text-red-600 bg-red-50 border
-                            border-red-200 rounded-lg px-3 py-2">
+              <p className="text-xs text-danger bg-danger/5 border
+                            border-danger/30 rounded-lg px-3 py-2">
                 {error}
               </p>
             )}

@@ -49,23 +49,23 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
         />
       )}
 
-      <aside
+<aside
         className={`
-          fixed inset-y-0 left-0 z-50 w-64 bg-[#081628]
+          fixed inset-y-0 left-0 z-50 w-64 bg-(--sidebar)
           flex flex-col transition-transform duration-200 ease-in-out
           lg:translate-x-0 lg:static lg:z-auto
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
         {/* Bank Brand */}
-        <div className="px-5 h-16 flex items-center border-b border-white/10">
+        <div className="px-5 h-16 flex items-center border-b border-(--sidebar-border)">
           <Link href="/" className="flex items-center gap-2.5" onClick={onClose}>
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-              <span className="text-[#081628] font-bold text-base leading-none">T</span>
+            <div className="w-8 h-8 rounded-lg bg-(--foreground) flex items-center justify-center">
+              <span className="text-(--sidebar) font-bold text-base leading-none">T</span>
             </div>
             <div className="leading-tight">
-              <p className="text-white font-semibold text-sm tracking-wide">TitanBank</p>
-              <p className="text-blue-200/80 text-[10px] uppercase tracking-widest">Premium Banking</p>
+              <p className="text-(--sidebar-fg) font-semibold text-sm tracking-wide">TitanBank</p>
+              <p className="text-(--sidebar-muted) text-[10px] uppercase tracking-widest">Premium Banking</p>
             </div>
           </Link>
         </div>
@@ -83,8 +83,8 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px]
                   font-medium transition-colors duration-100
                   ${active
-                    ? "bg-white/10 text-white"
-                    : "text-blue-100/70 hover:bg-white/5 hover:text-white"
+                    ? "bg-(--sidebar-active) text-(--sidebar-fg)"
+                    : "text-(--sidebar-muted) hover:bg-(--sidebar-hover) hover:text-(--sidebar-fg)"
                   }
                 `}
               >
@@ -96,27 +96,27 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
         </nav>
 
         {/* User section */}
-        <div className="px-4 py-4 border-t border-white/10">
+        <div className="px-4 py-4 border-t border-(--sidebar-border)">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-white/10 border border-white/15 flex items-center justify-center">
-              <span className="text-white text-xs font-semibold">
+            <div className="w-8 h-8 rounded-full bg-(--secondary) border border-(--border) flex items-center justify-center">
+              <span className="text-(--sidebar-fg) text-xs font-semibold">
                 {firstName.charAt(0).toUpperCase()}
               </span>
             </div>
             <div className="leading-tight min-w-0">
-              <p className="text-white text-[13px] font-medium truncate">{firstName}</p>
-              <p className="text-blue-200/60 text-[11px]">Member</p>
+              <p className="text-(--sidebar-fg) text-[13px] font-medium truncate">{firstName}</p>
+              <p className="text-(--sidebar-muted) text-[11px]">Member</p>
             </div>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className="flex items-center gap-2 w-full text-left text-[12px] text-blue-200/60 hover:text-white transition-colors duration-100 px-2 py-1.5 rounded-md hover:bg-white/5"
+            className="flex items-center gap-2 w-full text-left text-[12px] text-(--sidebar-muted) hover:text-(--sidebar-fg) transition-colors duration-100 px-2 py-1.5 rounded-md hover:bg-(--sidebar-hover)"
           >
             <LuLogOut size={13} />
             Sign out
           </button>
         </div>
-      </aside>
+        </aside>
     </>
   );
 }

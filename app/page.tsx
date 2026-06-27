@@ -12,22 +12,22 @@ const CARDS = [
     title: "Titan Bank™ Gold",
     meta: "For everyday spending",
     image:"/gold.JPG",
-    gradient: "from-amber-500 to-yellow-600",
-    accent: "text-amber-100",
+    gradient: "from-accent to-accent-light",
+    accent: "text-accent-foreground",
   },
   {
     title: "Titan Bank Platinum",
     meta: "Premium travel & perks",
     image:"/primium.JPG",
-    gradient: "from-slate-800 to-slate-900",
-    accent: "text-slate-200",
+    gradient: "from-primary to-primary-light",
+    accent: "text-primary-foreground",
   },
   {
     title: "Titan Bank Everyday",
     meta: "No annual fee",
     image: "/everyday.JPG",
-    gradient: "from-[#002a5c] to-[#004080]",
-    accent: "text-blue-100",
+    gradient: "from-success to-success-foreground",
+    accent: "text-success-foreground",
   },
 ];
 
@@ -64,29 +64,29 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-primary text-white overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-[#002a5c] via-[#003d80] to-[#002a5c] opacity-90" />
-        <Image src="/banner.jpg" alt="Hero background" fill className="object-cover object-center opacity-50 z-20" />
+      <section className="relative bg-primary text-primary-foreground overflow-hidden">
+        <div className="absolute inset-0 bg-linear-to-br from-primary via-primary-light to-primary opacity-90" />
+        <Image src="/banner.jpg" alt="Hero background" fill className="object-cover object-center opacity-20 z-20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 z-30">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-xl">
-              <p className="text-sm font-semibold tracking-wider text-blue-200 uppercase mb-4">
+              <p className="text-sm font-semibold tracking-wider text-primary-light uppercase mb-4">
                 Ranked among the best
               </p>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight">
-                Don&rsquo;t live life without it.
+                Banking made simple.
               </h1>
-              <p className="mt-6 text-lg text-white leading-relaxed">
+              <p className="mt-6 text-lg text-primary-foreground leading-relaxed">
                 Experience the financial services platform built for how you live and work - from everyday spending to long-term goals.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <Link href="/register">
-                  <Button size="lg" variant="secondary" className="bg-white text-blue-900 hover:bg-blue-50 border border-white">
+                  <Button size="lg" variant="secondary" className="bg-surface text-foreground hover:bg-secondary border border-border">
                     Apply now
                   </Button>
                 </Link>
                 <Link href="/login">
-                  <Button variant="secondary" size="lg" className="bg-transparent text-white border-white/30 hover:bg-white/10">
+                  <Button variant="secondary" size="lg" className="bg-transparent text-primary-foreground border-primary-light/30 hover:bg-primary/20">
                     Log in
                   </Button>
                 </Link>
@@ -96,23 +96,23 @@ export default function Home() {
             {/* Premium card mockup */}
             <div className="hidden lg:flex justify-center">
               <div className="relative w-full max-w-md aspect-[1.586/1]">
-                <div className="absolute inset-0 bg-linear-to-br from-amber-400 via-yellow-500 to-amber-600 rounded-2xl shadow-2xl transform rotate-3 opacity-90" />
-                <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 flex flex-col justify-between">
+                <div className="absolute inset-0 bg-linear-to-br from-primary to-primary-light rounded-2xl shadow-2xl transform rotate-3 opacity-90" />
+                <div className="absolute inset-0 bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 rounded-2xl p-6 flex flex-col justify-between">
                   <div>
-                    <p className="text-xs font-medium text-white/80 uppercase tracking-widest">
+                    <p className="text-xs font-medium text-primary-light/80 uppercase tracking-widest">
                       Titan Bank
                     </p>
-                    <p className="text-lg font-semibold text-white mt-1">
+                    <p className="text-lg font-semibold text-primary-foreground mt-1">
                       Gold Card
                     </p>
                   </div>
                   <div>
-                    <p className="text-2xl font-semibold text-white tracking-widest">
+                    <p className="text-2xl font-semibold text-primary-foreground tracking-widest">
                       .... .... .... 4289
                     </p>
                     <div className="flex items-center justify-between mt-4">
-                      <p className="text-xs text-white/80">MEMBER SINCE 2000</p>
-                      <p className="text-xs text-white/80">VALID THRU 12/28</p>
+                      <p className="text-xs text-primary-light/80">MEMBER SINCE 2000</p>
+                      <p className="text-xs text-primary-light/80">VALID THRU 12/28</p>
                     </div>
                   </div>
                 </div>

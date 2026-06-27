@@ -47,33 +47,33 @@ export function AccountCard({
       `}
     >
       {/* Card body */}
-      <div className="relative bg-gradient-to-br from-[#002a5c] to-[#001d3d] p-5 sm:p-6 text-white min-h-[170px] flex flex-col justify-between">
+      <div className="relative bg-gradient-to-br from-primary/5 to-primary/10 p-5 sm:p-6 text-foreground min-h-[170px] flex flex-col justify-between border border-border">
         {/* Decorative corner shape */}
-        <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/[0.04]" />
-        <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-white/[0.03]" />
+        <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-primary/[0.04]" />
+        <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-primary/[0.03]" />
 
         {/* Top row */}
         <div className="relative flex items-start justify-between">
-          <p className="text-xs text-blue-200/80 font-medium">{displayType} Account</p>
-          <Badge variant={statusInfo.class} className="bg-white/10 border-white/15 text-white text-[11px] px-2 py-0.5">
+          <p className="text-xs text-muted-foreground font-medium">{displayType} Account</p>
+          <Badge variant={statusInfo.class} className="bg-secondary border-border text-foreground text-[11px] px-2 py-0.5">
             {statusInfo.label}
           </Badge>
         </div>
 
         {/* Balance */}
         <div className="relative mt-6">
-          <p className="text-[11px] text-blue-200/70 mb-1">Available Balance</p>
-          <p className="text-2xl sm:text-[28px] font-semibold tracking-tight text-white">
+          <p className="text-[11px] text-muted-foreground mb-1">Available Balance</p>
+          <p className="text-2xl sm:text-[28px] font-semibold tracking-tight text-foreground">
             {formattedBalance}
           </p>
         </div>
 
         {/* Bottom row */}
         <div className="relative flex items-center justify-between mt-4">
-          <p className="text-sm text-blue-100/80 font-mono tracking-widest">{masked}</p>
+          <p className="text-sm text-muted-foreground font-mono tracking-widest">{masked}</p>
           {/* Small chip icon */}
           <div className="flex items-center gap-1.5">
-            <div className="w-7 h-5 rounded bg-gradient-to-br from-yellow-300/80 to-yellow-500/60" />
+            <div className="w-7 h-5 rounded bg-gradient-to-br from-primary/60 to-primary" />
           </div>
         </div>
       </div>

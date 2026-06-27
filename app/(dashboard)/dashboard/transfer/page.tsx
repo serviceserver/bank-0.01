@@ -318,7 +318,7 @@ export default function TransferPage() {
                     />
 
 {showDropdown && searchResults.length > 0 && !resolved && (
-                       <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-border rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+                       <div className="absolute top-full left-0 right-0 mt-1 bg-surface border border-border rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
                          {searchResults.map((acc) => (
                            <button
                              key={acc.id}

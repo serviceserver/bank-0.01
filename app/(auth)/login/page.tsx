@@ -36,15 +36,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-secondary flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Titan Bank</h1>
-          <p className="text-sm text-gray-500 mt-1">Sign in to your account</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Titan Bank</h1>
+          <p className="text-sm text-muted-foreground mt-1">Sign in to your account</p>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 flex flex-col gap-4">
+        <div className="bg-surface border border-border rounded-xl shadow-sm p-5 sm:p-6 flex flex-col gap-4">
           <Input
             label="Email"
             type="email"
@@ -61,7 +61,7 @@ export default function LoginPage() {
           />
 
           {error && (
-            <p className="text-xs text-red-600 bg-red-50 border border-red-200
+            <p className="text-xs text-danger bg-danger/5 border border-danger/30
                           rounded-lg px-3 py-2">
               {error}
             </p>
@@ -72,9 +72,9 @@ export default function LoginPage() {
           </Button>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-4">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-blue-600 hover:underline font-medium">
+          <Link href="/register" className="text-primary hover:underline font-medium">
             Create one
           </Link>
         </p>

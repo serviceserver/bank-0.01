@@ -13,20 +13,20 @@ export function StatCard({ label, value, sub, accent }: StatCardProps) {
       className={`
         rounded-xl border p-5 flex flex-col gap-1
         ${accent
-          ? "bg-primary border-primary text-white"
+          ? "bg-primary border-primary text-primary-foreground"
           : "bg-surface border-border text-foreground"
         }
       `}
     >
       <p className={`text-xs font-medium uppercase tracking-wide
-                     ${accent ? "text-blue-100" : "text-muted"}`}>
+                     ${accent ? "text-primary-light" : "text-muted-foreground"}`}>
         {label}
       </p>
-      <p className={`text-2xl font-bold ${accent ? "text-white" : "text-foreground"}`}>
+      <p className={`text-2xl font-bold ${accent ? "text-primary-foreground" : "text-foreground"}`}>
         {value}
       </p>
       {sub && (
-        <p className={`text-xs ${accent ? "text-blue-100" : "text-muted"}`}>
+        <p className={`text-xs ${accent ? "text-primary-light" : "text-muted-foreground"}`}>
           {sub}
         </p>
       )}
