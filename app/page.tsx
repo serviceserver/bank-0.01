@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const CARDS = [
   {
-    <title: "Titan Bank™ Gold",
+    title: "Titan Bank™ Gold",
     meta: "For everyday spending",
     image:"/gold.JPG",
     gradient: "from-amber-500 to-yellow-600",

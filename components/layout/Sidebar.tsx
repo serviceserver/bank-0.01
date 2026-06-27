@@ -61,7 +61,7 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
         <div className="px-5 h-16 flex items-center border-b border-white/10">
           <Link href="/" className="flex items-center gap-2.5" onClick={onClose}>
             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-              <span className="text-[#081628] font-bold text-base leading-none">N</span>
+              <span className="text-[#081628] font-bold text-base leading-none">T</span>
             </div>
             <div className="leading-tight">
               <p className="text-white font-semibold text-sm tracking-wide">TitanBank</p>
@@ -71,7 +71,7 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 py-4 flex flex-col gap-[2px] overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
           {nav.map((item) => {
             const active = pathname === item.href;
             return (

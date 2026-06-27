@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { Account } from "@/lib/interface";
-import { LuArrowLeft, LuCheck, LuCopy } from "react-icons/lu";
+import { LuCheck, LuCopy } from "react-icons/lu";
 
 type Step = "form" | "confirm" | "success";
 

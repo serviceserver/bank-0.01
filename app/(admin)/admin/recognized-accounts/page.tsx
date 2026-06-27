@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { TopBar } from "@/components/layout/TopBar";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -196,7 +195,7 @@ export default function RecognizedAccountsPage() {
               <tbody>
                 {accounts.map((acc) => (
                   <tr key={acc.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                    <td className="px-4 py-3 font-mono text-xs">
+                    <td className="text-gray-500 px-4 py-3 font-mono text-xs">
                       {acc.account?.accountNumber || acc.externalAccountNumber}
                     </td>
                     <td className="px-4 py-3">
