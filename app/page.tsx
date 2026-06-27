@@ -214,7 +214,7 @@ export default function Home() {
                 <p className="mt-2 text-sm text-muted-foreground">Free ATM withdrawals</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
-                <p className="text-3xl font-semibold text-primary">Same day</p>
+                <p className="text-3xl font-semibold text-primary">Instant</p>
                 <p className="mt-2 text-sm text-muted-foreground">Direct deposit</p>
               </Card>
             </div>
@@ -256,7 +256,7 @@ export default function Home() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/register">
-              <Button size="lg">Apply now</Button>
+              <Button variant="primary" size="lg">Apply now</Button>
             </Link>
             <Link href="/login">
               <Button variant="secondary" size="lg" className="bg-surface text-foreground hover:bg-muted border border-border">Log in</Button>

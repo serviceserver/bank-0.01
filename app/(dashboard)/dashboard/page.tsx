@@ -90,10 +90,10 @@ export default async function DashboardPage() {
                 {/* ── Total Balance (Customer) ─────────────────────────── */}
                 {!isAdmin && (
                     <div className="mb-8">
-                        <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                        <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-200 mb-2">
                             Total Balance
                         </p>
-                        <p className="text-4xl sm:text-[44px] font-bold tracking-tight text-gray-900">
+                        <p className="text-4xl sm:text-[44px] font-bold tracking-tight text-gray-200">
                             {formatCurrency(totalBalance)}
                         </p>
                         <p className="text-sm text-gray-500 mt-1">
