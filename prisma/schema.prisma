@@ -62,6 +62,7 @@ model User {
 
   accounts      Account[]
   auditLogs     AuditLog[]
+  recognizedAccounts  RecognizedAccount[]
 }
 
 model Account {
@@ -80,6 +81,7 @@ model Account {
 
   sentTransactions      Transaction[] @relation("SentTransactions")
   receivedTransactions  Transaction[] @relation("ReceivedTransactions")
+  recognizedAccounts  RecognizedAccount[]
 }
 
 model Transaction {
@@ -110,4 +112,21 @@ model AuditLog {
   performedBy String
   actor       User      @relation(fields: [performedBy], references: [id])
   createdAt   DateTime  @default(now())
+}
+
+model RecognizedAccount {
+  id             String   @id @default(cuid())
+  accountId      String?
+  addedBy          String
+  createdAt        DateTime @default(now())
+
+  account        Account?  @relation(fields: [accountId], references: [id])
+  admin          User     @relation(fields: [addedBy], references: [id])
+
+  externalAccountNumber String?
+  externalAccountHolder String?
+  externalBankName      String?
+
+  @@unique([accountId])
+  @@index([externalAccountNumber])
 }

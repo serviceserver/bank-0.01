@@ -72,7 +72,7 @@ export default function RegisterPage() {
           <Input
             label="Password"
             type="password"
-            placeholder="••••••••"
+            placeholder="........"
             value={form.password}
             onChange={(e) => update("password", e.target.value)}
             hint="Min 8 characters, one uppercase, one number"

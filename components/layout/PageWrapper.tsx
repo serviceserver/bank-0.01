@@ -18,7 +18,7 @@ export function PageWrapper({ children, role, userName }: PageWrapperProps) {
 
   return (
     <SidebarContext.Provider value={{ openSidebar: () => setSidebarOpen(true) }}>
-      <div className="flex min-h-screen bg-gray-50">
+      <div className="flex min-h-screen bg-background">
         {/* Desktop sidebar */}
         <Sidebar
           role={role}

@@ -60,11 +60,11 @@ const FEATURES = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-[#002a5c] text-white overflow-hidden">
+      <section className="relative bg-primary text-white overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-[#002a5c] via-[#003d80] to-[#002a5c] opacity-90" />
         <Image src="/banner.jpg" alt="Hero background" fill className="object-cover object-center opacity-50 z-20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 z-30">
@@ -108,7 +108,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-2xl font-semibold text-white tracking-widest">
-                      •••• •••• •••• 4289
+                      .... .... .... 4289
                     </p>
                     <div className="flex items-center justify-between mt-4">
                       <p className="text-xs text-white/80">MEMBER SINCE 2000</p>
@@ -123,18 +123,18 @@ export default function Home() {
       </section>
 
       {/* Our Greatest Cards */}
-      <section id="cards" className="border-t border-gray-100 bg-white">
+      <section id="cards" className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
                 Our greatest cards.
               </h2>
-              <p className="mt-3 text-gray-600 max-w-2xl">
+              <p className="mt-3 text-muted-foreground max-w-2xl">
                 Choose the card that fits your lifestyle. Every card comes with exceptional benefits and service.
               </p>
             </div>
-            <Link href="/register" className="hidden sm:inline-flex text-sm font-semibold text-[#002a5c] hover:underline">
+            <Link href="/register" className="hidden sm:inline-flex text-sm font-semibold text-primary hover:underline">
               View all cards
             </Link>
           </div>
@@ -154,8 +154,8 @@ export default function Home() {
                   </p>
                   <p className={`text-3xl font-semibold z-30 ${card.accent}`}>{card.title}</p>
                 </div>
-                <div className="p-6">
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                 <div className="p-6">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     Earn points on every purchase and enjoy premium benefits tailored to your needs.
                   </p>
                   <Link href="/register">
@@ -171,25 +171,25 @@ export default function Home() {
       </section>
 
       {/* Banking */}
-      <section id="banking" className="border-t border-gray-100 bg-gray-50/60">
+      <section id="banking" className="border-t border-border bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
                 Banking that works as hard as you do.
               </h2>
-              <p className="mt-4 text-gray-600 leading-relaxed">
+              <p className="mt-4 text-muted-foreground leading-relaxed">
                 High-yield savings, no-fee checking, and powerful tools to make your money work harder.
               </p>
               <ul className="mt-8 space-y-4">
-                {[
-                  "No hidden fees — no minimum balance",
-                  "Same-day direct deposit",
-                  "FDIC insured up to $250,000",
-                  "24/7 customer support",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-gray-700">
-                    <span className="mt-0.5 text-[#002a5c]"><FiCheck /></span>
+                 {[
+                   "No hidden fees — no minimum balance",
+                   "Same-day direct deposit",
+                   "FDIC insured up to $250,000",
+                   "24/7 customer support",
+                 ].map((item) => (
+                   <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                     <span className="mt-0.5 text-primary"><FiCheck /></span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -201,21 +201,21 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <Card className="bg-white border border-gray-100 p-6 text-center">
-                <p className="text-3xl font-semibold text-[#002a5c]">4.25%</p>
-                <p className="mt-2 text-sm text-gray-600">APY on High-Yield Savings</p>
+              <Card className="bg-background border border-border p-6 text-center">
+                <p className="text-3xl font-semibold text-primary">4.25%</p>
+                <p className="mt-2 text-sm text-muted-foreground">APY on High-Yield Savings</p>
               </Card>
-              <Card className="bg-white border border-gray-100 p-6 text-center">
-                <p className="text-3xl font-semibold text-[#002a5c]">$0</p>
-                <p className="mt-2 text-sm text-gray-600">Monthly fees</p>
+              <Card className="bg-background border border-border p-6 text-center">
+                <p className="text-3xl font-semibold text-primary">$0</p>
+                <p className="mt-2 text-sm text-muted-foreground">Monthly fees</p>
               </Card>
-              <Card className="bg-white border border-gray-100 p-6 text-center">
-                <p className="text-3xl font-semibold text-[#002a5c]">70K+</p>
-                <p className="mt-2 text-sm text-gray-600">Free ATM withdrawals</p>
+              <Card className="bg-background border border-border p-6 text-center">
+                <p className="text-3xl font-semibold text-primary">70K+</p>
+                <p className="mt-2 text-sm text-muted-foreground">Free ATM withdrawals</p>
               </Card>
-              <Card className="bg-white border border-gray-100 p-6 text-center">
-                <p className="text-3xl font-semibold text-[#002a5c]">Same day</p>
-                <p className="mt-2 text-sm text-gray-600">Direct deposit</p>
+              <Card className="bg-background border border-border p-6 text-center">
+                <p className="text-3xl font-semibold text-primary">Same day</p>
+                <p className="mt-2 text-sm text-muted-foreground">Direct deposit</p>
               </Card>
             </div>
           </div>
@@ -223,22 +223,22 @@ export default function Home() {
       </section>
 
       {/* Why NexBank */}
-      <section id="rewards" className="border-t border-gray-100 bg-white">
+      <section id="rewards" className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
               The NexBank difference.
             </h2>
-            <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
-              More than a bank. A partner in your financial life with tools, perks, and service you won’t find anywhere else.
+            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+              More than a bank. A partner in your financial life with tools, perks, and service you won&rsquo;t find anywhere else.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {FEATURES.map((f) => (
               <Card key={f.title} className="h-full">
-                <f.icon className="text-2xl text-[#002a5c]" />
-                <h3 className="mt-4 text-base font-semibold text-gray-900">{f.title}</h3>
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">{f.description}</p>
+                <f.icon className="text-2xl text-primary" />
+                <h3 className="mt-4 text-base font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.description}</p>
               </Card>
             ))}
           </div>
@@ -246,12 +246,12 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-gray-100 bg-gray-50/60">
+      <section className="border-t border-border bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
             Ready to join?
           </h2>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             Apply in minutes and get a decision fast. No branch visit required.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -259,62 +259,62 @@ export default function Home() {
               <Button size="lg">Apply now</Button>
             </Link>
             <Link href="/login">
-              <Button variant="secondary" size="lg" className="bg-white text-blue-900 hover:bg-blue-50 border border-blue-900" >Log in</Button>
+              <Button variant="secondary" size="lg" className="bg-surface text-foreground hover:bg-muted border border-border">Log in</Button>
             </Link>
-          </div>
-        </div>
-      </section>
+           </div>
+         </div>
+        </section>
 
-      {/* Footer */}
-      <footer id="about" className="border-t border-gray-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div>
-              <p className="text-sm font-semibold text-gray-900">Company</p>
-              <ul className="mt-4 space-y-2 text-sm text-gray-600">
-                <li><Link href="#" className="hover:text-[#002a5c]">About us</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Careers</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Press room</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Investor relations</Link></li>
-              </ul>
+        {/* Footer */}
+        <footer id="about" className="border-t border-border bg-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div>
+                <p className="text-sm font-semibold text-foreground">Company</p>
+                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="#" className="hover:text-primary">About us</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Careers</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Press room</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Investor relations</Link></li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Cards</p>
+                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="#" className="hover:text-primary">Credit cards</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Debit cards</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Business cards</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Rewards</Link></li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Banking</p>
+                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="#" className="hover:text-primary">Checking</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Savings</Link></li>
+                  <li><Link href="#" className="hover:text-primary">CDs</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Rates</Link></li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Support</p>
+                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="#" className="hover:text-primary">Contact us</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Help center</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Security</Link></li>
+                  <li><Link href="#" className="hover:text-primary">Privacy</Link></li>
+                </ul>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-900">Cards</p>
-              <ul className="mt-4 space-y-2 text-sm text-gray-600">
-                <li><Link href="#" className="hover:text-[#002a5c]">Credit cards</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Debit cards</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Business cards</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Rewards</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-900">Banking</p>
-              <ul className="mt-4 space-y-2 text-sm text-gray-600">
-                <li><Link href="#" className="hover:text-[#002a5c]">Checking</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Savings</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">CDs</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Rates</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-900">Support</p>
-              <ul className="mt-4 space-y-2 text-sm text-gray-600">
-                <li><Link href="#" className="hover:text-[#002a5c]">Contact us</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Help center</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Security</Link></li>
-                <li><Link href="#" className="hover:text-[#002a5c]">Privacy</Link></li>
-              </ul>
+            <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm text-muted-foreground">© 2026 NexBank. All rights reserved.</p>
+              <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                <Link href="/login" className="hover:text-primary">Log in</Link>
+                <Link href="/register" className="hover:text-primary">Apply now</Link>
+              </div>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-gray-500">© 2026 NexBank. All rights reserved.</p>
-            <div className="flex items-center gap-6 text-sm text-gray-500">
-              <Link href="/login" className="hover:text-[#002a5c]">Log in</Link>
-              <Link href="/register" className="hover:text-[#002a5c]">Apply now</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+         </footer>
     </div>
   );
 }

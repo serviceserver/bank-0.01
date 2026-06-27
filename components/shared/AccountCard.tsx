@@ -36,7 +36,7 @@ export function AccountCard({
   const statusInfo = statusConfig[status] ?? { label: status, class: "neutral" as const };
   const rawBalance = typeof balance === "string" ? Number(balance) : balance;
   const formattedBalance = formatCurrency(rawBalance);
-  const masked = `•••• •••• •••• ${accountNumber.slice(-4)}`;
+  const masked = `.... .... .... ${accountNumber.slice(-4)}`;
 
   return (
     <div

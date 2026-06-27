@@ -24,6 +24,7 @@ const adminNav: NavItem[] = [
   { label: "Overview",      href: "/admin",                 icon: <LuLayoutDashboard size={18} /> },
   { label: "Users",         href: "/admin/users",           icon: <LuUsers size={18} /> },
   { label: "Transactions",  href: "/admin/transactions",    icon: <LuArrowUpDown size={18} /> },
+  { label: "Recognized Accounts", href: "/admin/recognized-accounts", icon: <LuListChecks size={18} /> },
   { label: "Audit Logs",    href: "/admin/audit-logs",      icon: <LuClipboardList size={18} /> },
 ];
 
