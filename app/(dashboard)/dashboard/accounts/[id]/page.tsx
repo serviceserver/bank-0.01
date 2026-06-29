@@ -48,7 +48,7 @@ export default async function AccountDetailPage({ params }: AccountDetailPagePro
         subtitle={account.accountNumber}
         action={
           <Link href="/dashboard/accounts">
-            <span className="text-xs text-blue-600 hover:underline">← Back to accounts</span>
+            <span className="text-xs text-primary hover:underline">← Back to accounts</span>
           </Link>
         }
       />
@@ -66,29 +66,29 @@ export default async function AccountDetailPage({ params }: AccountDetailPagePro
             />
           </div>
 
-          <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5">
-          <h3 className="text-sm font-semibold text-slate-800 mb-3">Account Info</h3>
+          <div className="lg:col-span-2 bg-surface border border-border rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-foreground mb-3">Account Info</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-xs text-gray-500 mb-1">Account Number</p>
-              <p className="font-mono text-slate-900 tracking-widest">
+              <p className="text-xs text-muted-foreground mb-1">Account Number</p>
+              <p className="font-mono text-foreground tracking-widest">
                 {account.accountNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3")}
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Type</p>
-              <p className="text-slate-900 font-medium">{account.type.replace("_", " ")}</p>
+              <p className="text-xs text-muted-foreground mb-1">Type</p>
+              <p className="text-foreground font-medium">{account.type.replace("_", " ")}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Status</p>
+              <p className="text-xs text-muted-foreground mb-1">Status</p>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border
-                bg-green-50 text-green-700 border-green-200">
+                bg-success/10 text-success border-success/30">
                 {account.status}
               </span>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Created</p>
-              <p className="text-slate-900 font-medium">
+              <p className="text-xs text-muted-foreground mb-1">Created</p>
+              <p className="text-foreground font-medium">
                 {new Date(account.createdAt!).toLocaleDateString("en-US", {
                   year: "numeric", month: "short", day: "numeric",
                 })}
@@ -98,25 +98,25 @@ export default async function AccountDetailPage({ params }: AccountDetailPagePro
         </div>
       </div>
 
-      <div>
-        <h2 className="text-sm font-semibold text-slate-800 mb-3">Transactions</h2>
-        <div className="bg-white border border-gray-200 rounded-xl px-4 sm:px-5">
-          {recentTxns.transactions.length === 0 ? (
-            <EmptyState
-              title="No transactions yet"
-              description="Transactions for this account will appear here."
-            />
-          ) : (
-            recentTxns.transactions.map((txn: Transaction) => (
-              <TransactionRow
-                key={txn.id}
-                transaction={txn as Transaction}
-                accountId={account.id}
-              />
-            ))
-          )}
-        </div>
-      </div>
+<div>
+         <h2 className="text-sm font-semibold text-foreground mb-3">Transactions</h2>
+         <div className="bg-surface border border-border rounded-xl px-4 sm:px-5">
+           {recentTxns.transactions.length === 0 ? (
+             <EmptyState
+               title="No transactions yet"
+               description="Transactions for this account will appear here."
+             />
+           ) : (
+             recentTxns.transactions.map((txn: Transaction) => (
+               <TransactionRow
+                 key={txn.id}
+                 transaction={txn as Transaction}
+                 accountId={account.id}
+               />
+             ))
+           )}
+         </div>
+       </div>
       </div>
 
     </PageWrapper>
