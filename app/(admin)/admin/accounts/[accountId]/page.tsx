@@ -209,16 +209,16 @@ export default function AdminAccountDetailPage() {
         </div>
       )}
 
-      {!account ? (
+{!account ? (
         <div className="flex justify-center py-24">
           <Spinner size="lg" />
         </div>
       ) : (
         <>
           {/* Account Info */}
-          <div className="bg-white border border-gray-200 rounded-xl px-5 py-6 sm:py-8">
+          <div className="bg-surface border border-border rounded-xl px-5 py-6 sm:py-8">
             <div className="flex flex-wrap items-center gap-3 mb-4">
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 Account Information
               </h3>
               <Badge
@@ -235,43 +235,43 @@ export default function AdminAccountDetailPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
               <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">
                   Account Number
                 </p>
-                <p className="text-slate-700 font-medium font-mono">
+                <p className="text-foreground font-medium font-mono">
                   {account.accountNumber}
                 </p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">
                   Type
                 </p>
-                <p className="text-slate-700 font-medium">
+                <p className="text-foreground font-medium">
                   {account.type.replace("_", " ")}
                 </p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">
                   Balance
                 </p>
-                <p className="text-slate-700 font-medium">
+                <p className="text-foreground font-medium">
                   {formatCurrency(account.balance)}
                 </p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">
                   Created
                 </p>
-                <p className="text-slate-700 font-medium">
+                <p className="text-foreground font-medium">
                   {formatDate(account.createdAt)}
                 </p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">
+                <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">
                   Owner
                 </p>
-                <p className="text-slate-700 font-medium">{account.user.fullName}</p>
-                <p className="text-xs text-gray-500">{account.user.email}</p>
+                <p className="text-foreground font-medium">{account.user.fullName}</p>
+                <p className="text-xs text-muted-foreground">{account.user.email}</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 mt-4">
@@ -307,9 +307,9 @@ export default function AdminAccountDetailPage() {
           </div>
 
           {/* Transactions */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-gray-100">
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+          <div className="bg-surface border border-border rounded-xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-border">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 Transactions
               </h3>
             </div>
@@ -327,12 +327,12 @@ export default function AdminAccountDetailPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm min-w-160">
                     <thead>
-                      <tr className="bg-gray-50 border-b border-gray-100">
+                      <tr className="bg-secondary border-b border-border">
                         {["Date", "Description", "Status", "Amount"].map((h) => (
                           <th
                             key={h}
                             className="text-left px-4 py-3 text-xs font-medium
-                                       text-gray-500 uppercase tracking-wide"
+                                       text-muted-foreground uppercase tracking-wide"
                           >
                             {h}
                           </th>
@@ -343,13 +343,13 @@ export default function AdminAccountDetailPage() {
                       {transactions.map((txn) => (
                         <tr
                           key={txn.id}
-                          className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
+                          className="border-b border-border last:border-0 hover:bg-secondary"
                         >
-                          <td className="px-4 py-3 text-gray-600">
+                          <td className="px-4 py-3 text-muted-foreground">
                             {formatDate(txn.createdAt)}
                           </td>
                           <td className="px-4 py-3">
-                            <p className="font-medium text-slate-700 truncate max-w-xs">
+                            <p className="font-medium text-foreground truncate max-w-xs">
                               {txn.description ?? txn.type}
                             </p>
                           </td>
@@ -366,11 +366,11 @@ export default function AdminAccountDetailPage() {
                               {txn.status}
                             </Badge>
                           </td>
-                          <td className="px-4 py-3 font-medium text-slate-700">
+                          <td className="px-4 py-3 font-medium text-foreground">
                             {account &&
-                            (txn.fromAccountId === account.id
-                              ? "-"
-                              : "+")}{" "}
+                            (txn.toAccountId === account.id
+                              ? "+"
+                              : "-")}
                             {formatCurrency(txn.amount)}
                           </td>
                         </tr>
@@ -381,8 +381,8 @@ export default function AdminAccountDetailPage() {
 
                 {/* Pagination */}
                 {pagination && pagination.totalPages > 1 && (
-                  <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100">
-                    <p className="text-xs text-gray-500">
+                  <div className="flex items-center justify-between px-5 py-4 border-t border-border">
+                    <p className="text-xs text-muted-foreground">
                       Page {pagination.page} of {pagination.totalPages} -{" "}
                       {pagination.total} total entries
                     </p>
