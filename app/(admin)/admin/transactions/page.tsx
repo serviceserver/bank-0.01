@@ -26,19 +26,19 @@ interface AdminTransaction {
 }
 
 const typeLabel: Record<string, string> = {
-  ACH_CREDIT:     "ACH Credit",
-  ACH_DEBIT:      "ACH Debit",
-  WIRE_INCOMING:  "Wire In",
-  WIRE_OUTGOING:  "Wire Out",
-  CHECK_DEPOSIT:  "Check Deposit",
+  ACH_CREDIT: "ACH Credit",
+  ACH_DEBIT: "ACH Debit",
+  WIRE_INCOMING: "Wire In",
+  WIRE_OUTGOING: "Wire Out",
+  CHECK_DEPOSIT: "Check Deposit",
   ATM_WITHDRAWAL: "ATM Withdrawal",
-  TRANSFER:       "Transfer",
+  TRANSFER: "Transfer",
 };
 
 const statusVariant: Record<string, "success" | "danger" | "warning" | "neutral"> = {
-  SUCCESS:  "success",
-  FAILED:   "danger",
-  PENDING:  "warning",
+  SUCCESS: "success",
+  FAILED: "danger",
+  PENDING: "warning",
   REVERSED: "neutral",
 };
 
@@ -122,8 +122,8 @@ export default function AdminTransactionsPage() {
             setTypeFilter(e.target.value);
             setPage(1);
           }}
-          className="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm
-                     text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="h-9 rounded-lg border border-border bg-surface px-3 text-sm
+                     text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
         >
           {TransactionTypeOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -138,8 +138,8 @@ export default function AdminTransactionsPage() {
             setStatusFilter(e.target.value);
             setPage(1);
           }}
-          className="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm
-                     text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="h-9 rounded-lg border border-border bg-surface px-3 text-sm
+                     text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
         >
           {TransactionStatusOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -160,17 +160,17 @@ export default function AdminTransactionsPage() {
         />
       ) : (
         <>
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="bg-surface border border-border rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[640px]">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
+                  <tr className="bg-secondary border-b border-border">
                     {["Type", "From", "To", "Amount", "Status", "Date"].map(
                       (h) => (
                         <th
                           key={h}
                           className="text-left px-4 py-3 text-xs font-medium
-                                     text-gray-500 uppercase tracking-wide"
+                                     text-muted-foreground uppercase tracking-wide"
                         >
                           {h}
                         </th>
@@ -182,49 +182,50 @@ export default function AdminTransactionsPage() {
                   {transactions.map((tx) => (
                     <tr
                       key={tx.id}
-                      className="border-b border-gray-100 last:border-0
-                                 hover:bg-gray-50 transition-colors"
+                      className="border-b border-border last:border-0
+                                 hover:bg-secondary transition-colors cursor-pointer"
+                      onClick={() => (window.location.href = `/admin/transactions/${tx.id}`)}
                     >
                       <td className="px-4 py-3">
-                        <p className="font-medium text-slate-700">
+                        <p className="font-medium text-foreground">
                           {typeLabel[tx.type] ?? tx.type}
                         </p>
                         {tx.description && (
-                          <p className="text-xs text-gray-400 truncate max-w-45">
+                          <p className="text-xs text-muted-foreground truncate max-w-45">
                             {tx.description}
                           </p>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-muted-foreground">
                         {showFrom(tx) && tx.fromAccount ? (
                           <>
-                            <span className="font-mono text-xs text-gray-500">
+                            <span className="font-mono text-xs text-muted-foreground">
                               {tx.fromAccount.accountNumber}
                             </span>
-                            <span className="text-gray-400 text-xs ml-1.5">
+                            <span className="text-muted-foreground/60 text-xs ml-1.5">
                               ({tx.fromAccount.user.fullName})
                             </span>
                           </>
                         ) : (
-                          <span className="text-gray-400 text-xs">—</span>
+                          <span className="text-muted-foreground/60 text-xs">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-muted-foreground">
                         {showTo(tx) && tx.toAccount ? (
                           <>
-                            <span className="font-mono text-xs text-gray-500">
+                            <span className="font-mono text-xs text-muted-foreground">
                               {tx.toAccount.accountNumber}
                             </span>
-                            <span className="text-gray-400 text-xs ml-1.5">
+                            <span className="text-muted-foreground/60 text-xs ml-1.5">
                               ({tx.toAccount.user.fullName})
                             </span>
                           </>
                         ) : (
-                          <span className="text-gray-400 text-xs">—</span>
+                          <span className="text-muted-foreground/60 text-xs">—</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="font-semibold text-slate-700">
+                        <span className="font-semibold text-foreground">
                           {formatCurrency(tx.amount)}
                         </span>
                       </td>
@@ -233,7 +234,7 @@ export default function AdminTransactionsPage() {
                           {tx.status}
                         </Badge>
                       </td>
-                      <td className="px-4 py-3 text-gray-400 text-xs">
+                      <td className="px-4 py-3 text-muted-foreground text-xs">
                         {formatDate(tx.createdAt)}
                       </td>
                     </tr>
@@ -246,7 +247,7 @@ export default function AdminTransactionsPage() {
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between mt-4">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 Page {pagination.page} of {pagination.totalPages} -{" "}
                 {pagination.total} total entries
               </p>
