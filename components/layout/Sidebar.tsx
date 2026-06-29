@@ -5,7 +5,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuUsers, LuListChecks, LuClipboardList, LuX, LuLogOut } from "react-icons/lu";
+import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuUsers, LuListChecks, LuClipboardList, LuSettings, LuLogOut } from "react-icons/lu";
 
 interface NavItem {
   label: string;
@@ -25,6 +25,7 @@ const adminNav: NavItem[] = [
   { label: "Users",              href: "/admin/users",                 icon: <LuUsers size={18} /> },
   { label: "Recognized Accounts", href: "/admin/recognized-accounts",   icon: <LuListChecks size={18} /> },
   { label: "Transactions",       href: "/admin/transactions",          icon: <LuArrowUpDown size={18} /> },
+  { label: "Settings",           href: "/admin/settings",              icon: <LuSettings size={18} /> },
   { label: "Audit Logs",         href: "/admin/audit-logs",            icon: <LuClipboardList size={18} /> },
 ];
 

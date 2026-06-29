@@ -36,6 +36,7 @@ type AdminUser = {
   ssn?: string;
   createdAt: string;
   isVerified: boolean;
+  isLoginBlocked?: boolean;
   role: "ADMIN" | "USER" | string;
   accounts: Account[];
 };

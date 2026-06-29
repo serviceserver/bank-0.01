@@ -155,6 +155,7 @@ export async function getAllUsers(page = 1, limit = 20) {
         phone: true,
         role: true,
         isVerified: true,
+        isLoginBlocked: true,
         createdAt: true,
         accounts: {
           select: {
@@ -207,6 +208,7 @@ export async function getUserById(userId: string) {
         state: true,
         zip: true,
         isVerified: true,
+        isLoginBlocked: true,
         createdAt: true,
         accounts: {
           select: {
@@ -753,4 +755,86 @@ export async function searchRecognizedAccounts(query: string, limit = 5) {
     isExternal: !ra.account,
     bankName: ra.externalBankName,
   }));
+}
+
+// ─── Block/Unblock User Login ─────────────────────────────────────────
+
+export async function blockUserLogin(userId: string, adminId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error("User not found.");
+  if (user.role === "ADMIN") throw new Error("Cannot block admin users.");
+
+  return prisma.$transaction(async (tx) => {
+    const updated = await tx.user.update({
+      where: { id: userId },
+      data: { isLoginBlocked: true },
+    });
+
+    await tx.auditLog.create({
+      data: {
+        action: "USER_LOGIN_BLOCKED",
+        entity: "User",
+        entityId: userId,
+        performedBy: adminId,
+        metadata: { blockedAt: new Date() },
+      },
+    });
+
+    return updated;
+  });
+}
+
+export async function unblockUserLogin(userId: string, adminId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error("User not found.");
+
+  return prisma.$transaction(async (tx) => {
+    const updated = await tx.user.update({
+      where: { id: userId },
+      data: { isLoginBlocked: false },
+    });
+
+    await tx.auditLog.create({
+      data: {
+        action: "USER_LOGIN_UNBLOCKED",
+        entity: "User",
+        entityId: userId,
+        performedBy: adminId,
+        metadata: { unblockedAt: new Date() },
+      },
+    });
+
+    return updated;
+  });
+}
+
+// ─── Registration Toggle ───────────────────────────────────────────────
+
+export async function getRegistrationStatus() {
+  const setting = await prisma.setting.findUnique({
+    where: { key: "registration_enabled" },
+  });
+  return setting ? setting.value === "true" : true;
+}
+
+export async function setRegistrationStatus(enabled: boolean, adminId: string) {
+  return prisma.$transaction(async (tx) => {
+    const setting = await tx.setting.upsert({
+      where: { key: "registration_enabled" },
+      update: { value: enabled ? "true" : "false" },
+      create: { key: "registration_enabled", value: enabled ? "true" : "false" },
+    });
+
+    await tx.auditLog.create({
+      data: {
+        action: "REGISTRATION_TOGGLED",
+        entity: "Setting",
+        entityId: "registration_enabled",
+        performedBy: adminId,
+        metadata: { enabled, changedAt: new Date() },
+      },
+    });
+
+    return setting;
+  });
 }

@@ -30,6 +30,10 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) throw new Error("No account found with this email.");
 
+        if (user.isLoginBlocked) {
+          throw new Error("Your account has been suspended. Please contact support.");
+        }
+
         const passwordMatch = await bcrypt.compare(
           parsed.data.password,
           user.passwordHash

@@ -28,6 +28,7 @@ interface AdminUser {
   zip?: string | null;
   createdAt: string;
   isVerified: boolean;
+  isLoginBlocked?: boolean;
   role: "ADMIN" | "USER" | string;
   accounts: {
     id: string;
@@ -249,6 +250,50 @@ export default function AdminUserDetailPage() {
         setUser({ ...user, isVerified: true });
       } else {
         setError(data.message ?? "Failed to verify user.");
+      }
+    } catch {
+      setError("Network error.");
+    } finally {
+      setActionLoading(null);
+    }
+  }
+
+  async function handleBlockLogin() {
+    if (!user) return;
+    setActionLoading("block");
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/block`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "block" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUser({ ...user, isLoginBlocked: true });
+      } else {
+        setError(data.message ?? "Failed to block user login.");
+      }
+    } catch {
+      setError("Network error.");
+    } finally {
+      setActionLoading(null);
+    }
+  }
+
+  async function handleUnblockLogin() {
+    if (!user) return;
+    setActionLoading("unblock");
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/block`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "unblock" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUser({ ...user, isLoginBlocked: false });
+      } else {
+        setError(data.message ?? "Failed to unblock user login.");
       }
     } catch {
       setError("Network error.");
@@ -544,6 +589,30 @@ export default function AdminUserDetailPage() {
                 >
                   {actionLoading === "verify" ? "Verifying..." : "Verify User"}
                 </Button>
+              </div>
+            )}
+
+            {!editing && user.role !== "ADMIN" && (
+              <div className="mt-4">
+                {user.isLoginBlocked ? (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={handleUnblockLogin}
+                    disabled={actionLoading === "unblock"}
+                  >
+                    {actionLoading === "unblock" ? "Unblocking..." : "Unblock Login"}
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={handleBlockLogin}
+                    disabled={actionLoading === "block"}
+                  >
+                    {actionLoading === "block" ? "Blocking..." : "Block Login"}
+                  </Button>
+                )}
               </div>
             )}
           </div>
