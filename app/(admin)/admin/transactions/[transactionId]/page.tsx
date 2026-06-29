@@ -63,7 +63,7 @@ export default function AdminTransactionDetailPage() {
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ amount: "", description: "", status: "" });
+  const [form, setForm] = useState({ amount: "", description: "", status: "", createdAt: "" });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -86,6 +86,7 @@ export default function AdminTransactionDetailPage() {
           amount: String(txnData.data.amount),
           description: txnData.data.description ?? "",
           status: txnData.data.status,
+          createdAt: txnData.data.createdAt ? new Date(txnData.data.createdAt).toISOString().slice(0, 16) : "",
         });
       }
       if (logsData.success) setAuditLogs(logsData.data.logs);
@@ -101,14 +102,15 @@ export default function AdminTransactionDetailPage() {
     setError(null);
 
     const res = await fetch(`/api/admin/transactions/${transaction.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: Number(form.amount),
-        description: form.description.trim() || undefined,
-        status: form.status,
-      }),
-    });
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: Number(form.amount),
+          description: form.description.trim() || undefined,
+          status: form.status,
+          createdAt: form.createdAt || undefined,
+        }),
+      });
 
     const data = await res.json();
     setSaving(false);
@@ -175,23 +177,24 @@ export default function AdminTransactionDetailPage() {
               </div>
             )}
 
-            {!editing ? (
-              <div className="space-y-4">
-                <DetailRow label="Amount" value={formatCurrency(transaction.amount)} />
-                <DetailRow label="Description" value={transaction.description ?? "—"} />
-                <DetailRow label="Created" value={formatDate(transaction.createdAt)} />
-                <DetailRow label="Reference" value={transaction.reference} />
-                {transaction.fromAccount && (
-                  <DetailRow label="From" value={`${transaction.fromAccount.accountNumber} (${transaction.fromAccount.user.fullName})`} />
-                )}
-                {transaction.toAccount && (
-                  <DetailRow label="To" value={`${transaction.toAccount.accountNumber} (${transaction.toAccount.user.fullName})`} />
-                )}
-                <Button size="sm" onClick={() => setEditing(true)}>
-                  Edit Transaction
-                </Button>
-              </div>
-            ) : (
+{!editing ? (
+               <div className="space-y-4">
+                 <DetailRow label="Amount" value={formatCurrency(transaction.amount)} />
+                 <DetailRow label="Description" value={transaction.description ?? "—"} />
+                 <DetailRow label="Created" value={formatDate(transaction.createdAt)} />
+                 <DetailRow label="Date & Time" value={new Date(transaction.createdAt).toLocaleString()} />
+                 <DetailRow label="Reference" value={transaction.reference} />
+                 {transaction.fromAccount && (
+                   <DetailRow label="From" value={`${transaction.fromAccount.accountNumber} (${transaction.fromAccount.user.fullName})`} />
+                 )}
+                 {transaction.toAccount && (
+                   <DetailRow label="To" value={`${transaction.toAccount.accountNumber} (${transaction.toAccount.user.fullName})`} />
+                 )}
+                 <Button size="sm" onClick={() => setEditing(true)}>
+                   Edit Transaction
+                 </Button>
+               </div>
+             ) : (
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-foreground">Amount</label>
@@ -230,6 +233,16 @@ export default function AdminTransactionDetailPage() {
                     <option value="FAILED">Failed</option>
                     <option value="REVERSED">Reversed</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-foreground">Date & Time</label>
+                  <Input
+                    type="datetime-local"
+                    value={form.createdAt}
+                    onChange={(e) => setForm({ ...form, createdAt: e.target.value })}
+                    className="mt-1"
+                  />
                 </div>
 
                 <div className="flex gap-2 pt-2">

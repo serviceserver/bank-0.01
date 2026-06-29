@@ -59,21 +59,18 @@ export async function PATCH(
   try {
     const admin = await requireAdmin();
     const { transactionId } = await params;
-    const { amount, description, status } = await req.json();
+    const { amount, description, status, createdAt } = await req.json();
 
     return prisma.$transaction(async (tx) => {
       const txn = await tx.transaction.findUnique({
         where: { id: transactionId },
-        include: {
-          fromAccount: { select: { id: true, balance: true } },
-          toAccount: { select: { id: true, balance: true } },
-        },
       });
 
       if (!txn) throw new Error("Transaction not found");
 
       const oldAmount = txn.amount;
       const oldStatus = txn.status;
+      const oldDate = txn.createdAt;
       const newAmount = amount !== undefined ? new Decimal(amount) : oldAmount;
       const newStatus = status ?? oldStatus;
 
@@ -84,26 +81,27 @@ export async function PATCH(
 
       // Calculate balance adjustments only if amount changed
       const delta = newAmount.minus(oldAmount);
-      const updates: any = {};
 
-      if (txn.fromAccountId && delta.lessThan(0)) {
-        // Credit to toAccount if amount increased
-        await tx.account.update({
-          where: { id: txn.toAccountId! },
-          data: { balance: { increment: delta.abs() } },
-        });
-      } else if (txn.fromAccountId && delta.greaterThan(0)) {
-        // Debit from fromAccount if amount decreased
-        const fromAccount = await tx.account.findUnique({
-          where: { id: txn.fromAccountId },
-        });
-        if (fromAccount && fromAccount.balance.lessThan(delta)) {
-          throw new Error("Insufficient balance for adjustment");
+      if (txn.fromAccountId && !delta.isZero()) {
+        if (delta.lessThan(0)) {
+          // Credit to toAccount if amount increased
+          await tx.account.update({
+            where: { id: txn.toAccountId! },
+            data: { balance: { increment: delta.abs().toNumber() } },
+          });
+        } else {
+          // Debit from fromAccount if amount decreased
+          const fromAccount = await tx.account.findUnique({
+            where: { id: txn.fromAccountId },
+          });
+          if (fromAccount && fromAccount.balance.lessThan(delta)) {
+            throw new Error("Insufficient balance for adjustment");
+          }
+          await tx.account.update({
+            where: { id: txn.fromAccountId },
+            data: { balance: { decrement: delta.toNumber() } },
+          });
         }
-        await tx.account.update({
-          where: { id: txn.fromAccountId },
-          data: { balance: { decrement: delta.toNumber() } },
-        });
       }
 
       const updatedTxn = await tx.transaction.update({
@@ -112,36 +110,32 @@ export async function PATCH(
           ...(amount !== undefined && { amount: newAmount }),
           ...(description !== undefined && { description }),
           ...(status !== undefined && { status: newStatus }),
-          ...(amount !== undefined && {
-            balanceAfter: txn.balanceBefore.plus(newAmount).minus(txn.balanceBefore as any),
-          }),
+          ...(createdAt !== undefined && { createdAt: new Date(createdAt) }),
         },
       });
 
       // Create audit log
+      const metadataEntries: any = {};
+      if (amount !== undefined) {
+        metadataEntries.amount = { field: "amount", oldValue: oldAmount.toNumber(), newValue: newAmount.toNumber() };
+      }
+      if (description !== undefined) {
+        metadataEntries.description = { field: "description", oldValue: txn.description, newValue: description };
+      }
+      if (status !== undefined) {
+        metadataEntries.status = { field: "status", oldValue: oldStatus, newValue: newStatus };
+      }
+      if (createdAt !== undefined) {
+        metadataEntries.createdAt = { field: "createdAt", oldValue: oldDate.toISOString(), newValue: new Date(createdAt).toISOString() };
+      }
+
       await tx.auditLog.create({
         data: {
           action: "TRANSACTION_EDIT",
           entity: "Transaction",
           entityId: transactionId,
           performedBy: admin.id,
-          metadata: {
-            ...(amount !== undefined && {
-              field: "amount",
-              oldValue: oldAmount.toNumber(),
-              newValue: newAmount.toNumber(),
-            }),
-            ...(description !== undefined && {
-              field: "description",
-              oldValue: txn.description,
-              newValue: description,
-            }),
-            ...(status !== undefined && {
-              field: "status",
-              oldValue: oldStatus,
-              newValue: newStatus,
-            }),
-          },
+          metadata: metadataEntries,
         },
       });
 
