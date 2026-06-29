@@ -73,7 +73,7 @@ export default function TransactionsPage() {
 
       {/* Account Selector */}
       {accounts.length > 1 && (
-        <div className="flex gap-2 mb-6 flex-wrap">
+        <div className="flex gap-2 mb-6 flex-wrap py-6 sm:py-8">
           {accounts.map((acc) => (
             <button
               key={acc.id}
