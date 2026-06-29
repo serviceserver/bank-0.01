@@ -5,6 +5,7 @@ import { ok, fail } from "@/lib/utils/apiResponse";
 import prisma from "@/lib/db/prisma";
 import { Decimal } from "@prisma/client/runtime/library";
 import { TransactionStatus } from "@prisma/client";
+import { createAuditLog } from "@/lib/services/admin.service";
 
 // GET /api/admin/transactions/:transactionId
 export async function GET(
@@ -129,15 +130,14 @@ export async function PATCH(
         metadataEntries.createdAt = { field: "createdAt", oldValue: oldDate.toISOString(), newValue: new Date(createdAt).toISOString() };
       }
 
-      await tx.auditLog.create({
-        data: {
-          action: "TRANSACTION_EDIT",
-          entity: "Transaction",
-          entityId: transactionId,
-          performedBy: admin.id,
-          metadata: metadataEntries,
-        },
-      });
+      await createAuditLog(
+        tx,
+        "TRANSACTION_EDIT",
+        "Transaction",
+        transactionId,
+        admin.id,
+        metadataEntries
+      );
 
       return ok({
         ...updatedTxn,

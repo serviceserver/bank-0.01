@@ -3,8 +3,33 @@
 import prisma from "@/lib/db/prisma";
 import { TransactionType, TransactionStatus } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
 
 import bcrypt from "bcryptjs";
+
+export async function createAuditLog(
+  tx: Prisma.TransactionClient,
+  action: string,
+  entity: string,
+  entityId: string,
+  performedBy: string,
+  metadata: Record<string, any>
+) {
+  const actor = await tx.user.findUnique({
+    where: { id: performedBy },
+    select: { id: true },
+  });
+
+  await tx.auditLog.create({
+    data: {
+      action,
+      entity,
+      entityId,
+      performedBy: actor ? performedBy : null,
+      metadata,
+    },
+  });
+}
 
 // ─── Update User Account Info ─────────────────────────────────────
 
@@ -79,19 +104,18 @@ export async function updateUserInfo(
       },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "USER_INFO_UPDATED",
-        entity: "User",
-        entityId: userId,
-        performedBy: adminId,
-        metadata: {
-          updatedFields: Object.keys(data),
-          previousEmail: existingUser.email,
-          previousPhone: existingUser.phone,
-        },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "USER_INFO_UPDATED",
+      "User",
+      userId,
+      adminId,
+      {
+        updatedFields: Object.keys(data),
+        previousEmail: existingUser.email,
+        previousPhone: existingUser.phone,
+      }
+    );
 
     return user;
   });
@@ -124,17 +148,16 @@ export async function resetUserPassword(
       data: { passwordHash },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "USER_PASSWORD_RESET",
-        entity: "User",
-        entityId: userId,
-        performedBy: adminId,
-        metadata: {
-          resetAt: new Date(),
-        },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "USER_PASSWORD_RESET",
+      "User",
+      userId,
+      adminId,
+      {
+        resetAt: new Date(),
+      }
+    );
   });
 }
 
@@ -350,15 +373,14 @@ export async function manualCredit(
       },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "MANUAL_CREDIT",
-        entity: "Account",
-        entityId: accountId,
-        performedBy: adminId,
-        metadata: { amount, balanceBefore, balanceAfter, description },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "MANUAL_CREDIT",
+      "Account",
+      accountId,
+      adminId,
+      { amount, balanceBefore, balanceAfter, description }
+    );
 
     return transaction;
   });
@@ -407,15 +429,14 @@ export async function manualDebit(
       },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "MANUAL_DEBIT",
-        entity: "Account",
-        entityId: accountId,
-        performedBy: adminId,
-        metadata: { amount, balanceBefore, balanceAfter },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "MANUAL_DEBIT",
+      "Account",
+      accountId,
+      adminId,
+      { amount, balanceBefore, balanceAfter }
+    );
 
     return transaction;
   });
@@ -506,21 +527,23 @@ export async function verifyUser(userId: string, adminId: string) {
   if (!user) throw new Error("User not found.");
   if (user.isVerified) throw new Error("User is already verified.");
 
-  const [updated] = await prisma.$transaction([
-    prisma.user.update({
+  const updated = await prisma.$transaction(async (tx) => {
+    const updated = await tx.user.update({
       where: { id: userId },
       data: { isVerified: true },
-    }),
-    prisma.auditLog.create({
-      data: {
-        action: "USER_VERIFIED",
-        entity: "User",
-        entityId: userId,
-        performedBy: adminId,
-        metadata: { verifiedAt: new Date() },
-      },
-    }),
-  ]);
+    });
+
+    await createAuditLog(
+      tx,
+      "USER_VERIFIED",
+      "User",
+      userId,
+      adminId,
+      { verifiedAt: new Date() }
+    );
+
+    return updated;
+  });
 
   return updated;
 }
@@ -770,15 +793,14 @@ export async function blockUserLogin(userId: string, adminId: string) {
       data: { isLoginBlocked: true },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "USER_LOGIN_BLOCKED",
-        entity: "User",
-        entityId: userId,
-        performedBy: adminId,
-        metadata: { blockedAt: new Date() },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "USER_LOGIN_BLOCKED",
+      "User",
+      userId,
+      adminId,
+      { blockedAt: new Date() }
+    );
 
     return updated;
   });
@@ -794,15 +816,14 @@ export async function unblockUserLogin(userId: string, adminId: string) {
       data: { isLoginBlocked: false },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "USER_LOGIN_UNBLOCKED",
-        entity: "User",
-        entityId: userId,
-        performedBy: adminId,
-        metadata: { unblockedAt: new Date() },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "USER_LOGIN_UNBLOCKED",
+      "User",
+      userId,
+      adminId,
+      { unblockedAt: new Date() }
+    );
 
     return updated;
   });
@@ -825,15 +846,14 @@ export async function setRegistrationStatus(enabled: boolean, adminId: string) {
       create: { key: "registration_enabled", value: enabled ? "true" : "false" },
     });
 
-    await tx.auditLog.create({
-      data: {
-        action: "REGISTRATION_TOGGLED",
-        entity: "Setting",
-        entityId: "registration_enabled",
-        performedBy: adminId,
-        metadata: { enabled, changedAt: new Date() },
-      },
-    });
+    await createAuditLog(
+      tx,
+      "REGISTRATION_TOGGLED",
+      "Setting",
+      "registration_enabled",
+      adminId,
+      { enabled, changedAt: new Date() }
+    );
 
     return setting;
   });

@@ -2,9 +2,10 @@
 
 "use client";
 
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuSettings } from "react-icons/lu";
+import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuSettings, LuLogOut } from "react-icons/lu";
 
 const NAV_ITEMS = [
   { href: "/dashboard",        label: "Home",     icon: LuLayoutDashboard },
@@ -37,6 +38,13 @@ export function MobileNav() {
             </Link>
           );
         })}
+        <button
+          onClick={() => signOut({ callbackUrl: "/login" })}
+          className="flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <LuLogOut size={20} strokeWidth={1.8} />
+          <span className="leading-none">Log out</span>
+        </button>
       </div>
     </nav>
   );

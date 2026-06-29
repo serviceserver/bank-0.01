@@ -3,6 +3,7 @@
 import prisma from "@/lib/db/prisma";
 import { generateAccountNumber } from "@/lib/utils/generateAccountNumber";
 import { AccountType, AccountStatus } from "@prisma/client";
+import { createAuditLog } from "./admin.service";
 
 // ─── Create Account ────────────────────────────────────────────────
 
@@ -86,21 +87,23 @@ export async function setAccountStatus(
 
   if (!account) throw new Error("Account not found.");
 
-  const [updated] = await prisma.$transaction([
-    prisma.account.update({
+  const updated = await prisma.$transaction(async (tx) => {
+    const updated = await tx.account.update({
       where: { id: accountId },
       data: { status },
-    }),
-    prisma.auditLog.create({
-      data: {
-        action: status === AccountStatus.FROZEN ? "ACCOUNT_FROZEN" : "ACCOUNT_UNFROZEN",
-        entity: "Account",
-        entityId: accountId,
-        performedBy: adminId,
-        metadata: { previousStatus: account.status },
-      },
-    }),
-  ]);
+    });
+
+    await createAuditLog(
+      tx,
+      status === AccountStatus.FROZEN ? "ACCOUNT_FROZEN" : "ACCOUNT_UNFROZEN",
+      "Account",
+      accountId,
+      adminId,
+      { previousStatus: account.status }
+    );
+
+    return updated;
+  });
 
   return updated;
 }

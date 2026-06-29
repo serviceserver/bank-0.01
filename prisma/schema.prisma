@@ -121,8 +121,8 @@ model AuditLog {
   entity      String
   entityId    String
   metadata    Json?
-  performedBy String
-  actor       User      @relation(fields: [performedBy], references: [id])
+  performedBy String?
+  actor       User?     @relation(fields: [performedBy], references: [id])
   createdAt   DateTime  @default(now())
 }
 

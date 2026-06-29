@@ -446,7 +446,7 @@ export default function AdminUserDetailPage() {
       ) : (
         <>
           {/* User Info */}
-          <div className="bg-surface border border-border rounded-xl p-5 mb-6">
+          <div className="bg-surface border border-border rounded-xl p-5 py-6 sm:py-8">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 User Information
