@@ -82,8 +82,8 @@ export default function TransactionsPage() {
                 px-3 py-1.5 rounded-lg border text-sm font-medium
                 transition-colors duration-100
                 ${selectedAccount === acc.id
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-surface text-muted-foreground border-border hover:bg-secondary"
                 }
               `}
             >
@@ -94,7 +94,7 @@ export default function TransactionsPage() {
       )}
 
       {/* Transactions List */}
-      <div className="bg-white border border-gray-200 rounded-xl px-4 sm:px-5">
+      <div className="bg-surface border border-border rounded-xl px-4 sm:px-5">
         {loading ? (
           <div className="flex justify-center py-16">
             <Spinner />
@@ -117,8 +117,8 @@ export default function TransactionsPage() {
             {/* Pagination */}
             {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between py-4
-                              border-t border-gray-100 mt-2">
-                <p className="text-xs text-gray-500">
+                                border-t border-border mt-2">
+                <p className="text-xs text-muted-foreground">
                   Page {pagination.page} of {pagination.totalPages}
                 </p>
                 <div className="flex gap-2">
