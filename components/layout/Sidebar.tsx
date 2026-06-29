@@ -50,7 +50,7 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
         />
       )}
 
-<aside
+      <aside
         className={`
           fixed inset-y-0 left-0 z-50 w-64 bg-(--sidebar)
           flex flex-col transition-transform duration-200 ease-in-out
@@ -117,7 +117,7 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
             Sign out
           </button>
         </div>
-        </aside>
+      </aside>
     </>
   );
 }
