@@ -57,6 +57,9 @@ interface Transaction {
   toAccount?: AccountReference | null;
   status: "SUCCESS" | string;
   createdAt: string;
+  externalAccountNumber?: string | null;
+  externalAccountHolder?: string | null;
+  externalBankName?: string | null;
 }
 
 interface GetAllTransactionsResponse {

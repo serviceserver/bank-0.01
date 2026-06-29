@@ -307,7 +307,10 @@ export async function manualCredit(
   accountId: string,
   amount: number,
   adminId: string,
-  description?: string
+  description?: string,
+  externalAccountNumber?: string,
+  externalAccountHolder?: string,
+  externalBankName?: string
 ) {
   if (amount <= 0) throw new Error("Amount must be greater than zero.");
 
@@ -337,6 +340,11 @@ export async function manualCredit(
         balanceAfter,
         description: description ?? "Manual credit by admin",
         toAccountId: accountId,
+        ...(externalAccountNumber && {
+          externalAccountNumber,
+          externalAccountHolder: externalAccountHolder ?? null,
+          externalBankName: externalBankName ?? null,
+        }),
       },
     });
 
@@ -346,7 +354,7 @@ export async function manualCredit(
         entity: "Account",
         entityId: accountId,
         performedBy: adminId,
-        metadata: { amount, balanceBefore, balanceAfter },
+        metadata: { amount, balanceBefore, balanceAfter, description },
       },
     });
 

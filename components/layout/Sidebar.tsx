@@ -21,11 +21,11 @@ const customerNav: NavItem[] = [
 ];
 
 const adminNav: NavItem[] = [
-  { label: "Overview",      href: "/admin",                 icon: <LuLayoutDashboard size={18} /> },
-  { label: "Users",         href: "/admin/users",           icon: <LuUsers size={18} /> },
-  { label: "Transactions",  href: "/admin/transactions",    icon: <LuArrowUpDown size={18} /> },
-  { label: "Recognized Accounts", href: "/admin/recognized-accounts", icon: <LuListChecks size={18} /> },
-  { label: "Audit Logs",    href: "/admin/audit-logs",      icon: <LuClipboardList size={18} /> },
+  { label: "Overview",           href: "/admin",                       icon: <LuLayoutDashboard size={18} /> },
+  { label: "Users",              href: "/admin/users",                 icon: <LuUsers size={18} /> },
+  { label: "Recognized Accounts", href: "/admin/recognized-accounts",   icon: <LuListChecks size={18} /> },
+  { label: "Transactions",       href: "/admin/transactions",          icon: <LuArrowUpDown size={18} /> },
+  { label: "Audit Logs",         href: "/admin/audit-logs",            icon: <LuClipboardList size={18} /> },
 ];
 
 interface SidebarProps {
@@ -64,7 +64,7 @@ export function Sidebar({ role, userName, isOpen, onClose }: SidebarProps) {
               <span className="text-(--sidebar) font-bold text-base leading-none">T</span>
             </div>
             <div className="leading-tight">
-              <p className="text-(--sidebar-fg) font-semibold text-sm tracking-wide">TitanBank</p>
+              <p className="text-(--sidebar-fg) font-semibold text-sm tracking-wide">Titan Bank</p>
               <p className="text-(--sidebar-muted) text-[10px] uppercase tracking-widest">Premium Banking</p>
             </div>
           </Link>

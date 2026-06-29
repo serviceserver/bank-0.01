@@ -72,6 +72,19 @@ export default function AdminUserDetailPage() {
   const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({});
   const [passwordSaving, setPasswordSaving] = useState(false);
 
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [transactionModalType, setTransactionModalType] = useState<"credit" | "debit" | null>(null);
+  const [transactionModalAccountId, setTransactionModalAccountId] = useState<string | null>(null);
+  const [transactionForm, setTransactionForm] = useState({
+    amount: "",
+    description: "",
+    externalAccountNumber: "",
+    externalAccountHolder: "",
+    externalBankName: "Titan Bank",
+  });
+  const [transactionErrors, setTransactionErrors] = useState<Record<string, string>>({});
+  const [transactionSubmitting, setTransactionSubmitting] = useState(false);
+
   useEffect(() => {
     if (!userId) return;
 
@@ -136,6 +149,15 @@ export default function AdminUserDetailPage() {
   function handlePasswordChange(field: string, value: string) {
     setPasswordForm((prev) => ({ ...prev, [field]: value }));
     setPasswordErrors((prev) => {
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }
+
+  function handleTransactionChange(field: string, value: string) {
+    setTransactionForm((prev) => ({ ...prev, [field]: value }));
+    setTransactionErrors((prev) => {
       const next = { ...prev };
       delete next[field];
       return next;
@@ -261,62 +283,91 @@ export default function AdminUserDetailPage() {
     }
   }
 
-  async function handleCredit(accountId: string) {
-    const amount = prompt("Enter credit amount:");
-    if (!amount || isNaN(Number(amount))) return;
-    const description = prompt("Description (optional):") ?? undefined;
-    setActionLoading(accountId);
+  function openTransactionModal(type: "credit" | "debit", accountId: string) {
+    setTransactionModalType(type);
+    setTransactionModalAccountId(accountId);
+    setTransactionForm({
+      amount: "",
+      description: "",
+      externalAccountNumber: "",
+      externalAccountHolder: "",
+      externalBankName: "Titan Bank",
+    });
+    setTransactionErrors({});
+    setShowTransactionModal(true);
+  }
+
+  function closeTransactionModal() {
+    setShowTransactionModal(false);
+    setTransactionModalType(null);
+    setTransactionModalAccountId(null);
+    setTransactionForm({
+      amount: "",
+      description: "",
+      externalAccountNumber: "",
+      externalAccountHolder: "",
+      externalBankName: "Titan Bank",
+    });
+    setTransactionErrors({});
+  }
+
+  async function handleTransactionSubmit() {
+    if (!transactionModalAccountId) return;
+
+    setTransactionSubmitting(true);
+    setTransactionErrors({});
+
+    const amount = Number(transactionForm.amount);
+    if (!amount || amount <= 0) {
+      setTransactionErrors({ amount: "Valid amount is required." });
+      setTransactionSubmitting(false);
+      return;
+    }
+
     try {
-      const res = await fetch(`/api/admin/accounts/${accountId}/credit`, {
+      const endpoint = `/api/admin/accounts/${transactionModalAccountId}/${transactionModalType}`;
+      const body: Record<string, unknown> = {
+        amount,
+        description: transactionForm.description.trim(),
+      };
+
+      if (transactionModalType === "credit") {
+        body.externalAccountNumber = transactionForm.externalAccountNumber || undefined;
+        body.externalAccountHolder = transactionForm.externalAccountHolder || undefined;
+        body.externalBankName = transactionForm.externalBankName || undefined;
+      }
+
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: Number(amount), description }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
+
       if (data.success && user) {
         setUser({
           ...user,
           accounts: user.accounts.map((acc) =>
-            acc.id === accountId ? { ...acc, balance: data.data.balanceAfter } : acc
+            acc.id === transactionModalAccountId ? { ...acc, balance: data.data.balanceAfter } : acc
           ),
         });
+        closeTransactionModal();
       } else {
-        setError(data.message ?? "Failed to credit account.");
+        setTransactionErrors({ general: data.message ?? `Failed to ${transactionModalType} account.` });
       }
     } catch {
-      setError("Network error.");
+      setTransactionErrors({ general: "Network error." });
     } finally {
-      setActionLoading(null);
+      setTransactionSubmitting(false);
     }
   }
 
+  async function handleCredit(accountId: string) {
+    openTransactionModal("credit", accountId);
+  }
+
   async function handleDebit(accountId: string) {
-    const amount = prompt("Enter debit amount:");
-    if (!amount || isNaN(Number(amount))) return;
-    const description = prompt("Description (optional):") ?? undefined;
-    setActionLoading(accountId);
-    try {
-      const res = await fetch(`/api/admin/accounts/${accountId}/debit`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: Number(amount), description }),
-      });
-      const data = await res.json();
-      if (data.success && user) {
-        setUser({
-          ...user,
-          accounts: user.accounts.map((acc) =>
-            acc.id === accountId ? { ...acc, balance: data.data.balanceAfter } : acc
-          ),
-        });
-      } else {
-        setError(data.message ?? "Failed to debit account.");
-      }
-    } catch {
-      setError("Network error.");
-    } finally {
-      setActionLoading(null);
-    }
+    openTransactionModal("debit", accountId);
   }
 
   if (!session) return null;
@@ -576,23 +627,23 @@ export default function AdminUserDetailPage() {
                   </thead>
                   <tbody>
                     {user.accounts.map((acc) => (
-                        <tr
-                          key={acc.id}
-                          className="border-b border-border last:border-0 hover:bg-muted/10"
-                        >
+                      <tr
+                        key={acc.id}
+                        className="border-b border-border last:border-0 hover:bg-muted/10"
+                      >
                         <td className="px-4 py-3">
-                           <span
-                              className="font-mono text-xs text-accent hover:underline cursor-pointer"
-                             onClick={() =>
-                               router.push(
-                                 `/admin/accounts/${acc.id}`
-                               )
-                             }
-                           >
-                             {acc.accountNumber}
-                           </span>
-                         </td>
-                         <td className="px-4 py-3 text-muted-foreground">{acc.type}</td>
+                          <span
+                            className="font-mono text-xs text-accent hover:underline cursor-pointer"
+                            onClick={() =>
+                              router.push(
+                                `/admin/accounts/${acc.id}`
+                              )
+                            }
+                          >
+                            {acc.accountNumber}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-muted-foreground">{acc.type}</td>
                         <td className="px-4 py-3">
                           <Badge
                             variant={
@@ -606,7 +657,7 @@ export default function AdminUserDetailPage() {
                             {acc.status}
                           </Badge>
                         </td>
-                         <td className="px-4 py-3 font-medium text-foreground">
+                        <td className="px-4 py-3 font-medium text-foreground">
                           {formatCurrency(acc.balance)}
                         </td>
                         <td className="px-4 py-3">
@@ -657,9 +708,82 @@ export default function AdminUserDetailPage() {
               </div>
             )}
           </div>
+
+          {/* Transaction Modal */}
+          {showTransactionModal && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-lg w-full max-w-md p-6 flex flex-col gap-4">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {transactionModalType === "credit" ? "Credit Account" : "Debit Account"}
+                </h2>
+
+                <div className="flex flex-col gap-3 text-sm">
+                  <Input
+                    label="Amount"
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={transactionForm.amount}
+                    onChange={(e) => handleTransactionChange("amount", e.target.value)}
+                    error={transactionErrors.amount}
+                  />
+                  <Input
+                    label="Description (optional)"
+                    placeholder="e.g. Deposit, adjustment"
+                    value={transactionForm.description}
+                    onChange={(e) => handleTransactionChange("description", e.target.value)}
+                  />
+
+                  {transactionModalType === "credit" && (
+                    <>
+                      <Input
+                        label="Source Account Number (optional)"
+                        placeholder="External account number"
+                        value={transactionForm.externalAccountNumber}
+                        onChange={(e) => handleTransactionChange("externalAccountNumber", e.target.value.replace(/\D/g, ""))}
+                      />
+                      <Input
+                        label="Source Account Holder (optional)"
+                        placeholder="External account holder name"
+                        value={transactionForm.externalAccountHolder}
+                        onChange={(e) => handleTransactionChange("externalAccountHolder", e.target.value)}
+                      />
+                      <Input
+                        label="Source Bank Name"
+                        value={transactionForm.externalBankName}
+                        onChange={(e) => handleTransactionChange("externalBankName", e.target.value)}
+                      />
+                    </>
+                  )}
+
+                  {transactionErrors.general && (
+                    <p className="text-xs text-red-600">{transactionErrors.general}</p>
+                  )}
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    variant="secondary"
+                    className="flex-1"
+                    onClick={closeTransactionModal}
+                    disabled={transactionSubmitting}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    onClick={handleTransactionSubmit}
+                    disabled={transactionSubmitting}
+                  >
+                    {transactionSubmitting ? "Processing..." : transactionModalType === "credit" ? "Credit" : "Debit"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </PageWrapper>
   );
 }
-

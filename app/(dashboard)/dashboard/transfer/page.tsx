@@ -298,10 +298,10 @@ export default function TransferPage() {
                           {formatCurrency(acc.balance)}
                         </option>
                       ))}
-                    </select>
+</select>
                   </div>
 
-{/* To Account */}
+                  {/* To Account */}
                   <div className="flex flex-col gap-2 relative">
                     <label className="text-sm font-medium text-foreground">To account</label>
                     <Input
@@ -317,28 +317,28 @@ export default function TransferPage() {
                       }}
                     />
 
-{showDropdown && searchResults.length > 0 && !resolved && (
-                       <div className="absolute top-full left-0 right-0 mt-1 bg-surface border border-border rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
-                         {searchResults.map((acc) => (
-                           <button
-                             key={acc.id}
-                             type="button"
-                             className="w-full px-3 py-2.5 text-left hover:bg-muted/30 transition-colors first:rounded-t-lg last:rounded-b-lg"
-                             onClick={() => selectRecognized(acc.accountNumber)}
-                           >
-                             <div className="flex flex-col">
-                               <p className="text-sm font-medium text-foreground">
-                                 {acc.accountHolder}
-                               </p>
-                               <p className="text-xs text-muted-foreground">
-                                 ....{acc.accountNumber.slice(-4)} • {acc.type.replace("_", " ")}
-                                 {acc.bankName && acc.bankName !== "Titan Bank" && ` • ${acc.bankName}`}
-                               </p>
-                             </div>
-                           </button>
-                         ))}
-                       </div>
-                     )}
+                    {showDropdown && searchResults.length > 0 && !resolved && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-surface border border-border rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+                        {searchResults.map((acc) => (
+                          <button
+                            key={acc.id}
+                            type="button"
+                            className="w-full px-3 py-2.5 text-left hover:bg-muted/30 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                            onClick={() => selectRecognized(acc.accountNumber)}
+                          >
+                            <div className="flex flex-col">
+                              <p className="text-sm font-medium text-foreground">
+                                {acc.accountHolder}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                ....{acc.accountNumber.slice(-4)} • {acc.type.replace("_", " ")}
+                                {acc.bankName && acc.bankName !== "Titan Bank" && ` • ${acc.bankName}`}
+                              </p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
 
                     {resolving && <p className="text-xs text-muted-foreground mt-1">Verifying account...</p>}
 

@@ -12,7 +12,7 @@ export async function POST(
   try {
     const { accountId } = await params;
     const admin = await requireAdmin();
-    const { amount, description } = await req.json();
+    const { amount, description, externalAccountNumber, externalAccountHolder, externalBankName } = await req.json();
 
     if (!amount || isNaN(amount)) return fail("Valid amount is required.");
 
@@ -20,7 +20,10 @@ export async function POST(
       accountId,
       Number(amount),
       admin.id,
-      description
+      description,
+      externalAccountNumber,
+      externalAccountHolder,
+      externalBankName
     );
     return ok(transaction, 201);
   } catch (e: any) {

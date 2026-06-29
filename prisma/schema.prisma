@@ -101,6 +101,10 @@ model Transaction {
 
   toAccountId     String?
   toAccount       Account?          @relation("ReceivedTransactions", fields: [toAccountId], references: [id])
+
+  externalAccountNumber String?
+  externalAccountHolder String?
+  externalBankName String?
 }
 
 model AuditLog {
