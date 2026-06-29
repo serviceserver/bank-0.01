@@ -31,9 +31,8 @@ export default async function AdminPage(): Promise<React.ReactNode> {
         title="Admin Overview"
         subtitle="System-wide summary"
       />
-
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-6 sm:py-8">
         <StatCard
           label="Total Users"
           value={String(userPagination.total)}

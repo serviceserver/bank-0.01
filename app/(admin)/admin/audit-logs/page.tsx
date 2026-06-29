@@ -77,8 +77,7 @@ export default function AuditLogsPage() {
         />
       ) : (
         <>
-          <div className="bg-white border border-gray-200 rounded-xl
-                          overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden py-6 sm:py-8">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[640px]">
                 <thead>

@@ -65,7 +65,7 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative bg-primary text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-primary via-primary-light to-primary opacity-90" />
+        <div className="absolute inset-0 bg-linear-to-br from-black via-black to-primary opacity-90" />
         <Image src="/banner.jpg" alt="Hero background" fill className="object-cover object-center opacity-20 z-20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 z-30">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -110,9 +110,9 @@ export default function Home() {
                     <p className="text-2xl font-semibold text-primary-foreground tracking-widest">
                       .... .... .... 4289
                     </p>
-                    <div className="flex items-center justify-between mt-4">
-                      <p className="text-xs text-primary-light/80">MEMBER SINCE 2000</p>
-                      <p className="text-xs text-primary-light/80">VALID THRU 12/28</p>
+                    <div className="flex items-center justify-between mt-4 text-white">
+                      <p className="text-xs ">MEMBER SINCE 2000</p>
+                      <p className="text-xs ">VALID THRU 12/28</p>
                     </div>
                   </div>
                 </div>
@@ -127,10 +127,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Our greatest cards.
               </h2>
-              <p className="mt-3 text-muted-foreground max-w-2xl">
+              <p className="mt-3 text-gray-600 max-w-2xl">
                 Choose the card that fits your lifestyle. Every card comes with exceptional benefits and service.
               </p>
             </div>
@@ -159,7 +159,7 @@ export default function Home() {
                     Earn points on every purchase and enjoy premium benefits tailored to your needs.
                   </p>
                   <Link href="/register">
-                    <Button size="sm" className="mt-4 w-full">
+                    <Button variant="primary" size="sm" className="mt-4 w-full">
                       Learn more
                     </Button>
                   </Link>
@@ -171,14 +171,14 @@ export default function Home() {
       </section>
 
       {/* Banking */}
-      <section id="banking" className="border-t border-border bg-muted/30">
+      <section id="banking" className="border-t border-border bg-muted/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Banking that works as hard as you do.
               </h2>
-              <p className="mt-4 text-muted-foreground leading-relaxed">
+              <p className="mt-4 text-muted-gray-800 leading-relaxed">
                 High-yield savings, no-fee checking, and powerful tools to make your money work harder.
               </p>
               <ul className="mt-8 space-y-4">
@@ -188,7 +188,7 @@ export default function Home() {
                    "FDIC insured up to $250,000",
                    "24/7 customer support",
                  ].map((item) => (
-                   <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                   <li key={item} className="flex items-start gap-3 text-sm text-muted-gray-800">
                      <span className="mt-0.5 text-primary"><FiCheck /></span>
                     <span>{item}</span>
                   </li>
@@ -203,19 +203,19 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-4">
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">4.25%</p>
-                <p className="mt-2 text-sm text-muted-foreground">APY on High-Yield Savings</p>
+                <p className="mt-2 text-sm text-muted-gray-800">APY on High-Yield Savings</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">$0</p>
-                <p className="mt-2 text-sm text-muted-foreground">Monthly fees</p>
+                <p className="mt-2 text-sm text-muted-gray-800">Monthly fees</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">70K+</p>
-                <p className="mt-2 text-sm text-muted-foreground">Free ATM withdrawals</p>
+                <p className="mt-2 text-sm text-muted-gray-800">Free ATM withdrawals</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">Instant</p>
-                <p className="mt-2 text-sm text-muted-foreground">Direct deposit</p>
+                <p className="mt-2 text-sm text-muted-gray-800">Direct deposit</p>
               </Card>
             </div>
           </div>
@@ -226,10 +226,10 @@ export default function Home() {
       <section id="rewards" className="border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
               The Titan Bank difference.
             </h2>
-            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-3 text-gray- max-w-2xl mx-auto">
               More than a bank. A partner in your financial life with tools, perks, and service you won&rsquo;t find anywhere else.
             </p>
           </div>
@@ -246,12 +246,12 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border bg-muted/30">
+      <section className="border-t border-border bg-muted/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
             Ready to join?
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
             Apply in minutes and get a decision fast. No branch visit required.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">

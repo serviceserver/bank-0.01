@@ -115,7 +115,7 @@ export default function AdminTransactionsPage() {
       />
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-3 mb-6">
+      <div className="flex flex-wrap items-center gap-3 py-6 sm:py-8">
         <select
           value={typeFilter}
           onChange={(e) => {

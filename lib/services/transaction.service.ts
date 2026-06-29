@@ -129,21 +129,28 @@ export async function transfer(
     ensureActive(fromAccount.status);
     ensureSufficientBalance(fromAccount.balance, amt);
 
-    // Load recipient
+    // Check for external recognized account first
+    const externalRecipient = await tx.recognizedAccount.findFirst({
+      where: { externalAccountNumber: toAccountNumber },
+    });
+
+    // Load internal recipient
     const toAccount = await tx.account.findUnique({
       where: { accountNumber: toAccountNumber },
     });
 
-    if (!toAccount) throw new Error("Recipient account not found.");
-    if (toAccount.id === fromAccountId) throw new Error("Cannot transfer to the same account.");
-    ensureActive(toAccount.status);
+    // Determine if transfer is internal or external
+    const isExternal = !!externalRecipient && !toAccount;
+
+    if (!toAccount && !isExternal) {
+      throw new Error("Recipient account not found.");
+    }
+    if (toAccount && toAccount.id === fromAccountId) throw new Error("Cannot transfer to the same account.");
+    if (toAccount) ensureActive(toAccount.status);
 
     // Snapshot balances
     const senderBalanceBefore = fromAccount.balance;
     const senderBalanceAfter = senderBalanceBefore.sub(amt);
-
-    const recipientBalanceBefore = toAccount.balance;
-    const recipientBalanceAfter = recipientBalanceBefore.add(amt);
 
     // Debit sender
     await tx.account.update({
@@ -151,13 +158,18 @@ export async function transfer(
       data: { balance: senderBalanceAfter },
     });
 
-    // Credit recipient
-    await tx.account.update({
-      where: { id: toAccount.id },
-      data: { balance: recipientBalanceAfter },
-    });
+    // Credit recipient (only for internal accounts)
+    if (toAccount) {
+      const recipientBalanceBefore = toAccount.balance;
+      const recipientBalanceAfter = recipientBalanceBefore.add(amt);
 
-    // Record a single transaction linking both accounts
+      await tx.account.update({
+        where: { id: toAccount.id },
+        data: { balance: recipientBalanceAfter },
+      });
+    }
+
+    // Record transaction
     return tx.transaction.create({
       data: {
         type: TransactionType.TRANSFER,
@@ -165,9 +177,9 @@ export async function transfer(
         amount: amt,
         balanceBefore: senderBalanceBefore,
         balanceAfter: senderBalanceAfter,
-        description: description ?? "Internal Transfer",
+        description: description ?? "Transfer",
         fromAccountId,
-        toAccountId: toAccount.id,
+        toAccountId: toAccount?.id ?? null,
       },
     });
   });

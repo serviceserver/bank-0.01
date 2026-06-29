@@ -216,7 +216,7 @@ export default function AdminAccountDetailPage() {
       ) : (
         <>
           {/* Account Info */}
-          <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
+          <div className="bg-white border border-gray-200 rounded-xl px-5 py-6 sm:py-8">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
                 Account Information
