@@ -34,7 +34,7 @@ export function PageWrapper({ children, role, userName }: PageWrapperProps) {
       </div>
 
       {/* Mobile bottom nav */}
-      <MobileNav />
+      <MobileNav role={role} />
     </SidebarContext.Provider>
   );
 }
