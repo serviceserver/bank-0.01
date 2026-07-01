@@ -39,7 +39,7 @@ export function MobileNav({ role }: MobileNavProps) {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-surface border-t border-border lg:hidden">
-      <div className={`flex items-stretch h-14 pb-[env(safe-area-inset-bottom)] ${navItems.length + 1 > 4 ? "overflow-x-auto px-1 gap-1" : "justify-around"}`}>
+      <div className={`flex items-stretch h-14 pb-[env(safe-area-inset-bottom)] ${role === "ADMIN" || navItems.length + 1 > 4 ? "overflow-x-auto px-1 gap-1" : "justify-around"}`}>
         {navItems.map((item) => {
           const active = pathname === item.href || pathname.startsWith(item.href + "/");
           const Icon = item.icon;
@@ -49,7 +49,7 @@ export function MobileNav({ role }: MobileNavProps) {
               href={item.href}
               className={`
                 flex-1 flex flex-col items-center justify-center gap-1
-                text-[11px] font-medium transition-colors
+                text-[11px] font-medium transition-colors whitespace-nowrap
                 ${active ? "text-primary" : "text-muted-foreground hover:text-foreground"}
               `}
             >
@@ -58,13 +58,16 @@ export function MobileNav({ role }: MobileNavProps) {
             </Link>
           );
         })}
-        <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <LuLogOut size={18} strokeWidth={1.8} />
-          <span className="leading-none">Log out</span>
-        </button>
+        {/* Logout button for customers */}
+        {role === "CUSTOMER" && (
+          <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+          >
+            <LuLogOut size={18} strokeWidth={1.8} />
+            <span className="leading-none">Log out</span>
+          </button>
+        )}
       </div>
     </nav>
   );

@@ -3,12 +3,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { TopBar } from "@/components/layout/TopBar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
+import { LuLogOut } from "react-icons/lu";
 
 export default function AdminSettingsPage() {
   const { data: session } = useSession();
@@ -111,14 +112,16 @@ export default function AdminSettingsPage() {
 
           <div className="bg-surface border border-border rounded-xl p-6">
             <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
-              User Login Control
+              Account
             </h3>
-            <p className="text-sm text-muted-foreground">
-              Block/unblock individual user logins from the user details page.
-            </p>
-            <p className="text-xs text-muted-foreground mt-2">
-              Navigate to Users → Select a user → Use "Block Login" or "Unblock Login" buttons.
-            </p>
+            <Button
+              variant="secondary"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="flex items-center gap-2"
+            >
+              <LuLogOut size={16} />
+              Sign Out
+            </Button>
           </div>
         </div>
       )}
