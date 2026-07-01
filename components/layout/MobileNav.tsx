@@ -18,15 +18,16 @@ const customerNav: NavItem[] = [
   { href: "/dashboard/accounts", label: "Accounts", icon: LuBanknote },
   { href: "/dashboard/transactions", label: "Activity", icon: LuArrowUpDown },
   { href: "/dashboard/transfer", label: "Transfer", icon: LuSend },
+  { href: "/dashboard/settings", label: "Settings", icon: LuSettings },
 ];
 
 const adminNav: NavItem[] = [
   { href: "/admin", label: "Overview", icon: LuLayoutDashboard },
   { href: "/admin/users", label: "Users", icon: LuUsers },
-  { href: "/admin/recognized-accounts", label: "Accounts", icon: LuListChecks },
+  { href: "/admin/recognized-accounts", label: "Recognized Accounts", icon: LuListChecks },
   { href: "/admin/transactions", label: "Transactions", icon: LuArrowUpDown },
   { href: "/admin/settings", label: "Settings", icon: LuSettings },
-  { href: "/admin/audit-logs", label: "Audit", icon: LuClipboardList },
+  { href: "/admin/audit-logs", label: "Audit Logs", icon: LuClipboardList },
 ];
 
 interface MobileNavProps {

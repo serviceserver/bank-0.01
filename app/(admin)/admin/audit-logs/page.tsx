@@ -109,21 +109,22 @@ export default function AuditLogsPage() {
                             {actionLabel[log.action] ?? log.action}
                           </Badge>
                         </td>
-                        <td className="px-4 py-3 text-gray-600">
+<td className="px-4 py-3 text-gray-600">
                           <span className="font-medium text-slate-700">
                             {log.entity}
                           </span>
-                          <span className="text-gray-400 font-mono text-xs
-                                           ml-1.5">
-                            {log.entityId.slice(0, 8)}…
-                          </span>
+                          {log.entityId && (
+                            <span className="text-gray-400 font-mono text-xs ml-1.5">
+                              {log.entityId.slice(0, 8)}…
+                            </span>
+                          )}
                         </td>
                         <td className="px-4 py-3">
                           <p className="text-slate-700 font-medium">
-                            {log.actor.fullName}
+                            {log.actor?.fullName ?? "System"}
                           </p>
                           <p className="text-gray-400 text-xs">
-                            {log.actor.email}
+                            {log.actor?.email ?? "—"}
                           </p>
                         </td>
                         <td className="px-4 py-3 text-gray-400 text-xs">

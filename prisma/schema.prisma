@@ -49,6 +49,7 @@ model User {
   email         String    @unique
   phone         String    @unique
   passwordHash  String
+  transferPin   String?
   role          Role      @default(CUSTOMER)
   ssn           String?   @unique
   dob           String?

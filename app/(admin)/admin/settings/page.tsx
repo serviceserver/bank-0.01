@@ -4,6 +4,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { TopBar } from "@/components/layout/TopBar";
 import { Badge } from "@/components/ui/Badge";
@@ -122,6 +123,20 @@ export default function AdminSettingsPage() {
               <LuLogOut size={16} />
               Sign Out
             </Button>
+          </div>
+
+          <div className="bg-surface border border-border rounded-xl p-6 mt-4">
+            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
+              Audit Logs
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              View all admin actions and system events.
+            </p>
+            <Link href="/admin/audit-logs">
+              <Button variant="secondary" className="flex items-center gap-2">
+                View Audit Logs
+              </Button>
+            </Link>
           </div>
         </div>
       )}

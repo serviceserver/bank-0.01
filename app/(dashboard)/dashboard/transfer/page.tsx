@@ -13,7 +13,7 @@ import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { Account } from "@/lib/interface";
 import { LuCheck, LuCopy } from "react-icons/lu";
 
-type Step = "form" | "confirm" | "success";
+type Step = "form" | "pin" | "success";
 
 export default function TransferPage() {
   const { data: session } = useSession();
@@ -51,7 +51,10 @@ export default function TransferPage() {
   const [resolveError, setResolveError] = useState("");
   const [step, setStep] = useState<Step>("form");
   const [loading, setLoading] = useState(false);
+  const [pinLoading, setPinLoading] = useState(false);
   const [error, setError] = useState("");
+  const [pin, setPin] = useState("");
+  const [pinError, setPinError] = useState("");
   const [receipt, setReceipt] = useState<{ reference: string; createdAt: string } | null>(null);
 
   const BANK_NAME = "Titan Bank";
@@ -184,9 +187,38 @@ export default function TransferPage() {
     amountNum > 0 &&
     amountNum <= fromAccount.balance;
 
-  async function handleTransfer() {
-    if (!isValidTransfer) return;
+  async function verifyPin() {
+    if (!/^\d{4,6}$/.test(pin)) {
+      setPinError("PIN must be 4-6 digits.");
+      return;
+    }
 
+    setPinLoading(true);
+    setPinError("");
+
+    try {
+      const res = await fetch("/api/users/verify-transfer-pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin }),
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        setPinError(data.message || "Invalid PIN.");
+        return;
+      }
+
+      executeTransfer();
+    } catch {
+      setPinError("Network error. Please try again.");
+    } finally {
+      setPinLoading(false);
+    }
+  }
+
+  async function executeTransfer() {
     setLoading(true);
     setError("");
 
@@ -234,6 +266,8 @@ export default function TransferPage() {
     setReceipt(null);
     setSearchResults([]);
     setShowDropdown(false);
+    setPin("");
+    setPinError("");
     setStep("form");
   }
 
@@ -253,13 +287,13 @@ export default function TransferPage() {
       <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-3xl mx-auto">
         {/* Step indicator */}
         <div className="flex items-center gap-2 mb-8">
-          {(["form", "confirm", "success"] as Step[]).map((s, i) => (
+          {(["form", "pin", "success"] as Step[]).map((s, i) => (
             <div key={s} className="flex items-center gap-2">
               <div
                 className={`h-2.5 rounded-full transition-all ${
                   s === step
                     ? "w-8 bg-[#002a5c]"
-                    : i < (["form", "confirm", "success"] as Step[]).indexOf(step)
+                    : i < (["form", "pin", "success"] as Step[]).indexOf(step)
                     ? "w-2.5 bg-[#002a5c]"
                     : "w-2.5 bg-muted"
                 }`}
@@ -397,11 +431,7 @@ export default function TransferPage() {
                     />
                   </div>
 
-                  <Button
-                    className="w-full mt-2"
-                    disabled={!isValidTransfer || resolving}
-                    onClick={() => setStep("confirm")}
-                  >
+                  <Button className="w-full mt-2" disabled={!isValidTransfer || resolving} onClick={() => setStep("pin")}>
                     Continue to Review
                   </Button>
                 </div>
@@ -449,15 +479,15 @@ export default function TransferPage() {
         )}
 
         {/* Step 2: Confirm */}
-        {step === "confirm" && (
+        {step === "pin" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
               <Card className="p-6 sm:p-8">
-                <h2 className="text-lg font-semibold text-foreground mb-6">Review transfer</h2>
+                <h2 className="text-lg font-semibold text-foreground mb-6">Verify transfer</h2>
 
-                {error && (
+                {pinError && (
                   <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
-                    {error}
+                    {pinError}
                   </div>
                 )}
 
@@ -471,7 +501,24 @@ export default function TransferPage() {
 
                   {form.description && <ConfirmRow label="Description" value={form.description} />}
 
-                  <div className="mt-6 pt-6 border-t border-border">
+                  <div className="h-px bg-border my-4" />
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium text-foreground">Enter your transfer PIN</label>
+                    <Input
+                      type="password"
+                      inputMode="numeric"
+                      pattern="[0-9]{4,6}"
+                      maxLength={6}
+                      placeholder="4-6 digit PIN"
+                      value={pin}
+                      onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      className="text-sm"
+                      autoFocus
+                    />
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-border">
                     <p className="text-xs text-muted-foreground leading-relaxed">
                       By confirming, you authorize this transfer. Funds will typically be available within minutes.
                     </p>
@@ -481,7 +528,7 @@ export default function TransferPage() {
                     <Button variant="secondary" className="flex-1" onClick={() => setStep("form")}>
                       Back
                     </Button>
-                    <Button className="flex-1" loading={loading} onClick={handleTransfer}>
+                    <Button className="flex-1" loading={pinLoading || loading} onClick={verifyPin}>
                       Confirm & Send
                     </Button>
                   </div>
