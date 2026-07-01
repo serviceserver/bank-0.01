@@ -16,7 +16,9 @@ export default function CustomerSettingsPage() {
   const [success, setSuccess] = useState("");
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
+  const [otp, setOtp] = useState("");
   const [hasPin, setHasPin] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
 
   useEffect(() => {
     if (!session) return;
@@ -36,7 +38,7 @@ export default function CustomerSettingsPage() {
     void checkPin();
   }, [session]);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleRequestOtp(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -48,11 +50,43 @@ export default function CustomerSettingsPage() {
       return;
     }
 
+    if (pin.length < 4) {
+      setError("PIN must be at least 4 digits.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/users/transfer-pin", {
         method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setOtpSent(true);
+        setSuccess("Verification code sent to your email.");
+      } else {
+        setError(data.message || "Failed to send verification code.");
+      }
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleConfirmOtp(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const res = await fetch("/api/users/transfer-pin/confirm", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pin }),
+        body: JSON.stringify({ pin, otp }),
       });
 
       const data = await res.json();
@@ -62,6 +96,8 @@ export default function CustomerSettingsPage() {
         setHasPin(true);
         setPin("");
         setConfirmPin("");
+        setOtp("");
+        setOtpSent(false);
       } else {
         setError(data.message || "Failed to update PIN.");
       }
@@ -84,15 +120,15 @@ export default function CustomerSettingsPage() {
             Transfer PIN
           </h3>
 
-          {hasPin ? (
+          {hasPin && !otpSent ? (
             <p className="text-sm text-muted-foreground mb-4">
-              You have a transfer PIN set. Update it below.
+              Update your transfer PIN below. A verification code will be sent to your email.
             </p>
-          ) : (
+          ) : !hasPin && !otpSent ? (
             <p className="text-sm text-muted-foreground mb-4">
               Set a 4-6 digit PIN to authorize transfers for added security.
             </p>
-          )}
+          ) : null}
 
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-danger/10 border border-danger/20 text-sm text-danger">
@@ -106,41 +142,81 @@ export default function CustomerSettingsPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-foreground">New PIN</label>
-              <Input
-                type="password"
-                inputMode="numeric"
-                pattern="[0-9]{4,6}"
-                maxLength={6}
-                placeholder="Enter 4-6 digit PIN"
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                required
-                className="text-sm"
-              />
-            </div>
+          {!otpSent ? (
+            <form onSubmit={handleRequestOtp} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-foreground">New PIN</label>
+                <Input
+                  type="password"
+                  inputMode="numeric"
+                  pattern="[0-9]{4,6}"
+                  maxLength={6}
+                  placeholder="Enter 4-6 digit PIN"
+                  value={pin}
+                  onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  required
+                  className="text-sm"
+                />
+              </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-foreground">Confirm PIN</label>
-              <Input
-                type="password"
-                inputMode="numeric"
-                pattern="[0-9]{4,6}"
-                maxLength={6}
-                placeholder="Confirm PIN"
-                value={confirmPin}
-                onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                required
-                className="text-sm"
-              />
-            </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-foreground">Confirm PIN</label>
+                <Input
+                  type="password"
+                  inputMode="numeric"
+                  pattern="[0-9]{4,6}"
+                  maxLength={6}
+                  placeholder="Confirm PIN"
+                  value={confirmPin}
+                  onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  required
+                  className="text-sm"
+                />
+              </div>
 
-            <Button type="submit" disabled={loading || pin.length < 4}>
-              {loading ? "Saving..." : "Save PIN"}
-            </Button>
-          </form>
+              <Button type="submit" disabled={loading || pin.length < 4}>
+                {loading ? "Sending..." : "Send Verification Code"}
+              </Button>
+            </form>
+          ) : (
+            <form onSubmit={handleConfirmOtp} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-foreground">Verification Code</label>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  placeholder="Enter 6-digit code"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  required
+                  className="text-sm"
+                />
+                <p className="text-xs text-muted-foreground">
+                  A 6-digit code was sent to your email address.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <Button type="submit" disabled={loading || otp.length !== 6}>
+                  {loading ? "Verifying..." : "Verify & Update PIN"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => {
+                    setOtpSent(false);
+                    setOtp("");
+                    setError("");
+                  }}
+                  disabled={loading}
+                >
+                  Back
+                </Button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </PageWrapper>

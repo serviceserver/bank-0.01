@@ -161,6 +161,41 @@ export async function resetUserPassword(
   });
 }
 
+export async function resetUserTransferPin(
+  userId: string,
+  adminId: string,
+  newPin: string
+) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, email: true, fullName: true },
+  });
+
+  if (!user) throw new Error("User not found.");
+
+  const pinHash = await bcrypt.hash(newPin, 12);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: userId },
+      data: { transferPin: pinHash },
+    });
+
+    await createAuditLog(
+      tx,
+      "USER_TRANSFER_PIN_RESET",
+      "User",
+      userId,
+      adminId,
+      {
+        resetAt: new Date(),
+      }
+    );
+  });
+
+  return user;
+}
+
 // ─── Get All Users ─────────────────────────────────────────────────
 
 export async function getAllUsers(page = 1, limit = 20) {
@@ -232,6 +267,7 @@ export async function getUserById(userId: string) {
         zip: true,
         isVerified: true,
         isLoginBlocked: true,
+        transferPin: true,
         createdAt: true,
         accounts: {
           select: {
@@ -241,11 +277,10 @@ export async function getUserById(userId: string) {
             type: true,
             status: true,
             balance: true,
-            createdAt: true,
           },
         },
       },
-  });
+    });
 
   if (!user) throw new Error("User not found.");
   return {
@@ -255,6 +290,7 @@ export async function getUserById(userId: string) {
       ...acc,
       balance: acc.balance.toNumber(),
     })),
+    hasTransferPin: !!user.transferPin,
   };
 }
 

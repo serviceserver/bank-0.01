@@ -2,12 +2,8 @@
 
 import { requireSession } from "@/lib/utils/getSession";
 import { ok, fail } from "@/lib/utils/apiResponse";
-import { setTransferPin, hasTransferPin } from "@/lib/services/pin.service";
-import { z } from "zod";
-
-const PinSchema = z.object({
-  pin: z.string().regex(/^\d{4,6}$/, "PIN must be 4-6 digits"),
-});
+import { hasTransferPin } from "@/lib/services/pin.service";
+import { sendTransferPinOtp } from "@/lib/services/otp.service";
 
 // GET - Check if user has PIN set
 export async function GET() {
@@ -20,22 +16,17 @@ export async function GET() {
   }
 }
 
-// POST - Set or update PIN
-export async function POST(req: Request) {
+// POST - Request OTP to update transfer PIN
+export async function POST() {
   try {
     const user = await requireSession();
-    const body = await req.json();
-
-    const result = PinSchema.safeParse(body);
-    if (!result.success) {
-      return fail(result.error.errors[0]?.message ?? "Invalid PIN format");
+    if (!user.email) {
+      return fail("Unauthorized", 401);
     }
-
-    await setTransferPin(user.id, result.data.pin);
-
-    return ok({ success: true });
+    await sendTransferPinOtp(user.id, user.email);
+    return ok({ success: true, message: "Verification code sent to your email." });
   } catch (e: any) {
     if (e.message === "UNAUTHORIZED") return fail("Unauthorized", 401);
-    return fail(e.message || "Failed to set PIN");
+    return fail(e.message || "Failed to send verification code.");
   }
 }

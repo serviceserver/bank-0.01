@@ -30,6 +30,7 @@ interface AdminUser {
   isVerified: boolean;
   isLoginBlocked?: boolean;
   role: "ADMIN" | "USER" | string;
+  hasTransferPin?: boolean;
   accounts: {
     id: string;
     accountNumber: string;
@@ -72,6 +73,14 @@ export default function AdminUserDetailPage() {
   });
   const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({});
   const [passwordSaving, setPasswordSaving] = useState(false);
+
+  const [showPinReset, setShowPinReset] = useState(false);
+  const [pinForm, setPinForm] = useState({
+    newPin: "",
+    confirmPin: "",
+  });
+  const [pinErrors, setPinErrors] = useState<Record<string, string>>({});
+  const [pinSaving, setPinSaving] = useState(false);
 
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [transactionModalType, setTransactionModalType] = useState<"credit" | "debit" | null>(null);
@@ -163,6 +172,40 @@ export default function AdminUserDetailPage() {
       delete next[field];
       return next;
     });
+  }
+
+  function handlePinChange(field: string, value: string) {
+    setPinForm((prev) => ({ ...prev, [field]: value }));
+    setPinErrors((prev) => {
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }
+
+  async function handleResetTransferPin() {
+    if (!user) return;
+    setPinSaving(true);
+    setPinErrors({});
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/transfer-pin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pinForm),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setShowPinReset(false);
+        setPinForm({ newPin: "", confirmPin: "" });
+        setUser({ ...user, hasTransferPin: true });
+      } else {
+        setPinErrors({ general: data.message ?? "Failed to reset transfer PIN." });
+      }
+    } catch {
+      setError("Network error.");
+    } finally {
+      setPinSaving(false);
+    }
   }
 
   async function handleStartEdit() {
@@ -661,14 +704,74 @@ export default function AdminUserDetailPage() {
                 )}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
-                Password change requires the Reset Password action.
-              </p>
-            )}
-          </div>
+               <p className="text-sm text-muted-foreground">
+                 Password change requires the Reset Password action.
+               </p>
+             )}
+           </div>
 
-          {/* Accounts */}
-          <div className="bg-surface border border-border rounded-xl overflow-hidden">
+           {/* Transfer PIN */}
+           <div className="bg-surface border border-border rounded-xl p-5 mb-6">
+             <div className="flex items-center justify-between mb-4">
+               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
+                 Transfer PIN
+               </h3>
+               {!showPinReset && (
+                 <Button size="sm" variant="secondary" onClick={() => setShowPinReset(true)}>
+                   {user?.hasTransferPin ? "Reset Transfer PIN" : "Set Transfer PIN"}
+                 </Button>
+               )}
+             </div>
+
+             {showPinReset ? (
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                 <Input
+                   label="New PIN"
+                   type="password"
+                   inputMode="numeric"
+                   pattern="[0-9]{4,6}"
+                   maxLength={6}
+                   placeholder="Enter 4-6 digit PIN"
+                   value={pinForm.newPin}
+                   onChange={(e) => handlePinChange("newPin", e.target.value.replace(/\D/g, "").slice(0, 6))}
+                   error={pinErrors.newPin}
+                 />
+                 <Input
+                   label="Confirm PIN"
+                   type="password"
+                   inputMode="numeric"
+                   pattern="[0-9]{4,6}"
+                   maxLength={6}
+                   placeholder="Confirm PIN"
+                   value={pinForm.confirmPin}
+                   onChange={(e) => handlePinChange("confirmPin", e.target.value.replace(/\D/g, "").slice(0, 6))}
+                   error={pinErrors.confirmPin}
+                 />
+                 <div className="sm:col-span-2 flex flex-wrap gap-2 mt-2">
+                   <Button size="sm" onClick={handleResetTransferPin} disabled={pinSaving}>
+                     {pinSaving ? "Saving..." : "Confirm Reset"}
+                   </Button>
+                   <Button size="sm" variant="secondary" onClick={() => setShowPinReset(false)} disabled={pinSaving}>
+                     Cancel
+                   </Button>
+                 </div>
+                 {pinErrors.general && (
+                   <div className="sm:col-span-2 mt-1 text-xs text-red-600">
+                     {pinErrors.general}
+                   </div>
+                 )}
+               </div>
+             ) : (
+               <p className="text-sm text-muted-foreground">
+                 {user?.hasTransferPin
+                   ? "Transfer PIN is set. Use Reset to change it."
+                   : "No transfer PIN set. Use Set to create one."}
+               </p>
+             )}
+           </div>
+
+           {/* Accounts */}
+           <div className="bg-surface border border-border rounded-xl overflow-hidden">
             <div className="px-5 py-4 border-b border-border">
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 Accounts

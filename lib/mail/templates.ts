@@ -249,13 +249,13 @@ export function transferReceivedTemplate(data: {
         Titan Bank
       </h2>
       <p style="font-size:13px;color:#6b7280;margin:0 0 24px">
-        Transfer Received
+        Transaction Notification
       </p>
 
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;
                   padding:16px;margin-bottom:24px;">
         <p style="margin:0;font-size:13px;color:#16a34a;font-weight:600;">
-          ↓ Transfer Credit
+          ↓ Credit Alert
         </p>
         <p style="margin:4px 0 0;font-size:24px;font-weight:700;color:#0f172a;">
           ${data.amount}
@@ -293,6 +293,39 @@ export function transferReceivedTemplate(data: {
       <p style="font-size:12px;color:#9ca3af;margin:24px 0 0;
                 border-top:1px solid #f3f4f6;padding-top:16px;">
         If you did not authorise this transaction, contact support immediately.
+      </p>
+    </div>
+  `;
+}
+
+export function otpTemplate(data: { fullName: string; code: string }) {
+  return `
+    <div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;
+                padding:32px 24px;background:#fff;border:1px solid #e5e7eb;
+                border-radius:12px;">
+      <h2 style="font-size:18px;font-weight:700;color:#0f172a;margin:0 0 4px">
+        Titan Bank
+      </h2>
+      <p style="font-size:13px;color:#6b7280;margin:0 0 24px">
+        Verification Code
+      </p>
+
+      <p style="font-size:14px;color:#374151;margin:0 0 16px;">
+        Use the following verification code to update your transfer PIN.
+        This code will expire in 5 minutes.
+      </p>
+
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;
+                  padding:20px;margin-bottom:24px;text-align:center;">
+        <p style="margin:0;font-size:32px;font-weight:700;color:#0f172a;
+                  letter-spacing:8px;font-family:monospace;">
+          ${data.code}
+        </p>
+      </div>
+
+      <p style="font-size:12px;color:#9ca3af;margin:24px 0 0;
+                border-top:1px solid #f3f4f6;padding-top:16px;">
+        If you did not request this change, please contact support immediately.
       </p>
     </div>
   `;

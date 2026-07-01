@@ -27,7 +27,7 @@ const adminNav: NavItem[] = [
   { href: "/admin/recognized-accounts", label: "Recognized Accounts", icon: LuListChecks },
   { href: "/admin/transactions", label: "Transactions", icon: LuArrowUpDown },
   { href: "/admin/settings", label: "Settings", icon: LuSettings },
-  { href: "/admin/audit-logs", label: "Audit Logs", icon: LuClipboardList },
+  // { href: "/admin/audit-logs", label: "Audit Logs", icon: LuClipboardList },
 ];
 
 interface MobileNavProps {
