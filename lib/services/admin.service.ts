@@ -39,7 +39,7 @@ export async function updateUserInfo(
   data: {
     fullName: string;
     email: string;
-    phone: string;
+    phone?: string;
     dob?: string;
     address?: string;
     city?: string;
@@ -64,7 +64,7 @@ export async function updateUserInfo(
     }
   }
 
-  if (existingUser.phone !== data.phone) {
+  if (data.phone !== undefined && existingUser.phone !== data.phone) {
     const phoneTaken = await prisma.user.findUnique({
       where: { phone: data.phone },
       select: { id: true },
@@ -80,7 +80,7 @@ export async function updateUserInfo(
       data: {
         fullName: data.fullName,
         email: data.email,
-        phone: data.phone,
+        ...(data.phone !== undefined && { phone: data.phone }),
         ...(data.dob !== undefined && { dob: data.dob }),
         ...(data.address !== undefined && { address: data.address }),
         ...(data.city !== undefined && { city: data.city }),
