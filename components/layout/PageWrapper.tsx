@@ -2,7 +2,8 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { Sidebar } from "./Sidebar";
 import { SidebarContext } from "./sidebar-context";
 import { MobileNav } from "./MobileNav";
@@ -15,6 +16,14 @@ interface PageWrapperProps {
 
 export function PageWrapper({ children, role, userName }: PageWrapperProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session && session.user && !session.user.id) {
+      // Session was invalidated (e.g., account blocked or token reset)
+      signOut({ callbackUrl: "/login" });
+    }
+  }, [session]);
 
   return (
     <SidebarContext.Provider value={{ openSidebar: () => setSidebarOpen(true) }}>

@@ -826,7 +826,7 @@ export async function blockUserLogin(userId: string, adminId: string) {
   return prisma.$transaction(async (tx) => {
     const updated = await tx.user.update({
       where: { id: userId },
-      data: { isLoginBlocked: true },
+      data: { isLoginBlocked: true, tokenVersion: { increment: 1 } },
     });
 
     await createAuditLog(
@@ -849,7 +849,7 @@ export async function unblockUserLogin(userId: string, adminId: string) {
   return prisma.$transaction(async (tx) => {
     const updated = await tx.user.update({
       where: { id: userId },
-      data: { isLoginBlocked: false },
+      data: { isLoginBlocked: false, tokenVersion: { increment: 1 } },
     });
 
     await createAuditLog(

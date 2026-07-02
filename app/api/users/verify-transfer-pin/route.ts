@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const result = PinSchema.safeParse(body);
     if (!result.success) {
-      return fail(result.error.errors[0]?.message ?? "Invalid PIN format");
+      return fail("Invalid PIN format");
     }
 
     const valid = await verifyTransferPin(user.id, result.data.pin);

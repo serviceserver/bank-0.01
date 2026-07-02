@@ -6,6 +6,13 @@ import bcrypt from "bcryptjs";
 import prisma from "@/lib/db/prisma";
 import { loginSchema } from "@/lib/validators/auth.validators";
 
+type ExtendedToken = {
+  id?: string;
+  role?: string;
+  tokenVersion?: number;
+  invalidated?: boolean;
+};
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -52,18 +59,57 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // On sign in, attach role and id to the token
+      const customToken = token as ExtendedToken;
+
+      // On sign in, attach id, role, and tokenVersion to the token
       if (user) {
-        token.id = user.id;
-        token.role = (user as any).role;
+        customToken.id = user.id;
+        customToken.role = (user as any).role;
       }
-      return token;
+
+      // If we have a signed-in user, verify the session is still valid
+      if (customToken.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: customToken.id },
+          select: { tokenVersion: true, isLoginBlocked: true },
+        });
+
+        if (!dbUser || dbUser.isLoginBlocked) {
+          customToken.invalidated = true;
+          return customToken as any;
+        }
+
+        const tokenVersion = customToken.tokenVersion;
+        if (tokenVersion !== undefined && tokenVersion !== dbUser.tokenVersion) {
+          customToken.invalidated = true;
+          return customToken as any;
+        }
+
+        customToken.tokenVersion = dbUser.tokenVersion;
+        delete customToken.invalidated;
+      }
+
+      return customToken as any;
     },
     async session({ session, token }) {
+      const customToken = token as ExtendedToken;
+
+      if (customToken.invalidated) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: "",
+            name: "",
+            email: "",
+            role: "",
+          },
+        };
+      }
       // Expose id and role to the session object
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
+        session.user.id = customToken.id as string;
+        session.user.role = customToken.role as string;
       }
       return session;
     },

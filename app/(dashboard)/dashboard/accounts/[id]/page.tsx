@@ -21,7 +21,7 @@ interface AccountDetailPageProps {
 export default async function AccountDetailPage({ params }: AccountDetailPageProps) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
-  if (!session?.user) redirect("/login");
+  if (!session?.user || !session.user.id) redirect("/login");
 
   let account: Account;
   try {

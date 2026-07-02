@@ -20,7 +20,7 @@ import { GetAllUsersResponse, GetAllTransactionsResponse } from "@/lib/interface
 
 export default async function AdminPage(): Promise<React.ReactNode> {
   const session: Session | null = await getServerSession(authOptions);
-  if (!session?.user || session.user.role !== "ADMIN") redirect("/dashboard");
+  if (!session?.user || !session.user.id || session.user.role !== "ADMIN") redirect("/dashboard");
 
   const { users, pagination: userPagination }: GetAllUsersResponse = await getAllUsers(1, 5);
   const { transactions }: GetAllTransactionsResponse = await getAllTransactions(1, 5);

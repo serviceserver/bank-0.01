@@ -20,7 +20,7 @@ import { Account, Transaction } from "@/lib/interface";
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions);
-    if (!session?.user) redirect("/login");
+    if (!session?.user || !session.user.id) redirect("/login");
 
     const isAdmin = session.user.role === "ADMIN";
 

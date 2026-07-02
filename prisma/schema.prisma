@@ -50,6 +50,7 @@ model User {
   phone         String    @unique
   passwordHash  String
   transferPin   String?
+  tokenVersion  Int       @default(0)
   role          Role      @default(CUSTOMER)
   ssn           String?   @unique
   dob           String?
