@@ -37,7 +37,7 @@ export function PageWrapper({ children, role, userName }: PageWrapperProps) {
         />
 
         {/* Main content */}
-        <main className="flex-1 lg:ml-0 min-w-0 px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <main className="flex-1 lg:ml-0 min-w-0 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-20 lg:pb-6">
           {children}
         </main>
       </div>
