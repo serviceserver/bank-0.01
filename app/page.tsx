@@ -155,7 +155,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Our greatest cards.
               </h2>
-              <p className="mt-3 text-muted-foreground max-w-2xl">
+              <p className="mt-3 text-foreground max-w-2xl">
                 Choose the card that fits your lifestyle. Every card comes with exceptional benefits and service.
               </p>
             </div>
@@ -203,7 +203,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Banking that works as hard as you do.
               </h2>
-              <p className="mt-4 text-muted-foreground leading-relaxed">
+              <p className="mt-4 text-foreground leading-relaxed">
                 High-yield savings, no-fee checking, and powerful tools to make your money work harder.
               </p>
               <ul className="mt-8 space-y-4">
@@ -290,7 +290,7 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
               The Titan Bank difference.
             </h2>
-            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-3 text-foreground max-w-2xl mx-auto">
               More than a bank. A partner in your financial life with tools, perks, and service you won&apos;t find anywhere else.
             </p>
           </div>
