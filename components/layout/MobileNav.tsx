@@ -2,10 +2,9 @@
 
 "use client";
 
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuUsers, LuListChecks, LuClipboardList, LuLogOut, LuSettings } from "react-icons/lu";
+import { LuLayoutDashboard, LuBanknote, LuArrowUpDown, LuSend, LuUsers, LuListChecks, LuSettings } from "react-icons/lu";
 
 interface NavItem {
   href: string;
@@ -27,7 +26,6 @@ const adminNav: NavItem[] = [
   { href: "/admin/recognized-accounts", label: "Recognized Accounts", icon: LuListChecks },
   { href: "/admin/transactions", label: "Transactions", icon: LuArrowUpDown },
   { href: "/admin/settings", label: "Settings", icon: LuSettings },
-  // { href: "/admin/audit-logs", label: "Audit Logs", icon: LuClipboardList },
 ];
 
 interface MobileNavProps {
@@ -59,16 +57,6 @@ export function MobileNav({ role }: MobileNavProps) {
             </Link>
           );
         })}
-        {/* Logout button for customers */}
-        {role === "CUSTOMER" && (
-          <button
-            onClick={() => signOut({ callbackUrl: "/login" })}
-            className="flex-1 flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-          >
-            <LuLogOut size={18} strokeWidth={1.8} />
-            <span className="leading-none">Log out</span>
-          </button>
-        )}
       </div>
     </nav>
   );

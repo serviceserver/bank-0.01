@@ -3,11 +3,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { TopBar } from "@/components/layout/TopBar";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { LuLogOut } from "react-icons/lu";
 
 export default function CustomerSettingsPage() {
   const { data: session } = useSession();
@@ -217,6 +218,23 @@ export default function CustomerSettingsPage() {
               </div>
             </form>
           )}
+        </div>
+      </div>
+
+      {/* Logout Section */}
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="bg-surface border border-border rounded-xl p-6">
+          <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
+            Account Actions
+          </h3>
+          <Button
+            variant="secondary"
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="flex items-center gap-2"
+          >
+            <LuLogOut size={16} />
+            Sign Out
+          </Button>
         </div>
       </div>
     </PageWrapper>
