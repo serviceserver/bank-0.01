@@ -5,9 +5,11 @@ import { z } from "zod";
 export const updateUserInfoSchema = z.object({
   fullName: z.string().min(3, "Full name must be at least 3 characters."),
   email: z.string().email("Invalid email address."),
-  phone: z
-    .string()
-    .regex(/^(\+1)?[2-9]\d{2}[2-9]\d{6}$/, "Invalid US phone number. Use format: 2125551234"),
+  phone: z.string()
+    .transform(phone => phone.replace(/\D/g, ''))
+    .pipe(z.string().regex(/^(1)?[2-9]\d{2}[2-9]\d{6}$/, "Invalid US phone number. Use format: +1 212-555-1234 or 212-555-1234"))
+    .optional()
+    .or(z.literal("")),
   dob: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Date of birth must be in YYYY-MM-DD format.")

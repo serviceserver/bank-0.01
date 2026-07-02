@@ -255,12 +255,12 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Business solutions that scale with you.
               </h2>
-              <p className="mt-4 text-muted-foreground leading-relaxed">
+              <p className="mt-4 text-foreground leading-relaxed">
                 From startups to enterprises, we provide the financial tools and insights your business needs to thrive.
               </p>
               <ul className="mt-8 space-y-4">
                 {BUSINESS_FEATURES.map((item) => (
-                  <li key={item.title} className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <li key={item.title} className="flex items-start gap-3 text-sm text-foreground">
                     <span className="mt-0.5 text-primary"><FiCheck /></span>
                     <span>{item.description}</span>
                   </li>
@@ -312,7 +312,7 @@ export default function Home() {
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
             Ready to join?
           </h2>
-          <p className="mt-4 text-primary-light max-w-2xl mx-auto">
+          <p className="mt-4 text-surface max-w-2xl mx-auto">
             Apply in minutes and get a decision fast. No branch visit required.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">

@@ -1,10 +1,11 @@
 // app/(public)/business/page.tsx
 
 import Link from "next/link";
-import { FiCheck, FiBriefcase, FiBarChart2, FiShield } from "react-icons/fi";
+import { FiBriefcase, FiBarChart2, FiShield } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Navbar } from "@/components/layout/Navbar";
+import { PublicFooter } from "@/components/layout/PublicFooter";
 
 const BUSINESS_SERVICES = [
   {
@@ -26,16 +27,16 @@ const BUSINESS_SERVICES = [
 
 export default function BusinessPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
 
-      <section className="border-t border-border bg-background">
+      <section className="flex-1 border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center mb-12">
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
               Business Solutions
             </h1>
-            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-3 text-foreground max-w-2xl mx-auto">
               Financial tools and insights your business needs to thrive, from startups to enterprises.
             </p>
           </div>
@@ -57,15 +58,7 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-muted/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-surface border border-border rounded-xl p-8 text-center">
-            <h2 className="text-2xl font-semibold text-primary">Business Advantage</h2>
-            <p className="text-5xl font-bold text-primary my-4">2.5x</p>
-            <p className="text-sm text-muted-foreground">Higher reward rates on business spending</p>
-          </div>
-        </div>
-      </section>
+      <PublicFooter />
     </div>
   );
 }

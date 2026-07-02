@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { href: "/banking", label: "Banking" },
   { href: "/rewards", label: "Rewards" },
   { href: "/business", label: "Business" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
 ];
 
 export function Navbar() {

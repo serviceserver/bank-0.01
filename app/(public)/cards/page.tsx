@@ -1,10 +1,11 @@
 // app/(public)/cards/page.tsx
 
 import Link from "next/link";
-import { FiCheck, FiStar, FiShield, FiCreditCard, FiZap } from "react-icons/fi";
+import { FiCheck } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Navbar } from "@/components/layout/Navbar";
+import { PublicFooter } from "@/components/layout/PublicFooter";
 
 const CARD_TYPES = [
   {
@@ -44,16 +45,16 @@ const CARD_TYPES = [
 
 export default function CardsPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
       
-      <section className="border-t border-border bg-background">
+      <section className="flex-1 border-t border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center mb-12">
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
               Credit Cards
             </h1>
-            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-3 text-foreground max-w-2xl mx-auto">
               Choose the card that fits your lifestyle. Every card comes with exceptional benefits and service.
             </p>
           </div>
@@ -100,15 +101,7 @@ export default function CardsPage() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-muted/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <h2 className="text-xl font-semibold text-foreground">Ready to get started?</h2>
-          <p className="mt-2 text-muted-foreground">Apply in minutes with our quick online application.</p>
-          <Link href="/register" className="mt-6 inline-block">
-            <Button size="lg">Apply for a Card</Button>
-          </Link>
-        </div>
-      </section>
+      <PublicFooter />
     </div>
   );
 }
