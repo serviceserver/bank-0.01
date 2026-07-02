@@ -160,8 +160,8 @@ export default function RecognizedAccountsPage() {
         }
       />
 
-      {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm">
+{error && (
+        <div className="mb-4 p-3 rounded-lg bg-danger/10 text-danger text-sm">
           {error}
         </div>
       )}
@@ -176,16 +176,16 @@ export default function RecognizedAccountsPage() {
           description="Add accounts that users can quickly identify during transfers."
         />
       ) : (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden py-6 sm:py-8">
+        <div className="bg-surface border border-border rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm min-w-160">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
+                <tr className="border-b border-border bg-secondary">
                   {["Account", "Holder", "Type", "Added", "Actions"].map((h) => (
                     <th
                       key={h}
                       className="text-left px-4 py-3 text-xs font-medium
-                                 text-gray-500 uppercase tracking-wide"
+                             text-muted-foreground uppercase tracking-wide"
                     >
                       {h}
                     </th>
@@ -194,24 +194,24 @@ export default function RecognizedAccountsPage() {
               </thead>
               <tbody>
                 {accounts.map((acc) => (
-                  <tr key={acc.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                    <td className="text-gray-500 px-4 py-3 font-mono text-xs">
+                  <tr key={acc.id} className="border-b border-border last:border-0 hover:bg-secondary">
+                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                       {acc.account?.accountNumber || acc.externalAccountNumber}
                     </td>
                     <td className="px-4 py-3">
-                      <p className="font-medium text-slate-700">
+                      <p className="font-medium text-foreground">
                         {acc.account?.user?.fullName || acc.externalAccountHolder}
                       </p>
                       {acc.isExternal && acc.externalBankName && (
-                        <p className="text-xs text-gray-500">{acc.externalBankName}</p>
+                        <p className="text-xs text-muted-foreground">{acc.externalBankName}</p>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-gray-600">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {acc.account
                         ? acc.account.type.replace("_", " ")
                         : "External"}
                     </td>
-                    <td className="px-4 py-3 text-gray-500 text-xs">
+                    <td className="px-4 py-3 text-muted-foreground text-xs">
                       {formatDate(acc.createdAt)}
                     </td>
                     <td className="px-4 py-3">
@@ -235,8 +235,8 @@ export default function RecognizedAccountsPage() {
       {/* Add Account Modal */}
       {showAdd && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-lg w-full max-w-md p-6 flex flex-col gap-4">
-            <h2 className="text-lg font-semibold text-gray-900">Add Recognized Account</h2>
+          <div className="bg-surface rounded-xl border border-border shadow-lg w-full max-w-md p-6 flex flex-col gap-4">
+            <h2 className="text-lg font-semibold text-foreground">Add Recognized Account</h2>
 
             <div className="flex flex-col gap-3">
               <Input
@@ -249,9 +249,9 @@ export default function RecognizedAccountsPage() {
               />
 
               {resolveInfo && (
-                <div className="p-3 rounded-lg bg-green-50 border border-green-200">
-                  <p className="text-sm font-medium text-green-800">{resolveInfo.accountHolder}</p>
-                  <p className="text-xs text-green-600">{resolveInfo.type.replace("_", " ")}</p>
+                <div className="p-3 rounded-lg bg-success/10 border border-success/20">
+                  <p className="text-sm font-medium text-success">{resolveInfo.accountHolder}</p>
+                  <p className="text-xs text-success">{resolveInfo.type.replace("_", " ")}</p>
                 </div>
               )}
 
@@ -273,7 +273,7 @@ export default function RecognizedAccountsPage() {
               )}
 
               {resolveError && (
-                <p className="text-xs text-red-600">{resolveError}</p>
+                <p className="text-xs text-danger">{resolveError}</p>
               )}
             </div>
 

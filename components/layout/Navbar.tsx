@@ -8,11 +8,11 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 
 const NAV_LINKS = [
-  { href: "#cards", label: "Cards" },
-  { href: "#banking", label: "Banking" },
-  { href: "#rewards", label: "Rewards" },
-  { href: "#business", label: "Business" },
-  { href: "#about", label: "About" },
+  { href: "/cards", label: "Cards" },
+  { href: "/banking", label: "Banking" },
+  { href: "/rewards", label: "Rewards" },
+  { href: "/business", label: "Business" },
+  { href: "/#about", label: "About" },
 ];
 
 export function Navbar() {

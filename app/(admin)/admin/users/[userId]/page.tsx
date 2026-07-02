@@ -475,7 +475,7 @@ export default function AdminUserDetailPage() {
       />
 
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm">
+        <div className="mb-4 p-3 rounded-lg bg-danger/10 text-danger text-sm">
           {error}
         </div>
       )}
@@ -580,45 +580,45 @@ export default function AdminUserDetailPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Full Name</p>
-                  <p className="text-slate-700 font-medium">{user.fullName}</p>
+                  <p className="text-foreground font-medium">{user.fullName}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Email</p>
-                  <p className="text-slate-700 font-medium">{user.email}</p>
+                  <p className="text-foreground font-medium">{user.email}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Phone</p>
-                  <p className="text-slate-700 font-medium">{user.phone}</p>
+                  <p className="text-foreground font-medium">{user.phone}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">SSN</p>
-                  <p className="text-slate-700 font-medium">
+                  <p className="text-foreground font-medium">
                     {user.ssn ? `***-**-${user.ssn.slice(-4)}` : "--"}
                   </p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Date of Birth</p>
-                  <p className="text-slate-700 font-medium">{user.dob ?? "--"}</p>
+                  <p className="text-foreground font-medium">{user.dob ?? "--"}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Address</p>
-                  <p className="text-slate-700 font-medium">{user.address ?? "--"}</p>
+                  <p className="text-foreground font-medium">{user.address ?? "--"}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">City</p>
-                  <p className="text-slate-700 font-medium">{user.city ?? "--"}</p>
+                  <p className="text-foreground font-medium">{user.city ?? "--"}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">State</p>
-                  <p className="text-slate-700 font-medium">{user.state ?? "--"}</p>
+                  <p className="text-foreground font-medium">{user.state ?? "--"}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">ZIP</p>
-                  <p className="text-slate-700 font-medium">{user.zip ?? "--"}</p>
+                  <p className="text-foreground font-medium">{user.zip ?? "--"}</p>
                 </div>
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Joined</p>
-                  <p className="text-slate-700 font-medium">{formatDate(user.createdAt)}</p>
+                  <p className="text-foreground font-medium">{formatDate(user.createdAt)}</p>
                 </div>
               </div>
             )}
@@ -697,11 +697,11 @@ export default function AdminUserDetailPage() {
                     Cancel
                   </Button>
                 </div>
-                {passwordErrors.general && (
-                  <div className="sm:col-span-2 mt-1 text-xs text-red-600">
-                    {passwordErrors.general}
-                  </div>
-                )}
+{passwordErrors.general && (
+                    <div className="sm:col-span-2 mt-1 text-xs text-danger">
+                      {passwordErrors.general}
+                    </div>
+                  )}
               </div>
             ) : (
                <p className="text-sm text-muted-foreground">
@@ -755,11 +755,11 @@ export default function AdminUserDetailPage() {
                      Cancel
                    </Button>
                  </div>
-                 {pinErrors.general && (
-                   <div className="sm:col-span-2 mt-1 text-xs text-red-600">
-                     {pinErrors.general}
-                   </div>
-                 )}
+{pinErrors.general && (
+                    <div className="sm:col-span-2 mt-1 text-xs text-danger">
+                      {pinErrors.general}
+                    </div>
+                  )}
                </div>
              ) : (
                <p className="text-sm text-muted-foreground">
@@ -882,78 +882,78 @@ export default function AdminUserDetailPage() {
           </div>
 
           {/* Transaction Modal */}
-          {showTransactionModal && (
-            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-xl border border-gray-200 shadow-lg w-full max-w-md p-6 flex flex-col gap-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  {transactionModalType === "credit" ? "Credit Account" : "Debit Account"}
-                </h2>
+{showTransactionModal && (
+             <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+               <div className="bg-surface rounded-xl border border-border shadow-lg w-full max-w-md p-6 flex flex-col gap-4">
+                 <h2 className="text-lg font-semibold text-foreground">
+                   {transactionModalType === "credit" ? "Credit Account" : "Debit Account"}
+                 </h2>
 
-                <div className="flex flex-col gap-3 text-sm">
-                  <Input
-                    label="Amount"
-                    type="number"
-                    min="0.01"
-                    step="0.01"
-                    placeholder="0.00"
-                    value={transactionForm.amount}
-                    onChange={(e) => handleTransactionChange("amount", e.target.value)}
-                    error={transactionErrors.amount}
-                  />
-                  <Input
-                    label="Description (optional)"
-                    placeholder="e.g. Deposit, adjustment"
-                    value={transactionForm.description}
-                    onChange={(e) => handleTransactionChange("description", e.target.value)}
-                  />
+                 <div className="flex flex-col gap-3 text-sm">
+                   <Input
+                     label="Amount"
+                     type="number"
+                     min="0.01"
+                     step="0.01"
+                     placeholder="0.00"
+                     value={transactionForm.amount}
+                     onChange={(e) => handleTransactionChange("amount", e.target.value)}
+                     error={transactionErrors.amount}
+                   />
+                   <Input
+                     label="Description (optional)"
+                     placeholder="e.g. Deposit, adjustment"
+                     value={transactionForm.description}
+                     onChange={(e) => handleTransactionChange("description", e.target.value)}
+                   />
 
-                  {transactionModalType === "credit" && (
-                    <>
-                      <Input
-                        label="Source Account Number (optional)"
-                        placeholder="External account number"
-                        value={transactionForm.externalAccountNumber}
-                        onChange={(e) => handleTransactionChange("externalAccountNumber", e.target.value.replace(/\D/g, ""))}
-                      />
-                      <Input
-                        label="Source Account Holder (optional)"
-                        placeholder="External account holder name"
-                        value={transactionForm.externalAccountHolder}
-                        onChange={(e) => handleTransactionChange("externalAccountHolder", e.target.value)}
-                      />
-                      <Input
-                        label="Source Bank Name"
-                        value={transactionForm.externalBankName}
-                        onChange={(e) => handleTransactionChange("externalBankName", e.target.value)}
-                      />
-                    </>
-                  )}
+                   {transactionModalType === "credit" && (
+                     <>
+                       <Input
+                         label="Source Account Number (optional)"
+                         placeholder="External account number"
+                         value={transactionForm.externalAccountNumber}
+                         onChange={(e) => handleTransactionChange("externalAccountNumber", e.target.value.replace(/\D/g, ""))}
+                       />
+                       <Input
+                         label="Source Account Holder (optional)"
+                         placeholder="External account holder name"
+                         value={transactionForm.externalAccountHolder}
+                         onChange={(e) => handleTransactionChange("externalAccountHolder", e.target.value)}
+                       />
+                       <Input
+                         label="Source Bank Name"
+                         value={transactionForm.externalBankName}
+                         onChange={(e) => handleTransactionChange("externalBankName", e.target.value)}
+                       />
+                     </>
+                   )}
 
-                  {transactionErrors.general && (
-                    <p className="text-xs text-red-600">{transactionErrors.general}</p>
-                  )}
-                </div>
+                   {transactionErrors.general && (
+                     <p className="text-xs text-danger">{transactionErrors.general}</p>
+                   )}
+                 </div>
 
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    variant="secondary"
-                    className="flex-1"
-                    onClick={closeTransactionModal}
-                    disabled={transactionSubmitting}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={handleTransactionSubmit}
-                    disabled={transactionSubmitting}
-                  >
-                    {transactionSubmitting ? "Processing..." : transactionModalType === "credit" ? "Credit" : "Debit"}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )}
+                 <div className="flex gap-2 pt-2">
+                   <Button
+                     variant="secondary"
+                     className="flex-1"
+                     onClick={closeTransactionModal}
+                     disabled={transactionSubmitting}
+                   >
+                     Cancel
+                   </Button>
+                   <Button
+                     className="flex-1"
+                     onClick={handleTransactionSubmit}
+                     disabled={transactionSubmitting}
+                   >
+                     {transactionSubmitting ? "Processing..." : transactionModalType === "credit" ? "Credit" : "Debit"}
+                   </Button>
+                 </div>
+               </div>
+             </div>
+           )}
         </>
       )}
     </PageWrapper>

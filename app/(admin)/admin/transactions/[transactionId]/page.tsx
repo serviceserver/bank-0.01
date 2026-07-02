@@ -172,7 +172,7 @@ export default function AdminTransactionDetailPage() {
             </div>
 
             {error && (
-              <div className="mb-4 p-3 rounded-lg bg-danger/5 text-danger text-sm">
+              <div className="mb-4 p-3 rounded-lg bg-danger/10 text-danger text-sm">
                 {error}
               </div>
             )}

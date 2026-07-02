@@ -184,13 +184,13 @@ export default function AdminAccountDetailPage() {
     }
   }
 
-  if (!session) return null;
+if (!session) return null;
 
   return (
     <PageWrapper role="ADMIN" userName={session.user.name ?? ""}>
       <button
         onClick={() => router.push("/admin/users")}
-        className="mb-4 text-sm text-gray-500 hover:text-gray-700 inline-flex items-center gap-1"
+        className="mb-4 text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
       >
         ← Back
       </button>
@@ -204,18 +204,17 @@ export default function AdminAccountDetailPage() {
       />
 
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm">
+        <div className="mb-4 p-3 rounded-lg bg-danger/10 text-danger text-sm">
           {error}
         </div>
       )}
 
-{!account ? (
+      {!account ? (
         <div className="flex justify-center py-24">
           <Spinner size="lg" />
         </div>
       ) : (
         <>
-          {/* Account Info */}
           <div className="bg-surface border border-border rounded-xl px-5 py-6 sm:py-8">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
@@ -332,7 +331,7 @@ export default function AdminAccountDetailPage() {
                           <th
                             key={h}
                             className="text-left px-4 py-3 text-xs font-medium
-                                       text-muted-foreground uppercase tracking-wide"
+                                   text-muted-foreground uppercase tracking-wide"
                           >
                             {h}
                           </th>

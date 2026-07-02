@@ -1,7 +1,7 @@
 // app/page.tsx
 
 import Link from "next/link";
-import { FiCheck, FiLock, FiZap, FiPieChart, FiStar } from "react-icons/fi";
+import { FiCheck, FiLock, FiZap, FiPieChart, FiStar, FiShield, FiCreditCard } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Navbar } from "@/components/layout/Navbar";
@@ -12,8 +12,8 @@ const CARDS = [
     title: "Titan Bank™ Gold",
     meta: "For everyday spending",
     image:"/gold.JPG",
-    gradient: "from-accent to-accent-light",
-    accent: "text-accent-foreground",
+    gradient: "from-primary to-primary-light",
+    accent: "text-primary-foreground",
   },
   {
     title: "Titan Bank Platinum",
@@ -52,9 +52,34 @@ const FEATURES = [
   },
   {
     icon: FiStar,
-    title: "premium rewards",
+    title: "Premium rewards",
     description:
       "Earn points on every purchase and redeem for travel, shopping, or cash back.",
+  },
+  {
+    icon: FiShield,
+    title: "Zero liability guarantee",
+    description: "Unauthorized transactions are covered with our fraud protection promise.",
+  },
+  {
+    icon: FiCreditCard,
+    title: "Global acceptance",
+    description: "Accepted at millions of merchants worldwide with no foreign transaction fees.",
+  },
+];
+
+const BUSINESS_FEATURES = [
+  {
+    title: "Business checking",
+    description: "Streamline operations with integrated tools and zero-fee transactions.",
+  },
+  {
+    title: "Corporate cards",
+    description: "Custom spending limits and real-time expense tracking for your team.",
+  },
+  {
+    title: "Business loans",
+    description: "Flexible financing with rates as low as 4.25% APR.",
   },
 ];
 
@@ -74,10 +99,10 @@ export default function Home() {
                 Ranked among the best
               </p>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight">
-                Banking made simple.
+                Banking designed for your ambitions.
               </h1>
               <p className="mt-6 text-lg text-primary-foreground leading-relaxed">
-                Experience the financial services platform built for how you live and work - from everyday spending to long-term goals.
+                Experience a premium financial platform built for how you live and work — from everyday spending to long-term goals.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <Link href="/register">
@@ -130,7 +155,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Our greatest cards.
               </h2>
-              <p className="mt-3 text-gray-600 max-w-2xl">
+              <p className="mt-3 text-muted-foreground max-w-2xl">
                 Choose the card that fits your lifestyle. Every card comes with exceptional benefits and service.
               </p>
             </div>
@@ -147,7 +172,7 @@ export default function Home() {
                 className="group overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div className={`h-40 relative bg-linear-to-br ${card.gradient} p-6 flex flex-col justify-between`}>
-                  <Image src={card.image} alt="Hero background" fill className="object-cover object-top z-10" />
+                  <Image src={card.image} alt={card.title} fill className="object-cover object-top z-10" />
                   <div className="absolute inset-0 bg-black/45 z-20" />
                   <p className={`text-xs font-medium uppercase tracking-widest z-30 ${card.accent}`}>
                     {card.meta}
@@ -178,7 +203,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                 Banking that works as hard as you do.
               </h2>
-              <p className="mt-4 text-muted-gray-800 leading-relaxed">
+              <p className="mt-4 text-muted-foreground leading-relaxed">
                 High-yield savings, no-fee checking, and powerful tools to make your money work harder.
               </p>
               <ul className="mt-8 space-y-4">
@@ -188,7 +213,7 @@ export default function Home() {
                    "FDIC insured up to $250,000",
                    "24/7 customer support",
                  ].map((item) => (
-                   <li key={item} className="flex items-start gap-3 text-sm text-muted-gray-800">
+                   <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
                      <span className="mt-0.5 text-primary"><FiCheck /></span>
                     <span>{item}</span>
                   </li>
@@ -203,19 +228,55 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-4">
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">4.25%</p>
-                <p className="mt-2 text-sm text-muted-gray-800">APY on High-Yield Savings</p>
+                <p className="mt-2 text-sm text-muted-foreground">APY on High-Yield Savings</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">$0</p>
-                <p className="mt-2 text-sm text-muted-gray-800">Monthly fees</p>
+                <p className="mt-2 text-sm text-muted-foreground">Monthly fees</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">70K+</p>
-                <p className="mt-2 text-sm text-muted-gray-800">Free ATM withdrawals</p>
+                <p className="mt-2 text-sm text-muted-foreground">Free ATM withdrawals</p>
               </Card>
               <Card className="bg-background border border-border p-6 text-center">
                 <p className="text-3xl font-semibold text-primary">Instant</p>
-                <p className="mt-2 text-sm text-muted-gray-800">Direct deposit</p>
+                <p className="mt-2 text-sm text-muted-foreground">Direct deposit</p>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Business */}
+      <section id="business" className="border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
+                Business solutions that scale with you.
+              </h2>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                From startups to enterprises, we provide the financial tools and insights your business needs to thrive.
+              </p>
+              <ul className="mt-8 space-y-4">
+                {BUSINESS_FEATURES.map((item) => (
+                  <li key={item.title} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <span className="mt-0.5 text-primary"><FiCheck /></span>
+                    <span>{item.description}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8">
+                <Link href="/register">
+                  <Button size="lg" variant="secondary">Learn more</Button>
+                </Link>
+              </div>
+            </div>
+            <div className="hidden lg:block">
+              <Card className="p-8 bg-linear-to-br from-primary/5 to-primary/10 border-primary/20">
+                <p className="text-sm font-semibold text-primary mb-2">Business Advantage</p>
+                <p className="text-5xl font-bold text-primary mb-4">2.5x</p>
+                <p className="text-sm text-muted-foreground">Higher reward rates on business spending</p>
               </Card>
             </div>
           </div>
@@ -223,14 +284,14 @@ export default function Home() {
       </section>
 
       {/* Why Titan Bank */}
-      <section id="rewards" className="border-t border-border bg-background">
+      <section id="rewards" className="border-t border-border bg-muted/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
               The Titan Bank difference.
             </h2>
-            <p className="mt-3 text-gray- max-w-2xl mx-auto">
-              More than a bank. A partner in your financial life with tools, perks, and service you won&rsquo;t find anywhere else.
+            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+              More than a bank. A partner in your financial life with tools, perks, and service you won&apos;t find anywhere else.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -246,20 +307,20 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border bg-muted/10">
+      <section className="border-t border-border bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
             Ready to join?
           </h2>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-primary-light max-w-2xl mx-auto">
             Apply in minutes and get a decision fast. No branch visit required.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/register">
-              <Button variant="primary" size="lg">Apply now</Button>
+              <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">Apply now</Button>
             </Link>
             <Link href="/login">
-              <Button variant="secondary" size="lg" className="bg-surface text-foreground hover:bg-muted border border-border">Log in</Button>
+              <Button variant="secondary" size="lg" className="bg-transparent text-primary-foreground border-primary-light/30 hover:bg-white/10">Log in</Button>
             </Link>
            </div>
          </div>

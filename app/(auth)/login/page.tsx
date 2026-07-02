@@ -61,8 +61,8 @@ export default function LoginPage() {
           />
 
           {error && (
-            <p className="text-xs text-danger bg-danger/5 border border-danger/30
-                          rounded-lg px-3 py-2">
+            <p className="text-xs text-danger bg-danger/5 border border-danger/20
+                        rounded-lg px-3 py-2">
               {error}
             </p>
           )}

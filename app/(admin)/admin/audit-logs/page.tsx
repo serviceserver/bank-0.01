@@ -51,7 +51,6 @@ export default function AuditLogsPage() {
     }
   }
 
-  // Defer fetching to avoid calling setState synchronously within the effect
   useEffect(() => {
     const t = setTimeout(() => fetchLogs(page), 0);
     return () => clearTimeout(t);
@@ -77,17 +76,17 @@ export default function AuditLogsPage() {
         />
       ) : (
         <>
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden py-6 sm:py-8">
+          <div className="bg-surface border border-border rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[640px]">
+              <table className="w-full text-sm min-w-[720px]">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
+                  <tr className="border-b border-border bg-secondary">
                     {["Action", "Entity", "Performed By", "Date", ""].map(
                       (h) => (
                         <th
                           key={h}
                           className="text-left px-4 py-3 text-xs font-medium
-                                     text-gray-500 uppercase tracking-wide"
+                                 text-muted-foreground uppercase tracking-wide"
                         >
                           {h}
                         </th>
@@ -99,8 +98,8 @@ export default function AuditLogsPage() {
                   {logs.map((log) => (
                     <React.Fragment key={log.id}>
                       <tr
-                        className="border-b border-gray-100 last:border-0
-                                   hover:bg-gray-50 transition-colors"
+                        className="border-b border-border last:border-0
+                               hover:bg-secondary transition-colors"
                       >
                         <td className="px-4 py-3">
                           <Badge
@@ -109,25 +108,25 @@ export default function AuditLogsPage() {
                             {actionLabel[log.action] ?? log.action}
                           </Badge>
                         </td>
-<td className="px-4 py-3 text-gray-600">
-                          <span className="font-medium text-slate-700">
+                        <td className="px-4 py-3">
+                          <span className="font-medium text-foreground">
                             {log.entity}
                           </span>
                           {log.entityId && (
-                            <span className="text-gray-400 font-mono text-xs ml-1.5">
+                            <span className="text-muted-foreground font-mono text-xs ml-1.5">
                               {log.entityId.slice(0, 8)}…
                             </span>
                           )}
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-slate-700 font-medium">
+                          <p className="text-foreground font-medium">
                             {log.actor?.fullName ?? "System"}
                           </p>
-                          <p className="text-gray-400 text-xs">
+                          <p className="text-muted-foreground text-xs">
                             {log.actor?.email ?? "—"}
                           </p>
                         </td>
-                        <td className="px-4 py-3 text-gray-400 text-xs">
+                        <td className="px-4 py-3 text-muted-foreground text-xs">
                           {formatDate(log.createdAt)}
                         </td>
                         <td className="px-4 py-3">
@@ -138,8 +137,8 @@ export default function AuditLogsPage() {
                                   expanded === log.id ? null : log.id
                                 )
                               }
-                              className="text-xs text-blue-600 hover:underline
-                                         font-medium"
+                              className="text-xs text-primary hover:underline
+                                     font-medium"
                             >
                               {expanded === log.id ? "Hide" : "Details"}
                             </button>
@@ -150,13 +149,13 @@ export default function AuditLogsPage() {
                       {/* Expandable metadata row */}
                       {expanded === log.id && log.metadata && (
                         <tr
-                          className="bg-gray-50 border-b border-gray-100"
+                          className="bg-secondary border-b border-border"
                         >
                           <td colSpan={5} className="px-4 py-3">
                             <pre
-                              className="text-xs text-slate-600 bg-white
-                                       border border-gray-200 rounded-lg
-                                       p-3 overflow-x-auto"
+                              className="text-xs text-muted-foreground bg-surface
+                                     border border-border rounded-lg
+                                     p-3 overflow-x-auto"
                             >
                               {JSON.stringify(log.metadata, null, 2)}
                             </pre>
@@ -173,7 +172,7 @@ export default function AuditLogsPage() {
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between mt-4">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 Page {pagination.page} of {pagination.totalPages} -{" "}
                 {pagination.total} total entries
               </p>

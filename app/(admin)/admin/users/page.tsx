@@ -77,17 +77,17 @@ export default function AdminUsersPage() {
         />
       ) : (
         <>
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden py-10 sm:py-12">
+          <div className="bg-surface border border-border rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm min-w-[640px]">
+              <table className="w-full text-sm min-w-[720px]">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
+                  <tr className="border-b border-border bg-secondary">
                     {["Name", "Email", "Phone", "Role", "Verified", "Accounts", "Joined"].map(
                       (h) => (
                         <th
                           key={h}
                           className="text-left px-4 py-3 text-xs font-medium
-                                     text-gray-500 uppercase tracking-wide"
+                                 text-muted-foreground uppercase tracking-wide"
                         >
                           {h}
                         </th>
@@ -100,23 +100,23 @@ export default function AdminUsersPage() {
                     <tr
                       key={user.id}
                       onClick={() => router.push(`/admin/users/${user.id}`)}
-                      className="border-b border-gray-100 last:border-0
-                                 hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="border-b border-border last:border-0
+                             hover:bg-secondary transition-colors cursor-pointer"
                     >
                       <td className="px-4 py-3">
-                        <p className="font-medium text-slate-700">
+                        <p className="font-medium text-foreground">
                           {user.fullName}
                         </p>
                         {user.ssn && (
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-muted-foreground">
                             SSN: ***-**-{user.ssn.slice(-4)}
                           </p>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-muted-foreground">
                         {user.email}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-muted-foreground">
                         {user.phone}
                       </td>
                       <td className="px-4 py-3">
@@ -129,24 +129,24 @@ export default function AdminUsersPage() {
                           {user.isVerified ? "Verified" : "Unverified"}
                         </Badge>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-muted-foreground">
                         <div className="flex flex-col gap-1">
                           {user.accounts.map((acc) => (
                             <div key={acc.id} className="flex items-center gap-2">
-                              <span className="font-mono text-xs text-gray-500">
-                                {acc.accountNumber}
+                              <span className="font-mono text-xs">
+                                ....{acc.accountNumber.slice(-4)}
                               </span>
                               <Badge variant="neutral" className="text-[10px]">
-                                {acc.type}
+                                {acc.type.replace("_", " ")}
                               </Badge>
                             </div>
                           ))}
                           {user.accounts.length === 0 && (
-                            <span className="text-xs text-gray-400">No accounts</span>
+                            <span className="text-xs text-muted-foreground">No accounts</span>
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-gray-400 text-xs">
+                      <td className="px-4 py-3 text-muted-foreground text-xs">
                         {formatDate(user.createdAt)}
                       </td>
                     </tr>
@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between mt-4">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 Page {pagination.page} of {pagination.totalPages} -{" "}
                 {pagination.total} total entries
               </p>

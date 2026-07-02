@@ -10,7 +10,7 @@ import { TopBar } from "@/components/layout/TopBar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
-import { LuLogOut } from "react-icons/lu";
+import { LuLogOut, LuClipboardList } from "react-icons/lu";
 
 export default function AdminSettingsPage() {
   const { data: session } = useSession();
@@ -74,7 +74,7 @@ export default function AdminSettingsPage() {
       />
 
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm">
+        <div className="mb-4 p-3 rounded-lg bg-danger/10 text-danger text-sm">
           {error}
         </div>
       )}
@@ -84,8 +84,8 @@ export default function AdminSettingsPage() {
           <Spinner size="lg" />
         </div>
       ) : (
-        <div className="max-w-2xl">
-          <div className="bg-surface border border-border rounded-xl p-6 mb-6">
+        <div className="max-w-2xl space-y-4">
+          <div className="bg-surface border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 Registration
@@ -125,7 +125,7 @@ export default function AdminSettingsPage() {
             </Button>
           </div>
 
-          <div className="bg-surface border border-border rounded-xl p-6 mt-4">
+          <div className="bg-surface border border-border rounded-xl p-6">
             <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
               Audit Logs
             </h3>
@@ -134,6 +134,7 @@ export default function AdminSettingsPage() {
             </p>
             <Link href="/admin/audit-logs">
               <Button variant="secondary" className="flex items-center gap-2">
+                <LuClipboardList size={16} />
                 View Audit Logs
               </Button>
             </Link>
